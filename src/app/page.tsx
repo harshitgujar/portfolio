@@ -3,43 +3,51 @@
 import { useState } from "react";
 import { WebGLLiquid } from "@/components/ui/webgl-liquid";
 import { CursorDrivenParticleTypography } from "@/components/ui/cursor-driven-particle-typography";
+import {
+  syne,
+  spaceGrotesk,
+  cinzel,
+  playfair,
+  jetbrainsMono,
+  geistSans,
+} from "./fonts";
 import { Type, Sparkles } from "lucide-react";
 
 const FONT_OPTIONS = [
   {
     id: "syne",
     name: "Futuristic (Syne)",
-    family: "var(--font-syne), sans-serif",
+    family: `${syne.style.fontFamily}, sans-serif`,
     tag: "Bold Display",
   },
   {
     id: "space",
     name: "Brutalist (Space Grotesk)",
-    family: "var(--font-space-grotesk), sans-serif",
+    family: `${spaceGrotesk.style.fontFamily}, sans-serif`,
     tag: "Modern Tech",
   },
   {
     id: "cinzel",
     name: "Cinematic (Cinzel)",
-    family: "var(--font-cinzel), serif",
+    family: `${cinzel.style.fontFamily}, serif`,
     tag: "Luxury Serif",
   },
   {
     id: "playfair",
     name: "Editorial (Playfair)",
-    family: "var(--font-playfair), serif",
+    family: `${playfair.style.fontFamily}, serif`,
     tag: "Classic Serif",
   },
   {
     id: "mono",
     name: "Cyberpunk (JetBrains Mono)",
-    family: "var(--font-jetbrains), monospace",
+    family: `${jetbrainsMono.style.fontFamily}, monospace`,
     tag: "Monospace",
   },
   {
     id: "geist",
     name: "Clean (Geist Sans)",
-    family: "var(--font-geist-sans), Inter, sans-serif",
+    family: `${geistSans.style.fontFamily}, sans-serif`,
     tag: "Clean Sans",
   },
 ];

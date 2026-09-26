@@ -158,10 +158,32 @@ export function CursorDrivenParticleTypography({
 
       ctx.clearRect(0, 0, containerWidth, containerHeight);
 
+      // Resolve any CSS variables in fontFamily so Canvas parser accepts it
+      const resolveFamily = (family: string): string => {
+        let f = family;
+        if (f.includes("var(--") && typeof window !== "undefined") {
+          const target = container || document.documentElement;
+          f = f.replace(/var\((--[^,\s)]+)\)/g, (_, varName) => {
+            const val = window.getComputedStyle(target).getPropertyValue(varName).trim();
+            return val || "sans-serif";
+          });
+        }
+        return f;
+      };
+
+      const resolvedFamily = resolveFamily(fontFamily);
+
+      const applyFont = (size: number) => {
+        ctx.font = `900 ${size}px ${resolvedFamily}`;
+        if (ctx.font.includes("10px") && size > 20) {
+          ctx.font = `900 ${size}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+        }
+      };
+
       // Dynamically fit font size to container width & height
       const lines = text.split("\n");
       let effectiveFontSize = fontSize;
-      ctx.font = `900 ${effectiveFontSize}px ${fontFamily}`;
+      applyFont(effectiveFontSize);
 
       let maxLineWidth = 0;
       for (const line of lines) {
@@ -181,7 +203,7 @@ export function CursorDrivenParticleTypography({
         effectiveFontSize = Math.floor(effectiveFontSize * (maxAllowedHeight / totalBlockHeight));
       }
 
-      ctx.font = `900 ${effectiveFontSize}px ${fontFamily}`;
+      applyFont(effectiveFontSize);
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
