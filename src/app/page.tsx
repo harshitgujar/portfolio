@@ -19,11 +19,11 @@ export default function Home() {
       {/* ✨ Interactive Cursor-Driven Particle Typography */}
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         <CursorDrivenParticleTypography
-          text="Product Builder"
-          fontSize={150}
-          particleSize={1.8}
-          particleDensity={4}
-          dispersionStrength={22}
+          text={"Product\nBuilder"}
+          fontSize={280}
+          particleSize={2.4}
+          particleDensity={3}
+          dispersionStrength={26}
           returnSpeed={0.08}
           color="#ffffff"
           className="w-full h-full"

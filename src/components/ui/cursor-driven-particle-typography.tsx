@@ -158,21 +158,42 @@ export function CursorDrivenParticleTypography({
 
       ctx.clearRect(0, 0, containerWidth, containerHeight);
 
-      // Dynamically fit font size to container width
+      // Dynamically fit font size to container width & height
+      const lines = text.split("\n");
       let effectiveFontSize = fontSize;
       ctx.font = `900 ${effectiveFontSize}px ${fontFamily}`;
-      const maxTextWidth = containerWidth * 0.88;
-      const initialMeasure = ctx.measureText(text).width;
-      if (initialMeasure > maxTextWidth && initialMeasure > 0) {
-        effectiveFontSize = Math.floor(effectiveFontSize * (maxTextWidth / initialMeasure));
+
+      let maxLineWidth = 0;
+      for (const line of lines) {
+        const w = ctx.measureText(line).width;
+        if (w > maxLineWidth) maxLineWidth = w;
       }
+
+      const maxAllowedWidth = containerWidth * 0.95;
+      if (maxLineWidth > maxAllowedWidth && maxLineWidth > 0) {
+        effectiveFontSize = Math.floor(effectiveFontSize * (maxAllowedWidth / maxLineWidth));
+      }
+
+      const lineHeight = effectiveFontSize * 0.98;
+      const totalBlockHeight = (lines.length - 1) * lineHeight + effectiveFontSize;
+      const maxAllowedHeight = containerHeight * 0.88;
+      if (totalBlockHeight > maxAllowedHeight && totalBlockHeight > 0) {
+        effectiveFontSize = Math.floor(effectiveFontSize * (maxAllowedHeight / totalBlockHeight));
+      }
+
       ctx.font = `900 ${effectiveFontSize}px ${fontFamily}`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      // Draw standard text first to measure it
+      const finalLineHeight = effectiveFontSize * 0.98;
+      const finalTotalHeight = (lines.length - 1) * finalLineHeight;
+      const startY = containerHeight / 2 - finalTotalHeight / 2;
+
+      // Draw standard text first to measure and rasterize it
       ctx.fillStyle = textColor;
-      ctx.fillText(text, containerWidth / 2, containerHeight / 2);
+      lines.forEach((line, index) => {
+        ctx.fillText(line, containerWidth / 2, startY + index * finalLineHeight);
+      });
 
       // Get pixel data
       const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
