@@ -247,10 +247,20 @@ export function CursorDrivenParticleTypography({
       init();
     };
 
-    const timeoutId = setTimeout(() => {
+    let timeoutId: NodeJS.Timeout;
+    const startAnimation = () => {
       init();
+      cancelAnimationFrame(animationFrameId);
       animate();
-    }, 80);
+    };
+
+    if (typeof document !== "undefined" && document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        timeoutId = setTimeout(startAnimation, 40);
+      });
+    } else {
+      timeoutId = setTimeout(startAnimation, 60);
+    }
 
     const resizeObserver = new ResizeObserver(() => {
       handleResize();
