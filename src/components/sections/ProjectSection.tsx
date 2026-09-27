@@ -44,6 +44,7 @@ export function ProjectSection({
         <LiquidGlassCarousel
           items={PROJECTS}
           background={backgroundHex}
+          tintColor={accentColor}
           panelHeight={480}
           gap={18}
           entry={true}

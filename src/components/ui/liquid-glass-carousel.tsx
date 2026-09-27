@@ -29,6 +29,8 @@ export interface LiquidGlassCarouselProps {
   panelHeight?: number;
   gap?: number;
   background?: string;
+  /** Tint color for the glowing lens ring and chromatic aura (defaults to theme accent or #009dff) */
+  tintColor?: string;
   /** Play the rise-and-grow intro. Ignored when the user prefers reduced motion. */
   entry?: boolean;
   className?: string;
@@ -328,6 +330,8 @@ export type LiquidGlassCarouselHandle = {
   next: () => void;
   previous: () => void;
   destroy: () => void;
+  setTintColor?: (color: string) => void;
+  setBackground?: (background: string) => void;
 };
 
 function prefersReducedMotion() {
@@ -358,6 +362,7 @@ function createCarousel(
     panelHeight: number;
     gap: number;
     background: string;
+    tintColor?: string;
     entry: boolean;
     onActiveChange: (index: number) => void;
     onFocusChange: (open: boolean) => void;
@@ -565,7 +570,7 @@ function createCarousel(
     uRimInward: { value: LENS.rimInward },
     uRimFreq1: { value: LENS.rimFreq1 },
     uRimFreq2: { value: LENS.rimFreq2 },
-    uBlueColor: { value: new THREE.Color(LENS.blueColor) },
+    uBlueColor: { value: new THREE.Color(options.tintColor || LENS.blueColor) },
     uRimLine: { value: LENS.rimLine },
     uRimLinePos: { value: LENS.rimLinePos },
     uRimLineWidth: { value: LENS.rimLineWidth },
@@ -1343,11 +1348,29 @@ function createCarousel(
     }
   }
 
+  function setTintColor(color: string) {
+    try {
+      lensUniforms.uBlueColor.value.set(color);
+    } catch {
+      /* ignore invalid color string */
+    }
+  }
+
+  function setBackground(bg: string) {
+    try {
+      renderer.setClearColor(hexToNumber(bg), 1);
+    } catch {
+      /* ignore */
+    }
+  }
+
   return {
     closeFocus,
     next: () => step(1),
     previous: () => step(-1),
     destroy,
+    setTintColor,
+    setBackground,
   };
 }
 
@@ -1361,6 +1384,7 @@ export function LiquidGlassCarousel({
   panelHeight = 450,
   gap = 12,
   background = "#ffffff",
+  tintColor = "#009dff",
   entry = true,
   className,
   style,
@@ -1394,6 +1418,7 @@ export function LiquidGlassCarousel({
       panelHeight,
       gap,
       background,
+      tintColor,
       entry,
       onActiveChange: (index) => {
         setActive(index);
@@ -1414,7 +1439,19 @@ export function LiquidGlassCarousel({
       engine.destroy();
       engineRef.current = null;
     };
-  }, [items, panelHeight, gap, background, entry]);
+  }, [items, panelHeight, gap, entry]);
+
+  useEffect(() => {
+    if (engineRef.current?.setTintColor && tintColor) {
+      engineRef.current.setTintColor(tintColor);
+    }
+  }, [tintColor]);
+
+  useEffect(() => {
+    if (engineRef.current?.setBackground && background) {
+      engineRef.current.setBackground(background);
+    }
+  }, [background]);
 
   useEffect(() => {
     const title = titleRef.current;
