@@ -6,13 +6,16 @@ import {
   type LiquidGlassCarouselHandle,
 } from "@/components/ui/liquid-glass-carousel";
 import { PROJECTS, type ProjectItem } from "@/data/projects";
+import { THEMES } from "@/data/themes";
 import { ProjectCaseStudyModal } from "./ProjectCaseStudyModal";
 
 export interface ProjectSectionProps {
-  onClose: () => void;
+  onClose?: () => void;
   backgroundHex?: string;
   accentColor?: string;
   inkColor?: string;
+  selectedThemeId?: string;
+  onSelectTheme?: (themeId: string) => void;
 }
 
 export function ProjectSection({
@@ -20,13 +23,19 @@ export function ProjectSection({
   backgroundHex = "#0e0e11",
   accentColor = "#f04e23",
   inkColor = "#f2e7de",
+  selectedThemeId = "terracotta",
+  onSelectTheme,
 }: ProjectSectionProps) {
   const [activeIdx, setActiveIdx] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const themeMenuRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<LiquidGlassCarouselHandle>(null);
 
+  const currentTheme =
+    THEMES.find((t) => t.id === selectedThemeId) ?? THEMES[0];
   const currentProject: ProjectItem = PROJECTS[activeIdx] ?? PROJECTS[0];
 
   const handleBloomStart = () => {
@@ -46,6 +55,21 @@ export function ProjectSection({
     carouselRef.current?.closeFocus();
   };
 
+  // Close theme menu when clicking outside
+  useEffect(() => {
+    if (!themeMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        themeMenuRef.current &&
+        !themeMenuRef.current.contains(e.target as Node)
+      ) {
+        setThemeMenuOpen(false);
+      }
+    };
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => window.removeEventListener("mousedown", handleClickOutside);
+  }, [themeMenuOpen]);
+
   // Safety fallback: if bloom callback is somehow skipped or delayed, reveal after 2.2s
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -57,16 +81,18 @@ export function ProjectSection({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (caseStudyOpen) {
+        if (themeMenuOpen) {
+          setThemeMenuOpen(false);
+        } else if (caseStudyOpen) {
           handleCloseCaseStudy();
-        } else {
+        } else if (onClose) {
           onClose();
         }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose, caseStudyOpen]);
+  }, [onClose, caseStudyOpen, themeMenuOpen]);
 
   return (
     <div
@@ -125,9 +151,9 @@ export function ProjectSection({
             </p>
           </div>
 
-          {/* Actions & Tech Stack Pills */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex flex-wrap items-center gap-1.5">
+          {/* Actions: Tech Stack, Theme Palette Switcher & Case Study Button */}
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <div className="hidden lg:flex flex-wrap items-center gap-1.5">
               {currentProject.tags.map((tag) => (
                 <span
                   key={tag}
@@ -137,6 +163,61 @@ export function ProjectSection({
                 </span>
               ))}
             </div>
+
+            {/* Theme Palette Switcher */}
+            {onSelectTheme && (
+              <div className="relative" ref={themeMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setThemeMenuOpen((v) => !v)}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs uppercase tracking-wider border border-white/20 bg-white/5 hover:bg-white/10 text-white transition-all active:scale-95 shadow-sm"
+                  aria-expanded={themeMenuOpen}
+                  title="Select color palette theme"
+                >
+                  <span
+                    className="w-2.5 h-2.5 rounded-full inline-block transition-colors duration-300"
+                    style={{ backgroundColor: currentTheme.previewColor }}
+                  />
+                  <span className="font-mono text-[11px] hidden sm:inline">
+                    {currentTheme.name}
+                  </span>
+                  <span className="opacity-60 text-[10px]">▾</span>
+                </button>
+
+                {themeMenuOpen && (
+                  <div
+                    className="theme-popover"
+                    style={{
+                      bottom: "calc(100% + 12px)",
+                      right: 0,
+                      backgroundColor: "rgba(13, 15, 20, 0.95)",
+                      borderColor: "rgba(255, 255, 255, 0.18)",
+                    }}
+                  >
+                    {THEMES.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        className={`theme-option ${t.id === currentTheme.id ? "theme-option--active" : ""}`}
+                        onClick={() => {
+                          onSelectTheme(t.id);
+                          setThemeMenuOpen(false);
+                        }}
+                      >
+                        <span
+                          className="w-3.5 h-3.5 rounded-full inline-block flex-shrink-0"
+                          style={{
+                            background: `radial-gradient(circle at 35% 35%, ${t.previewColor} 0%, ${t.groundColor} 100%)`,
+                            border: "1px solid rgba(255,255,255,0.25)",
+                          }}
+                        />
+                        <span className="truncate">{t.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Read Case Study Button */}
             <button
