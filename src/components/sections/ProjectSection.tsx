@@ -122,7 +122,7 @@ export function ProjectSection({
 
       {/* Bottom Project Details Bar (Reveals from down to up when containers zoom & gradient blooms) */}
       <footer
-        className={`absolute bottom-0 inset-x-0 z-30 px-6 sm:px-12 py-5 border-t border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute bottom-0 inset-x-0 z-30 px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           !isRevealed
             ? "translate-y-full opacity-0 pointer-events-none"
             : caseStudyOpen
@@ -132,7 +132,7 @@ export function ProjectSection({
       >
         {/* Top Details Row: Project Category/Description on Left, Tags & Case Study on Right */}
         <div
-          className={`max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-700 delay-100 ${
+          className={`w-full flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-700 delay-100 ${
             isRevealed ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
         >
@@ -184,7 +184,7 @@ export function ProjectSection({
 
         {/* Bottom Corners Row: Theme Changer on Left, User's Email on Right */}
         <div
-          className={`max-w-7xl mx-auto mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between text-[11px] tracking-wider transition-all duration-700 delay-200 ${
+          className={`w-full mt-3.5 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-[11px] tracking-wider transition-all duration-700 delay-200 ${
             isRevealed ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
           }`}
         >
@@ -252,7 +252,7 @@ export function ProjectSection({
           {/* Bottom Right Corner: User's Mail ID */}
           <a
             href="mailto:harshitgujar1604@gmail.com"
-            className="font-mono text-[11px] tracking-wide text-white/60 hover:text-white transition-colors duration-200 lowercase hover:underline"
+            className="font-mono text-[11px] sm:text-xs tracking-wide text-white/70 hover:text-white transition-colors duration-200 lowercase hover:underline ml-auto sm:ml-0"
             title="Send email to harshitgujar1604@gmail.com"
           >
             harshitgujar1604@gmail.com
