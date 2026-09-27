@@ -257,10 +257,12 @@ body {
   }
 }
 /* Background Hero Typography */
-.hero-alienation-text {
-  font-family: var(--font-alienation), "Alienation", system-ui, sans-serif;
-  font-size: clamp(3.2rem, 11.5vw, 10.5rem);
-  line-height: 0.85;
-  letter-spacing: 0.02em;
+.hero-velum-text {
+  font-family: var(--font-velum), "Velum Stroke", system-ui, sans-serif;
+  font-size: clamp(2.4rem, 8vw, 7.2rem);
+  line-height: 0.92;
+  letter-spacing: 0.03em;
+  color: #f04e23;
 }
+
 
