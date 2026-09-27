@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter, Syne } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const instrumentSerif = Instrument_Serif({
   weight: "400",
@@ -83,7 +84,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[#2c180f] text-[#f2e7de] selection:bg-[#f04e23] selection:text-white">
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
