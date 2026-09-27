@@ -1348,6 +1348,8 @@ function createCarousel(
     el.removeEventListener("click", onClick);
     if (focusState.anim) focusState.anim.kill();
     if (entryAnim) entryAnim.kill();
+    if (tintTween) tintTween.kill();
+    if (bgTween) bgTween.kill();
     if (cursorElement) gsap.killTweensOf(cursorElement);
     renderer.dispose();
     rt.dispose();
@@ -1365,17 +1367,39 @@ function createCarousel(
     }
   }
 
-  function setTintColor(color: string) {
+  let tintTween: gsap.core.Tween | null = null;
+  function setTintColor(color: string, duration = 0.9) {
     try {
-      lensUniforms.uBlueColor.value.set(color);
+      const target = new THREE.Color(color);
+      if (tintTween) tintTween.kill();
+      tintTween = gsap.to(lensUniforms.uBlueColor.value, {
+        r: target.r,
+        g: target.g,
+        b: target.b,
+        duration: duration,
+        ease: "power2.out",
+      });
     } catch {
       /* ignore invalid color string */
     }
   }
 
-  function setBackground(bg: string) {
+  let bgTween: gsap.core.Tween | null = null;
+  const currentBgColor = new THREE.Color(hexToNumber(options.background || "#0e0e11"));
+  function setBackground(bg: string, duration = 0.9) {
     try {
-      renderer.setClearColor(hexToNumber(bg), 1);
+      const target = new THREE.Color(hexToNumber(bg));
+      if (bgTween) bgTween.kill();
+      bgTween = gsap.to(currentBgColor, {
+        r: target.r,
+        g: target.g,
+        b: target.b,
+        duration: duration,
+        ease: "power2.out",
+        onUpdate() {
+          renderer.setClearColor(currentBgColor, 1);
+        },
+      });
     } catch {
       /* ignore */
     }

@@ -130,6 +130,7 @@ export function ProjectSection({
               : "translate-y-0 opacity-100 pointer-events-auto"
         }`}
       >
+        {/* Top Details Row: Project Category/Description on Left, Tags & Case Study on Right */}
         <div
           className={`max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-700 delay-100 ${
             isRevealed ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
@@ -151,7 +152,7 @@ export function ProjectSection({
             </p>
           </div>
 
-          {/* Actions: Tech Stack, Theme Palette Switcher & Case Study Button */}
+          {/* Actions: Tech Stack & Case Study Button */}
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
             <div className="hidden lg:flex flex-wrap items-center gap-1.5">
               {currentProject.tags.map((tag) => (
@@ -164,33 +165,57 @@ export function ProjectSection({
               ))}
             </div>
 
-            {/* Theme Palette Switcher */}
+            {/* Read Case Study Button */}
+            <button
+              type="button"
+              onClick={() => setCaseStudyOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 hover:opacity-90 active:scale-95 shadow-lg"
+              style={{
+                backgroundColor: accentColor,
+                color: "#000",
+                boxShadow: `0 4px 20px -2px ${accentColor}50`,
+              }}
+            >
+              <span>Case Study</span>
+              <span className="text-sm leading-none">→</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom Corners Row: Theme Changer on Left, User's Email on Right */}
+        <div
+          className={`max-w-7xl mx-auto mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between text-[11px] tracking-wider transition-all duration-700 delay-200 ${
+            isRevealed ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+          }`}
+        >
+          {/* Bottom Left Corner: Theme Palette Switcher */}
+          <div className="flex items-center gap-3">
             {onSelectTheme && (
               <div className="relative" ref={themeMenuRef}>
                 <button
                   type="button"
                   onClick={() => setThemeMenuOpen((v) => !v)}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs uppercase tracking-wider border border-white/20 bg-white/5 hover:bg-white/10 text-white transition-all active:scale-95 shadow-sm"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] uppercase tracking-wider border border-white/15 bg-white/5 hover:bg-white/10 text-white/90 hover:text-white transition-all active:scale-95 shadow-sm"
                   aria-expanded={themeMenuOpen}
-                  title="Select color palette theme"
+                  title="Select theme palette"
                 >
                   <span
                     className="w-2.5 h-2.5 rounded-full inline-block transition-colors duration-300"
                     style={{ backgroundColor: currentTheme.previewColor }}
                   />
-                  <span className="font-mono text-[11px] hidden sm:inline">
-                    {currentTheme.name}
+                  <span className="font-mono text-[11px]">
+                    Theme: {currentTheme.name}
                   </span>
-                  <span className="opacity-60 text-[10px]">▾</span>
+                  <span className="opacity-50 text-[9px]">▾</span>
                 </button>
 
                 {themeMenuOpen && (
                   <div
                     className="theme-popover"
                     style={{
-                      bottom: "calc(100% + 12px)",
-                      right: 0,
-                      backgroundColor: "rgba(13, 15, 20, 0.95)",
+                      bottom: "calc(100% + 10px)",
+                      left: 0,
+                      backgroundColor: "rgba(13, 15, 20, 0.96)",
                       borderColor: "rgba(255, 255, 255, 0.18)",
                     }}
                   >
@@ -219,31 +244,19 @@ export function ProjectSection({
               </div>
             )}
 
-            {/* Read Case Study Button */}
-            <button
-              type="button"
-              onClick={() => setCaseStudyOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 hover:opacity-90 active:scale-95 shadow-lg"
-              style={{
-                backgroundColor: accentColor,
-                color: "#000",
-                boxShadow: `0 4px 20px -2px ${accentColor}50`,
-              }}
-            >
-              <span>Case Study</span>
-              <span className="text-sm leading-none">→</span>
-            </button>
+            <span className="hidden sm:inline text-white/40 uppercase tracking-widest text-[10px]">
+              Scroll or ← → to explore
+            </span>
           </div>
-        </div>
 
-        {/* Interaction Guidance */}
-        <div
-          className={`mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] tracking-wider uppercase transition-all duration-700 delay-200 ${
-            isRevealed ? "translate-y-0 opacity-50" : "translate-y-2 opacity-0"
-          }`}
-        >
-          <span>Scroll, drag or use ← → arrow keys to explore projects</span>
-          <span className="hidden sm:inline">Click any card to read full case study</span>
+          {/* Bottom Right Corner: User's Mail ID */}
+          <a
+            href="mailto:harshitgujar1604@gmail.com"
+            className="font-mono text-[11px] tracking-wide text-white/60 hover:text-white transition-colors duration-200 lowercase hover:underline"
+            title="Send email to harshitgujar1604@gmail.com"
+          >
+            harshitgujar1604@gmail.com
+          </a>
         </div>
       </footer>
 

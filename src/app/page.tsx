@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ProjectSection } from "@/components/sections/ProjectSection";
 import { THEMES } from "@/data/themes";
 
-type ModalView = "about" | "contact" | null;
+type ModalView = "about" | null;
 
 export default function Home() {
   const [activeModal, setActiveModal] = useState<ModalView>(null);
@@ -58,7 +58,7 @@ export default function Home() {
           harshit gujar
         </button>
 
-        {/* Floating Pill Nav Bar (Work, About, Contact) */}
+        {/* Floating Pill Nav Bar (Only two pills: Work and About) */}
         <nav
           className="floating-nav"
           role="navigation"
@@ -83,16 +83,6 @@ export default function Home() {
             {activeModal === "about" && <span className="floating-nav__dot" />}
             About
           </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveModal("contact")}
-            className={`floating-nav__item ${activeModal === "contact" ? "floating-nav__item--active" : ""}`}
-            aria-current={activeModal === "contact" ? "page" : undefined}
-          >
-            {activeModal === "contact" && <span className="floating-nav__dot" />}
-            Contact
-          </button>
         </nav>
       </header>
 
@@ -111,8 +101,7 @@ export default function Home() {
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-4 border-b border-[var(--ink)]/15 mb-6">
               <span className="font-['Instrument_Serif',serif] italic text-2xl tracking-wide capitalize">
-                {activeModal === "about" && "About Harshit Gujar"}
-                {activeModal === "contact" && "Get in Touch"}
+                About Harshit Gujar
               </span>
               <button
                 type="button"
@@ -158,42 +147,40 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
-              </div>
-            )}
 
-            {/* Modal Body: Contact */}
-            {activeModal === "contact" && (
-              <div className="space-y-5 text-sm text-[var(--ink-dim)] leading-relaxed">
-                <p>
-                  Available for new projects, engineering roles, and creative collaborations.
-                </p>
-                <div className="p-4 rounded-xl bg-black/40 border border-[var(--ink)]/15 flex items-center justify-between">
-                  <span className="font-mono text-xs text-[var(--ink)]">
-                    harshitgujar1604@gmail.com
+                {/* Direct Contact Links inside About Modal */}
+                <div className="pt-5 border-t border-[var(--ink)]/10 space-y-3">
+                  <span className="text-[11px] uppercase tracking-wider text-[var(--ink-dim)]/70 font-mono block">
+                    Get in Touch
                   </span>
-                  <button
-                    type="button"
-                    onClick={handleCopyEmail}
-                    className="text-xs uppercase tracking-wider px-3 py-1 rounded-lg bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/35 hover:bg-[var(--accent)]/25 transition-colors"
-                  >
-                    {copied ? "Copied ✓" : "Copy"}
-                  </button>
-                </div>
-                <div className="flex gap-4 pt-2">
-                  <a
-                    href="mailto:harshitgujar1604@gmail.com"
-                    className="flex-1 text-center py-2.5 rounded-full bg-[var(--accent)] text-black font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity"
-                  >
-                    Send Email
-                  </a>
-                  <a
-                    href="https://github.com/harshitgujar"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 text-center py-2.5 rounded-full border border-[var(--ink)]/30 text-[var(--ink)] text-xs uppercase tracking-wider hover:bg-[var(--ink)]/10 transition-colors"
-                  >
-                    GitHub Profile
-                  </a>
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-[var(--ink)]/15 flex items-center justify-between">
+                    <span className="font-mono text-xs text-[var(--ink)]">
+                      harshitgujar1604@gmail.com
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleCopyEmail}
+                      className="text-xs uppercase tracking-wider px-3 py-1 rounded-lg bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/35 hover:bg-[var(--accent)]/25 transition-colors"
+                    >
+                      {copied ? "Copied ✓" : "Copy"}
+                    </button>
+                  </div>
+                  <div className="flex gap-3 pt-1">
+                    <a
+                      href="mailto:harshitgujar1604@gmail.com"
+                      className="flex-1 text-center py-2.5 rounded-full bg-[var(--accent)] text-black font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity"
+                    >
+                      Send Email
+                    </a>
+                    <a
+                      href="https://github.com/harshitgujar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 text-center py-2.5 rounded-full border border-[var(--ink)]/30 text-[var(--ink)] text-xs uppercase tracking-wider hover:bg-[var(--ink)]/10 transition-colors"
+                    >
+                      GitHub Profile
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
