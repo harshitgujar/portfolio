@@ -38,6 +38,12 @@ const alienation = localFont({
   display: "swap",
 });
 
+const velumStroke = localFont({
+  src: "../../public/fonts/VelumStroke-Regular.ttf",
+  variable: "--font-velum",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Harshit Gujar — Product Builder & Engineer",
   description:
@@ -62,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${inter.variable} ${syne.variable} ${alienation.variable} dark antialiased`}
+      className={`${instrumentSerif.variable} ${inter.variable} ${syne.variable} ${alienation.variable} ${velumStroke.variable} dark antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -16,6 +16,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Velum Stroke";
+  src: url("/fonts/VelumStroke-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --ground: #2c180f;
   --ink: #f2e7de;
@@ -23,6 +31,7 @@
   --accent: #f04e23;
   --display: var(--font-instrument-serif, "Instrument Serif", Georgia, serif);
   --font-alienation: "Alienation", system-ui, sans-serif;
+  --font-velum: "Velum Stroke", system-ui, sans-serif;
 }
 
 html {
