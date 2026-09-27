@@ -122,6 +122,12 @@ export default function Home() {
 
   const currentTheme = THEMES.find((t) => t.id === selectedThemeId) ?? THEMES[0];
 
+  const activeSection = showProjects
+    ? "work"
+    : activeModal === "contact"
+      ? "contact"
+      : "home";
+
   const onCenterChange = useCallback((item: CarouselItem) => {
     setLabel(item.label);
   }, []);
@@ -159,8 +165,9 @@ export default function Home() {
         className="page__carousel"
       />
 
-      {/* Top Navigation Bar */}
-      <header className="chrome chrome--top">
+      {/* Top Header & Floating Pill Navigation Bar */}
+      <header className="chrome chrome--top w-full">
+        {/* Brand Wordmark */}
         <button
           onClick={() => {
             setActiveModal(null);
@@ -171,29 +178,63 @@ export default function Home() {
         >
           harshit gujar
         </button>
-        <nav className="nav">
+
+        {/* Floating Pill Nav Bar (Home, Work, Contact) */}
+        <nav
+          className="floating-nav"
+          role="navigation"
+          aria-label="Main Navigation"
+        >
           <button
             type="button"
-            onClick={() => setShowProjects(true)}
-            className={showProjects ? "font-semibold text-[var(--ink)]" : ""}
+            onClick={() => {
+              setShowProjects(false);
+              setActiveModal(null);
+            }}
+            className={`floating-nav__item ${activeSection === "home" ? "floating-nav__item--active" : ""}`}
+            aria-current={activeSection === "home" ? "page" : undefined}
           >
+            {activeSection === "home" && <span className="floating-nav__dot" />}
+            Home
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setShowProjects(true);
+              setActiveModal(null);
+            }}
+            className={`floating-nav__item ${activeSection === "work" ? "floating-nav__item--active" : ""}`}
+            aria-current={activeSection === "work" ? "page" : undefined}
+          >
+            {activeSection === "work" && <span className="floating-nav__dot" />}
             Work
           </button>
-          <button type="button" onClick={() => setActiveModal("about")}>
-            About
-          </button>
-          <button type="button" onClick={() => setActiveModal("contact")}>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveModal("contact");
+            }}
+            className={`floating-nav__item ${activeSection === "contact" ? "floating-nav__item--active" : ""}`}
+            aria-current={activeSection === "contact" ? "page" : undefined}
+          >
+            {activeSection === "contact" && <span className="floating-nav__dot" />}
             Contact
           </button>
-          <a
-            href="https://github.com/harshitgujar"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1"
-          >
-            GitHub
-          </a>
         </nav>
+
+        {/* Right GitHub External Link */}
+        <a
+          href="https://github.com/harshitgujar"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:flex items-center gap-1.5 text-xs tracking-wider uppercase opacity-60 hover:opacity-100 transition-opacity"
+          style={{ color: "var(--ink)" }}
+        >
+          <span>GitHub</span>
+          <span className="text-[10px]">↗</span>
+        </a>
       </header>
 
       {/* Center Dynamic Label */}
@@ -297,7 +338,7 @@ export default function Home() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md transition-opacity duration-300 animate-in fade-in"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md transition-opacity duration-300 animate-in fade-in"
           onClick={() => setActiveModal(null)}
         >
           <div
