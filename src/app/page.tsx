@@ -4,6 +4,8 @@ import { useCallback, useState, useEffect } from "react";
 import { DiagonalCarousel } from "@/components/carousel/DiagonalCarousel";
 import { ITEMS, type CarouselItem } from "@/components/carousel/items";
 import { LiquidTypography } from "@/components/ui/liquid-typography";
+import { ProjectSection } from "@/components/sections/ProjectSection";
+import { PROJECTS } from "@/data/projects";
 
 export interface ThemeConfig {
   id: string;
@@ -116,6 +118,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [selectedThemeId, setSelectedThemeId] = useState("terracotta");
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
 
   const currentTheme = THEMES.find((t) => t.id === selectedThemeId) ?? THEMES[0];
 
@@ -159,14 +162,21 @@ export default function Home() {
       {/* Top Navigation Bar */}
       <header className="chrome chrome--top">
         <button
-          onClick={() => setActiveModal(null)}
+          onClick={() => {
+            setActiveModal(null);
+            setShowProjects(false);
+          }}
           className="wordmark"
           style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
         >
           harshit gujar
         </button>
         <nav className="nav">
-          <button type="button" onClick={() => setActiveModal("work")}>
+          <button
+            type="button"
+            onClick={() => setShowProjects(true)}
+            className={showProjects ? "font-semibold text-[var(--ink)]" : ""}
+          >
             Work
           </button>
           <button type="button" onClick={() => setActiveModal("about")}>
@@ -203,6 +213,20 @@ export default function Home() {
           <p className="hint">Scroll or drag to run it faster</p>
         </div>
         <div className="controls relative">
+          {/* Projects Showcase Trigger */}
+          <button
+            type="button"
+            className="control hover:border-[var(--accent)] hover:scale-105 transition-all"
+            onClick={() => setShowProjects(true)}
+            title="Explore Selected Projects"
+          >
+            <span
+              className="w-2 h-2 rounded-full inline-block mr-1 animate-pulse"
+              style={{ backgroundColor: currentTheme.previewColor }}
+            />
+            <span>Projects ({PROJECTS.length}) →</span>
+          </button>
+
           {/* Theme Palette Switcher */}
           <div className="relative">
             <button
@@ -412,6 +436,16 @@ export default function Home() {
             )}
           </div>
         </div>
+      )}
+
+      {/* 🚀 Interactive Liquid Glass Projects Showcase Section */}
+      {showProjects && (
+        <ProjectSection
+          onClose={() => setShowProjects(false)}
+          backgroundHex={currentTheme.groundColor}
+          accentColor={currentTheme.previewColor}
+          inkColor="var(--ink)"
+        />
       )}
     </main>
   );
