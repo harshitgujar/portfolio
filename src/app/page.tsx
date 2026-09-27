@@ -36,7 +36,12 @@ export default function Home() {
 
   return (
     <main className="page">
-      {/* 3D Diagonal Physics Carousel with reduced image sizing */}
+      {/* 🌊 Liquid "Product Builder" Typography (Shifted BEHIND Carousel Components & Images) */}
+      <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center pointer-events-none px-4">
+        <LiquidTypography text="Product Builder" />
+      </div>
+
+      {/* 3D Diagonal Physics Carousel (In FRONT of text: 3D objects float over the typography) */}
       <DiagonalCarousel
         autoPlay={auto}
         interval={interval}
@@ -44,14 +49,6 @@ export default function Home() {
         onCenterChange={onCenterChange}
         className="page__carousel"
       />
-
-      {/* 🌊 Liquid "Product Builder" Hero Centerpiece */}
-      <div className="absolute inset-0 z-[2] flex flex-col items-center justify-center pointer-events-none px-4">
-        <LiquidTypography
-          text="Product Builder"
-          subtitle="Creative Technology & Engineering"
-        />
-      </div>
 
       {/* Top Navigation Bar */}
       <header className="chrome chrome--top">

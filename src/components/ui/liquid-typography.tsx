@@ -5,13 +5,11 @@ import React, { useEffect, useRef, useState } from "react";
 interface LiquidTypographyProps {
   text?: string;
   className?: string;
-  subtitle?: string;
 }
 
 export function LiquidTypography({
   text = "Product Builder",
   className = "",
-  subtitle,
 }: LiquidTypographyProps) {
   const filterId = useRef(`liquid-filter-${Math.random().toString(36).slice(2, 9)}`).current;
   const turbulenceRef = useRef<SVGFETurbulenceElement | null>(null);
@@ -174,13 +172,6 @@ export function LiquidTypography({
           ))}
         </h1>
       </div>
-
-      {subtitle && (
-        <p className="mt-4 sm:mt-6 font-mono text-[11px] sm:text-xs tracking-[0.28em] uppercase text-[#f2e7de]/60 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#f04e23] animate-pulse" />
-          {subtitle}
-        </p>
-      )}
     </div>
   );
 }
