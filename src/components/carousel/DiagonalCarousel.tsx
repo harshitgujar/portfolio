@@ -43,7 +43,7 @@ function useCoverScale() {
  */
 export function DiagonalCarousel({
   items = ITEMS,
-  itemScale = 0.58,
+  itemScale = 0.65,
   onCenterChange,
   className,
   ...options

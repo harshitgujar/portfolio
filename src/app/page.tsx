@@ -45,7 +45,7 @@ export default function Home() {
       <DiagonalCarousel
         autoPlay={auto}
         interval={interval}
-        itemScale={0.52}
+        itemScale={0.65}
         onCenterChange={onCenterChange}
         className="page__carousel"
       />

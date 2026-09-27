@@ -20,7 +20,7 @@ type Props = {
  * are always the same motion — the object turns as it travels, and is only
  * upright at the moment it reaches the centre.
  */
-function TrackItemImpl({ item, slot, centered, scale = 0.58 }: Props) {
+function TrackItemImpl({ item, slot, centered, scale = 0.65 }: Props) {
   const { x, y, rotation } = placeAtSlot(slot);
   const opacity = slotOpacity(slot);
   const togglable = Boolean(item.litSrc);
