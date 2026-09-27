@@ -8,6 +8,7 @@ import {
   useId,
   useRef,
   useState,
+  useImperativeHandle,
 } from "react";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
@@ -37,6 +38,8 @@ export interface LiquidGlassCarouselProps {
   style?: CSSProperties;
   onActiveChange?: (index: number) => void;
   onFocusChange?: (focused: boolean) => void;
+  ref?: React.Ref<LiquidGlassCarouselHandle>;
+  hideCloseButton?: boolean;
 }
 
 const PORTRAIT_ASPECT = 3 / 4;
@@ -1390,10 +1393,25 @@ export function LiquidGlassCarousel({
   style,
   onActiveChange,
   onFocusChange,
+  ref,
+  hideCloseButton = false,
 }: LiquidGlassCarouselProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<LiquidGlassCarouselHandle | null>(null);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      closeFocus: () => engineRef.current?.closeFocus(),
+      next: () => engineRef.current?.next(),
+      previous: () => engineRef.current?.previous(),
+      destroy: () => engineRef.current?.destroy(),
+      setTintColor: (c: string) => engineRef.current?.setTintColor?.(c),
+      setBackground: (b: string) => engineRef.current?.setBackground?.(b),
+    }),
+    []
+  );
   const titleRef = useRef<HTMLParagraphElement>(null);
   const counterRef = useRef<HTMLParagraphElement>(null);
   const revealPlayedRef = useRef(false);
@@ -1573,18 +1591,20 @@ export function LiquidGlassCarousel({
         View
       </div>
 
-      <button
-        type="button"
-        onClick={() => engineRef.current?.closeFocus()}
-        aria-label="Close focused project"
-        className="absolute right-[4%] top-[4.5%] z-20 text-[13px] font-medium text-white mix-blend-exclusion transition-opacity duration-300"
-        style={{
-          opacity: focused ? 1 : 0,
-          pointerEvents: focused ? "auto" : "none",
-        }}
-      >
-        Close
-      </button>
+      {!hideCloseButton && (
+        <button
+          type="button"
+          onClick={() => engineRef.current?.closeFocus()}
+          aria-label="Close focused project"
+          className="absolute right-[4%] top-[4.5%] z-20 text-[13px] font-medium text-white mix-blend-exclusion transition-opacity duration-300"
+          style={{
+            opacity: focused ? 1 : 0,
+            pointerEvents: focused ? "auto" : "none",
+          }}
+        >
+          Close
+        </button>
+      )}
     </div>
   );
 }
