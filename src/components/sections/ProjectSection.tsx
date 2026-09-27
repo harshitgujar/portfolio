@@ -62,7 +62,7 @@ export function ProjectSection({
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           {/* Active Project Info */}
-          <div className="flex-1 space-y-1">
+          <div className="flex-1 space-y-1.5">
             <div className="flex items-center gap-2.5">
               <span
                 className="w-2 h-2 rounded-full animate-pulse"
@@ -72,9 +72,6 @@ export function ProjectSection({
                 {currentProject.category}
               </span>
             </div>
-            <h2 className="text-lg sm:text-xl font-medium tracking-tight">
-              {currentProject.title}
-            </h2>
             <p className="text-xs sm:text-sm opacity-75 max-w-2xl line-clamp-2 leading-relaxed">
               {currentProject.description}
             </p>
