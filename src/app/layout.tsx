@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Instrument_Serif, Inter, Syne } from "next/font/google";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -14,18 +14,23 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-syne",
+});
+
 export const metadata: Metadata = {
-  title: "Harshit Gujar — Portfolio",
+  title: "Harshit Gujar — Product Builder & Engineer",
   description:
-    "Interactive Diagonal Carousel Portfolio of Harshit Gujar — Full-Stack & Mobile Engineer.",
+    "Interactive Diagonal Carousel Portfolio of Harshit Gujar — Product Builder, Full-Stack & Mobile Engineer.",
   keywords: [
     "Harshit Gujar",
+    "Product Builder",
     "Software Engineer",
     "Full-Stack Developer",
     "React Native",
     "Next.js",
-    "Mobile Developer",
-    "Portfolio",
     "Diagonal Carousel",
   ],
   authors: [{ name: "Harshit Gujar" }],
@@ -39,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${inter.variable} dark antialiased`}
+      className={`${instrumentSerif.variable} ${inter.variable} ${syne.variable} dark antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,7 +54,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap"
           rel="stylesheet"
         />
       </head>

@@ -9,6 +9,8 @@ import "./carousel.css";
 
 export type DiagonalCarouselProps = Omit<TrackOptions, "count"> & {
   items?: CarouselItem[];
+  /** Scale factor for all object images (default 0.58 to reduce size). */
+  itemScale?: number;
   /** Called whenever a different object reaches the centre. */
   onCenterChange?: (item: CarouselItem, index: number) => void;
   className?: string;
@@ -41,6 +43,7 @@ function useCoverScale() {
  */
 export function DiagonalCarousel({
   items = ITEMS,
+  itemScale = 0.58,
   onCenterChange,
   className,
   ...options
@@ -80,6 +83,7 @@ export function DiagonalCarousel({
               item={item}
               slot={slot}
               centered={i === centerIndex}
+              scale={itemScale}
             />
           );
         })}

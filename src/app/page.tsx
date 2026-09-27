@@ -3,6 +3,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { DiagonalCarousel } from "@/components/carousel/DiagonalCarousel";
 import { ITEMS, type CarouselItem } from "@/components/carousel/items";
+import { LiquidTypography } from "@/components/ui/liquid-typography";
 
 type ModalView = "work" | "about" | "contact" | null;
 
@@ -35,13 +36,22 @@ export default function Home() {
 
   return (
     <main className="page">
-      {/* 3D Diagonal Physics Carousel */}
+      {/* 3D Diagonal Physics Carousel with reduced image sizing */}
       <DiagonalCarousel
         autoPlay={auto}
         interval={interval}
+        itemScale={0.52}
         onCenterChange={onCenterChange}
         className="page__carousel"
       />
+
+      {/* 🌊 Liquid "Product Builder" Hero Centerpiece */}
+      <div className="absolute inset-0 z-[2] flex flex-col items-center justify-center pointer-events-none px-4">
+        <LiquidTypography
+          text="Product Builder"
+          subtitle="Creative Technology & Engineering"
+        />
+      </div>
 
       {/* Top Navigation Bar */}
       <header className="chrome chrome--top">

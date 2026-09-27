@@ -230,3 +230,39 @@ body {
     animation: none;
   }
 }
+
+/* Liquid Typography Animations */
+@keyframes liquid-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes liquid-pulse {
+  0%, 100% {
+    opacity: 0.28;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.015);
+  }
+}
+
+.animate-liquid-flow {
+  animation: liquid-flow 8s ease infinite;
+}
+
+.animate-liquid-pulse {
+  animation: liquid-pulse 6s ease-in-out infinite;
+}
+
+.liquid-text {
+  font-size: clamp(3.2rem, 9.5vw, 8.5rem);
+}

@@ -11,6 +11,8 @@ type Props = {
   slot: number;
   /** True while this item is the one nearest the centre. */
   centered: boolean;
+  /** Scale multiplier to adjust overall artwork dimensions. */
+  scale?: number;
 };
 
 /**
@@ -18,14 +20,15 @@ type Props = {
  * are always the same motion — the object turns as it travels, and is only
  * upright at the moment it reaches the centre.
  */
-function TrackItemImpl({ item, slot, centered }: Props) {
+function TrackItemImpl({ item, slot, centered, scale = 0.58 }: Props) {
   const { x, y, rotation } = placeAtSlot(slot);
   const opacity = slotOpacity(slot);
   const togglable = Boolean(item.litSrc);
   const lit = useFlicker(centered && togglable, togglable);
 
-  const width = item.ratio >= 1 ? item.size : item.size * item.ratio;
-  const height = item.ratio >= 1 ? item.size / item.ratio : item.size;
+  const effectiveSize = item.size * scale;
+  const width = item.ratio >= 1 ? effectiveSize : effectiveSize * item.ratio;
+  const height = item.ratio >= 1 ? effectiveSize / item.ratio : effectiveSize;
 
   return (
     <div

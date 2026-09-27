@@ -1,0 +1,186 @@
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+
+interface LiquidTypographyProps {
+  text?: string;
+  className?: string;
+  subtitle?: string;
+}
+
+export function LiquidTypography({
+  text = "Product Builder",
+  className = "",
+  subtitle,
+}: LiquidTypographyProps) {
+  const filterId = useRef(`liquid-filter-${Math.random().toString(36).slice(2, 9)}`).current;
+  const turbulenceRef = useRef<SVGFETurbulenceElement | null>(null);
+  const displacementRef = useRef<SVGFEDisplacementMapElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const [mouseSpeed, setMouseSpeed] = useState(0);
+
+  useEffect(() => {
+    let animationFrameId: number;
+    let lastTime = performance.now();
+    let currentScale = 14;
+    let targetScale = 14;
+    let baseFreqX = 0.012;
+    let baseFreqY = 0.022;
+
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    let mouseVelocity = 0;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const dx = e.clientX - lastMouseX;
+      const dy = e.clientY - lastMouseY;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      const dist = Math.hypot(dx, dy);
+      mouseVelocity = Math.min(dist * 0.4, 30);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+    const animate = (now: number) => {
+      const delta = (now - lastTime) * 0.001;
+      lastTime = now;
+
+      // Decay mouse velocity
+      mouseVelocity *= 0.92;
+      setMouseSpeed(mouseVelocity);
+
+      // Modulate scale with base breathing + mouse ripple
+      targetScale = 12 + Math.sin(now * 0.0016) * 4 + mouseVelocity * 0.8;
+      currentScale += (targetScale - currentScale) * 0.1;
+
+      // Modulate frequency for organic liquid rolling wave
+      const fX = baseFreqX + Math.sin(now * 0.0012) * 0.004 + (mouseVelocity * 0.0003);
+      const fY = baseFreqY + Math.cos(now * 0.0018) * 0.005 + (mouseVelocity * 0.0004);
+
+      if (turbulenceRef.current) {
+        turbulenceRef.current.setAttribute("baseFrequency", `${fX.toFixed(5)} ${fY.toFixed(5)}`);
+      }
+      if (displacementRef.current) {
+        displacementRef.current.setAttribute("scale", currentScale.toFixed(2));
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`relative select-none pointer-events-none flex flex-col items-center justify-center text-center ${className}`}
+    >
+      {/* SVG Liquid Filter Definition */}
+      <svg
+        className="absolute w-0 h-0 pointer-events-none overflow-hidden"
+        aria-hidden="true"
+        style={{ position: "absolute", left: -9999, top: -9999 }}
+      >
+        <defs>
+          <filter id={filterId} x="-30%" y="-30%" width="160%" height="160%">
+            <feTurbulence
+              ref={turbulenceRef}
+              type="fractalNoise"
+              baseFrequency="0.012 0.022"
+              numOctaves="3"
+              result="liquidNoise"
+            />
+            <feDisplacementMap
+              ref={displacementRef}
+              in="SourceGraphic"
+              in2="liquidNoise"
+              scale="14"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="displaced"
+            />
+            {/* Chromatic highlight shimmer */}
+            <feGaussianBlur in="displaced" stdDeviation="0.6" result="softGloss" />
+            <feMerge>
+              <feMergeNode in="displaced" />
+              <feMergeNode in="softGloss" />
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Viscous Ambient Liquid Halo Behind Text */}
+      <div
+        className="absolute pointer-events-none w-[110%] h-[120%] -z-10 rounded-full blur-3xl opacity-35 transition-opacity duration-700"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 50%, rgba(240, 78, 35, 0.45) 0%, rgba(255, 186, 92, 0.2) 40%, rgba(44, 24, 15, 0) 70%)",
+          transform: `scale(${1 + mouseSpeed * 0.01})`,
+        }}
+      />
+
+      {/* Main Liquid Typography Heading */}
+      <div className="relative group">
+        <h1
+          className="liquid-text font-black tracking-tight leading-[0.88] uppercase"
+          style={{
+            filter: `url(#${filterId}) drop-shadow(0 18px 30px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 45px rgba(240, 78, 35, 0.3))`,
+          }}
+        >
+          {text.split(" ").map((word, idx) => (
+            <span
+              key={idx}
+              className="inline-block px-2 sm:px-4 text-transparent bg-clip-text bg-gradient-to-br from-[#ffffff] via-[#fed7aa] via-[#f04e23] to-[#ffb38a] animate-liquid-flow"
+              style={{
+                fontFamily: "var(--font-syne), 'Syne', var(--display), sans-serif",
+                backgroundSize: "220% 220%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {word}
+            </span>
+          ))}
+        </h1>
+
+        {/* Liquid reflection sheen layer */}
+        <h1
+          aria-hidden="true"
+          className="absolute inset-0 select-none pointer-events-none font-black tracking-tight leading-[0.88] uppercase opacity-40 mix-blend-color-dodge"
+          style={{
+            filter: `url(#${filterId}) blur(1px)`,
+          }}
+        >
+          {text.split(" ").map((word, idx) => (
+            <span
+              key={idx}
+              className="inline-block px-2 sm:px-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-[#ffedd5] to-transparent animate-liquid-pulse"
+              style={{
+                fontFamily: "var(--font-syne), 'Syne', var(--display), sans-serif",
+                backgroundSize: "200% 200%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {word}
+            </span>
+          ))}
+        </h1>
+      </div>
+
+      {subtitle && (
+        <p className="mt-4 sm:mt-6 font-mono text-[11px] sm:text-xs tracking-[0.28em] uppercase text-[#f2e7de]/60 flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#f04e23] animate-pulse" />
+          {subtitle}
+        </p>
+      )}
+    </div>
+  );
+}
