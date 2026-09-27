@@ -165,8 +165,8 @@ export default function Home() {
         className="page__carousel"
       />
 
-      {/* Top Header & Floating Pill Navigation Bar */}
-      <header className="chrome chrome--top w-full">
+      {/* Top Header & Floating Pill Navigation Bar (Global across Home & Projects) */}
+      <header className="chrome chrome--top w-full z-50">
         {/* Brand Wordmark */}
         <button
           onClick={() => {

@@ -33,33 +33,12 @@ export function ProjectSection({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex flex-col justify-between overflow-hidden select-none animate-in fade-in duration-300"
+      className="fixed inset-0 z-40 flex flex-col justify-between overflow-hidden select-none animate-in fade-in duration-300 pt-20 sm:pt-24"
       style={{
         backgroundColor: backgroundHex,
         color: inkColor,
       }}
     >
-      {/* Top Header Chrome */}
-      <header className="relative z-30 flex items-center justify-between px-6 sm:px-12 py-6 border-b border-white/10 bg-black/20 backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onClose}
-            className="font-['Instrument_Serif',serif] italic text-2xl tracking-wide hover:opacity-80 transition-opacity"
-            style={{ color: inkColor }}
-          >
-            harshit gujar
-          </button>
-          <span className="opacity-30">/</span>
-          <span className="text-xs uppercase tracking-[0.16em] opacity-80 font-medium">
-            Selected Works ({activeIdx + 1}/{PROJECTS.length})
-          </span>
-        </div>
-
-        {/* Spacer for top-right floating nav */}
-        <div className="w-48 sm:w-60" />
-      </header>
-
       {/* Main WebGL Liquid Glass Canvas */}
       <div className="relative flex-1 w-full h-full min-h-[350px]">
         <LiquidGlassCarousel
@@ -100,46 +79,16 @@ export function ProjectSection({
             </p>
           </div>
 
-          {/* Tech Stack Pills & Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <div className="flex flex-wrap items-center gap-1.5">
-              {currentProject.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 text-[10px] uppercase tracking-wider rounded-full border border-white/15 bg-white/5 opacity-80"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-2 pt-1 sm:pt-0">
-              {currentProject.github && (
-                <a
-                  href={currentProject.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider border border-white/20 hover:bg-white/10 transition-colors"
-                  style={{ color: inkColor }}
-                >
-                  GitHub ↗
-                </a>
-              )}
-              {currentProject.link && (
-                <a
-                  href={currentProject.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider font-semibold transition-all hover:scale-105"
-                  style={{
-                    backgroundColor: accentColor,
-                    color: "#000000",
-                  }}
-                >
-                  Explore ↗
-                </a>
-              )}
-            </div>
+          {/* Tech Stack Pills */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            {currentProject.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2.5 py-1 text-[10px] uppercase tracking-wider rounded-full border border-white/15 bg-white/5 opacity-80"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
 
