@@ -5,6 +5,107 @@ import { DiagonalCarousel } from "@/components/carousel/DiagonalCarousel";
 import { ITEMS, type CarouselItem } from "@/components/carousel/items";
 import { LiquidTypography } from "@/components/ui/liquid-typography";
 
+export interface ThemeConfig {
+  id: string;
+  name: string;
+  previewColor: string;
+  groundColor: string;
+  vars: React.CSSProperties;
+}
+
+export const THEMES: ThemeConfig[] = [
+  {
+    id: "terracotta",
+    name: "Terracotta Rust",
+    previewColor: "#f04e23",
+    groundColor: "#2c180f",
+    vars: {
+      "--ground": "#2c180f",
+      "--ambient-start": "#3d2214",
+      "--ambient-end": "#200f08",
+      "--accent": "#f04e23",
+      "--vignette": "rgba(18, 8, 4, 0.55)",
+      "--ink": "#f2e7de",
+      "--ink-dim": "rgba(242, 231, 222, 0.6)",
+    } as React.CSSProperties,
+  },
+  {
+    id: "cyber-cyan",
+    name: "Cyber Cyan",
+    previewColor: "#00e5ff",
+    groundColor: "#080c14",
+    vars: {
+      "--ground": "#080c14",
+      "--ambient-start": "#0f1b2b",
+      "--ambient-end": "#04070c",
+      "--accent": "#00e5ff",
+      "--vignette": "rgba(4, 7, 12, 0.65)",
+      "--ink": "#f0f9ff",
+      "--ink-dim": "rgba(240, 249, 255, 0.6)",
+    } as React.CSSProperties,
+  },
+  {
+    id: "forest-lime",
+    name: "Forest Lime",
+    previewColor: "#a3e635",
+    groundColor: "#0b140e",
+    vars: {
+      "--ground": "#0b140e",
+      "--ambient-start": "#13261a",
+      "--ambient-end": "#070e0a",
+      "--accent": "#a3e635",
+      "--vignette": "rgba(7, 14, 10, 0.65)",
+      "--ink": "#f2fbf4",
+      "--ink-dim": "rgba(242, 251, 244, 0.6)",
+    } as React.CSSProperties,
+  },
+  {
+    id: "monochrome",
+    name: "Monochrome Noir",
+    previewColor: "#ffffff",
+    groundColor: "#0e0e11",
+    vars: {
+      "--ground": "#0e0e11",
+      "--ambient-start": "#1c1c22",
+      "--ambient-end": "#09090b",
+      "--accent": "#ffffff",
+      "--vignette": "rgba(9, 9, 11, 0.7)",
+      "--ink": "#f4f4f5",
+      "--ink-dim": "rgba(244, 244, 245, 0.55)",
+    } as React.CSSProperties,
+  },
+  {
+    id: "nocturne-magenta",
+    name: "Nocturne Magenta",
+    previewColor: "#e879f9",
+    groundColor: "#120919",
+    vars: {
+      "--ground": "#120919",
+      "--ambient-start": "#221030",
+      "--ambient-end": "#0b050f",
+      "--accent": "#e879f9",
+      "--vignette": "rgba(11, 5, 15, 0.65)",
+      "--ink": "#fae8ff",
+      "--ink-dim": "rgba(250, 232, 255, 0.6)",
+    } as React.CSSProperties,
+  },
+  {
+    id: "solar-cobalt",
+    name: "Solar Cobalt",
+    previewColor: "#38bdf8",
+    groundColor: "#09101f",
+    vars: {
+      "--ground": "#09101f",
+      "--ambient-start": "#13203c",
+      "--ambient-end": "#050912",
+      "--accent": "#38bdf8",
+      "--vignette": "rgba(5, 9, 18, 0.65)",
+      "--ink": "#f0f8ff",
+      "--ink-dim": "rgba(240, 248, 255, 0.6)",
+    } as React.CSSProperties,
+  },
+];
+
 type ModalView = "work" | "about" | "contact" | null;
 
 export default function Home() {
@@ -13,6 +114,10 @@ export default function Home() {
   const [interval, setIntervalMs] = useState(2200);
   const [activeModal, setActiveModal] = useState<ModalView>(null);
   const [copied, setCopied] = useState(false);
+  const [selectedThemeId, setSelectedThemeId] = useState("terracotta");
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+
+  const currentTheme = THEMES.find((t) => t.id === selectedThemeId) ?? THEMES[0];
 
   const onCenterChange = useCallback((item: CarouselItem) => {
     setLabel(item.label);
@@ -28,6 +133,7 @@ export default function Home() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setActiveModal(null);
+        setThemeMenuOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -35,7 +141,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="page">
+    <main className="page" style={currentTheme.vars}>
       {/* 🌊 Liquid "Product Builder" Typography (Shifted BEHIND Carousel Components & Images) */}
       <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center pointer-events-none px-4">
         <LiquidTypography text="Product Builder" />
@@ -80,18 +186,65 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Center Dynamic Label */}
+      {/* Center Dynamic Label & Subtitle */}
       <div className="chrome chrome--caption">
-        <span className="caption__rule" />
-        <span className="caption__label" key={label}>
-          {label}
-        </span>
+        <span className="caption__rule self-start mt-3.5" />
+        <div className="flex flex-col">
+          <span className="caption__label" key={label}>
+            {label}
+          </span>
+          <span className="caption__subtitle mt-0.5">
+            Things I am interested in
+          </span>
+        </div>
       </div>
 
       {/* Bottom Controls */}
       <footer className="chrome chrome--bottom">
         <p className="hint">Scroll or drag to run it faster</p>
-        <div className="controls">
+        <div className="controls relative">
+          {/* Theme Palette Switcher */}
+          <div className="relative">
+            <button
+              type="button"
+              className="control control--theme"
+              onClick={() => setThemeMenuOpen((v) => !v)}
+              aria-expanded={themeMenuOpen}
+              title="Select color palette"
+            >
+              <span
+                className="w-2.5 h-2.5 rounded-full inline-block transition-colors duration-300"
+                style={{ backgroundColor: currentTheme.previewColor }}
+              />
+              <span>Theme: {currentTheme.name}</span>
+            </button>
+
+            {themeMenuOpen && (
+              <div className="theme-popover">
+                {THEMES.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className={`theme-option ${t.id === currentTheme.id ? "theme-option--active" : ""}`}
+                    onClick={() => {
+                      setSelectedThemeId(t.id);
+                      setThemeMenuOpen(false);
+                    }}
+                  >
+                    <span
+                      className="w-3.5 h-3.5 rounded-full inline-block flex-shrink-0"
+                      style={{
+                        background: `radial-gradient(circle at 35% 35%, ${t.previewColor} 0%, ${t.groundColor} 100%)`,
+                        border: "1px solid rgba(255,255,255,0.25)",
+                      }}
+                    />
+                    <span className="truncate">{t.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
           <button
             type="button"
             className="control"
@@ -124,11 +277,11 @@ export default function Home() {
           onClick={() => setActiveModal(null)}
         >
           <div
-            className="relative w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl border border-[rgba(240,226,214,0.22)] bg-[#1e100a]/90 p-6 sm:p-8 text-[#f2e7de] shadow-2xl backdrop-blur-xl"
+            className="relative w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl border border-[var(--ink)]/20 bg-[var(--ground)]/95 p-6 sm:p-8 text-[var(--ink)] shadow-2xl backdrop-blur-xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-[rgba(240,226,214,0.15)] mb-6">
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--ink)]/15 mb-6">
               <span className="font-['Instrument_Serif',serif] italic text-2xl tracking-wide capitalize">
                 {activeModal === "work" && "Selected Work & Engineering"}
                 {activeModal === "about" && "About Harshit Gujar"}
@@ -137,7 +290,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setActiveModal(null)}
-                className="text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-[rgba(240,226,214,0.24)] hover:bg-[rgba(240,226,214,0.1)] transition-colors"
+                className="text-xs uppercase tracking-widest px-3 py-1 rounded-full border border-[var(--ink)]/24 hover:bg-[var(--ink)]/10 transition-colors"
               >
                 Close ✕
               </button>
@@ -145,12 +298,12 @@ export default function Home() {
 
             {/* Modal Body */}
             {activeModal === "work" && (
-              <div className="space-y-6 text-sm text-[rgba(242,231,222,0.85)] leading-relaxed">
+              <div className="space-y-6 text-sm text-[var(--ink-dim)] leading-relaxed">
                 <div>
-                  <h3 className="text-base font-medium text-[#f2e7de] mb-1">
+                  <h3 className="text-base font-medium text-[var(--ink)] mb-1">
                     Fluid Interactive Web & Graphics
                   </h3>
-                  <p className="text-xs text-[rgba(242,231,222,0.6)] mb-2">
+                  <p className="text-xs text-[var(--ink-dim)]/70 mb-2">
                     Next.js, WebGL, Shader Engineering, Tailwind CSS, TypeScript
                   </p>
                   <p>
@@ -159,11 +312,11 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-[rgba(240,226,214,0.1)]">
-                  <h3 className="text-base font-medium text-[#f2e7de] mb-1">
+                <div className="pt-4 border-t border-[var(--ink)]/10">
+                  <h3 className="text-base font-medium text-[var(--ink)] mb-1">
                     Cross-Platform Mobile Applications
                   </h3>
-                  <p className="text-xs text-[rgba(242,231,222,0.6)] mb-2">
+                  <p className="text-xs text-[var(--ink-dim)]/70 mb-2">
                     React Native, Expo, Native Modules, Offline-First Architecture
                   </p>
                   <p>
@@ -172,11 +325,11 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-[rgba(240,226,214,0.1)]">
-                  <h3 className="text-base font-medium text-[#f2e7de] mb-1">
+                <div className="pt-4 border-t border-[var(--ink)]/10">
+                  <h3 className="text-base font-medium text-[var(--ink)] mb-1">
                     Scalable Backend & Cloud Systems
                   </h3>
-                  <p className="text-xs text-[rgba(242,231,222,0.6)] mb-2">
+                  <p className="text-xs text-[var(--ink-dim)]/70 mb-2">
                     Node.js, Python, PostgreSQL, Redis, Docker, Cloud APIs
                   </p>
                   <p>
@@ -187,9 +340,9 @@ export default function Home() {
             )}
 
             {activeModal === "about" && (
-              <div className="space-y-4 text-sm text-[rgba(242,231,222,0.85)] leading-relaxed">
+              <div className="space-y-4 text-sm text-[var(--ink-dim)] leading-relaxed">
                 <p>
-                  I am <strong className="text-[#f2e7de]">Harshit Gujar</strong>, a Full-Stack and Mobile
+                  I am <strong className="text-[var(--ink)]">Harshit Gujar</strong>, a Full-Stack and Mobile
                   Engineer passionate about crafting elegant digital products where thoughtful design
                   meets robust engineering.
                 </p>
@@ -198,7 +351,7 @@ export default function Home() {
                   services. I enjoy exploring physics-driven animations, tactile web aesthetics, and clean
                   software architecture.
                 </p>
-                <div className="pt-4 border-t border-[rgba(240,226,214,0.1)] flex flex-wrap gap-2">
+                <div className="pt-4 border-t border-[var(--ink)]/10 flex flex-wrap gap-2">
                   {[
                     "TypeScript",
                     "React",
@@ -213,7 +366,7 @@ export default function Home() {
                   ].map((skill) => (
                     <span
                       key={skill}
-                      className="px-2.5 py-1 text-xs rounded-full bg-[rgba(242,231,222,0.08)] border border-[rgba(240,226,214,0.18)]"
+                      className="px-2.5 py-1 text-xs rounded-full bg-[var(--ink)]/10 border border-[var(--ink)]/20 text-[var(--ink)]"
                     >
                       {skill}
                     </span>
@@ -223,18 +376,18 @@ export default function Home() {
             )}
 
             {activeModal === "contact" && (
-              <div className="space-y-5 text-sm text-[rgba(242,231,222,0.85)] leading-relaxed">
+              <div className="space-y-5 text-sm text-[var(--ink-dim)] leading-relaxed">
                 <p>
                   Available for new projects, engineering roles, and creative collaborations.
                 </p>
-                <div className="p-4 rounded-xl bg-[rgba(20,10,5,0.6)] border border-[rgba(240,226,214,0.18)] flex items-center justify-between">
-                  <span className="font-mono text-xs text-[#f2e7de]">
+                <div className="p-4 rounded-xl bg-black/40 border border-[var(--ink)]/15 flex items-center justify-between">
+                  <span className="font-mono text-xs text-[var(--ink)]">
                     harshitgujar1604@gmail.com
                   </span>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="text-xs uppercase tracking-wider px-3 py-1 rounded-lg bg-[rgba(240,78,35,0.2)] text-[#f04e23] border border-[rgba(240,78,35,0.4)] hover:bg-[rgba(240,78,35,0.3)] transition-colors"
+                    className="text-xs uppercase tracking-wider px-3 py-1 rounded-lg bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/35 hover:bg-[var(--accent)]/25 transition-colors"
                   >
                     {copied ? "Copied ✓" : "Copy"}
                   </button>
@@ -242,7 +395,7 @@ export default function Home() {
                 <div className="flex gap-4 pt-2">
                   <a
                     href="mailto:harshitgujar1604@gmail.com"
-                    className="flex-1 text-center py-2.5 rounded-full bg-[#f04e23] text-white font-medium text-xs uppercase tracking-wider hover:bg-[#ff5d33] transition-colors"
+                    className="flex-1 text-center py-2.5 rounded-full bg-[var(--accent)] text-black font-semibold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity"
                   >
                     Send Email
                   </a>
@@ -250,7 +403,7 @@ export default function Home() {
                     href="https://github.com/harshitgujar"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 text-center py-2.5 rounded-full border border-[rgba(240,226,214,0.3)] text-[#f2e7de] text-xs uppercase tracking-wider hover:bg-[rgba(240,226,214,0.1)] transition-colors"
+                    className="flex-1 text-center py-2.5 rounded-full border border-[var(--ink)]/30 text-[var(--ink)] text-xs uppercase tracking-wider hover:bg-[var(--ink)]/10 transition-colors"
                   >
                     GitHub Profile
                   </a>

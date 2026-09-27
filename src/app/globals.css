@@ -72,10 +72,11 @@ body {
   inset: -10%;
   background: radial-gradient(
     ellipse 70% 60% at 46% 48%,
-    #3d2214 0%,
-    #2c180f 55%,
-    #200f08 100%
+    var(--ambient-start, #3d2214) 0%,
+    var(--ground, #2c180f) 55%,
+    var(--ambient-end, #200f08) 100%
   );
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page::after {
@@ -87,8 +88,9 @@ body {
   background: radial-gradient(
     ellipse 80% 70% at 50% 50%,
     transparent 40%,
-    rgba(18, 8, 4, 0.55) 100%
+    var(--vignette, rgba(18, 8, 4, 0.55)) 100%
   );
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page__carousel {
@@ -166,6 +168,15 @@ body {
   animation: caption-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.caption__subtitle {
+  font-size: clamp(10px, 1.05vw, 12px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  font-family: Inter, system-ui, sans-serif;
+  opacity: 0.75;
+}
+
 @keyframes caption-in {
   from {
     opacity: 0;
@@ -229,6 +240,69 @@ body {
   width: 96px;
   accent-color: var(--accent);
   cursor: pointer;
+}
+
+.control--theme {
+  position: relative;
+  user-select: none;
+}
+
+.theme-popover {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  min-width: 210px;
+  background: rgba(22, 12, 8, 0.94);
+  border: 1px solid rgba(240, 226, 214, 0.22);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: popover-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.theme-option:hover {
+  background: rgba(240, 226, 214, 0.1);
+  border-color: rgba(240, 226, 214, 0.18);
+}
+
+.theme-option--active {
+  background: rgba(240, 226, 214, 0.14);
+  border-color: rgba(240, 226, 214, 0.3);
 }
 
 @media (max-width: 640px) {
