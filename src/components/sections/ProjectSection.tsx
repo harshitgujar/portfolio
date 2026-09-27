@@ -33,14 +33,14 @@ export function ProjectSection({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex flex-col justify-between overflow-hidden select-none animate-in fade-in duration-300 pt-20 sm:pt-24"
+      className="fixed inset-0 z-40 overflow-hidden select-none animate-in fade-in duration-300"
       style={{
         backgroundColor: backgroundHex,
         color: inkColor,
       }}
     >
-      {/* Main WebGL Liquid Glass Canvas */}
-      <div className="relative flex-1 w-full h-full min-h-[350px]">
+      {/* Main WebGL Liquid Glass Canvas (Edge-to-edge full bleed) */}
+      <div className="absolute inset-0 w-full h-full">
         <LiquidGlassCarousel
           items={PROJECTS}
           background={backgroundHex}
@@ -55,7 +55,7 @@ export function ProjectSection({
 
       {/* Bottom Project Details Bar */}
       <footer
-        className={`relative z-30 px-6 sm:px-12 py-5 border-t border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-300 ${
+        className={`absolute bottom-0 inset-x-0 z-30 px-6 sm:px-12 py-5 border-t border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-300 ${
           isFocused ? "opacity-30 pointer-events-none" : "opacity-100"
         }`}
       >

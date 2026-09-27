@@ -108,9 +108,16 @@ body {
 }
 
 .chrome--top {
+  position: fixed;
   inset: 0 0 auto 0;
   justify-content: space-between;
   padding: 26px clamp(20px, 4vw, 54px);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.chrome--top > * {
+  pointer-events: auto;
 }
 
 .wordmark {
