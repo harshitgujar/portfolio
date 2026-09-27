@@ -24,9 +24,14 @@ export function ProjectSection({
   const [activeIdx, setActiveIdx] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
   const carouselRef = useRef<LiquidGlassCarouselHandle>(null);
 
   const currentProject: ProjectItem = PROJECTS[activeIdx] ?? PROJECTS[0];
+
+  const handleBloomStart = () => {
+    setIsRevealed(true);
+  };
 
   const handleFocusChange = (focused: boolean) => {
     setIsFocused(focused);
@@ -40,6 +45,14 @@ export function ProjectSection({
     setIsFocused(false);
     carouselRef.current?.closeFocus();
   };
+
+  // Safety fallback: if bloom callback is somehow skipped or delayed, reveal after 2.2s
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsRevealed(true);
+    }, 2200);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -76,19 +89,28 @@ export function ProjectSection({
           hideCloseButton={true}
           onActiveChange={(idx) => setActiveIdx(idx)}
           onFocusChange={handleFocusChange}
+          onBloomStart={handleBloomStart}
           className="h-full w-full"
         />
       </div>
 
-      {/* Bottom Project Details Bar */}
+      {/* Bottom Project Details Bar (Reveals from down to up when containers zoom & gradient blooms) */}
       <footer
-        className={`absolute bottom-0 inset-x-0 z-30 px-6 sm:px-12 py-5 border-t border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-300 ${
-          caseStudyOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+        className={`absolute bottom-0 inset-x-0 z-30 px-6 sm:px-12 py-5 border-t border-white/10 bg-black/40 backdrop-blur-xl transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          !isRevealed
+            ? "translate-y-full opacity-0 pointer-events-none"
+            : caseStudyOpen
+              ? "translate-y-6 opacity-0 pointer-events-none duration-300"
+              : "translate-y-0 opacity-100 pointer-events-auto"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div
+          className={`max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-700 delay-100 ${
+            isRevealed ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+          }`}
+        >
           {/* Active Project Info */}
-          <div className="flex-1 space-y-1.5">
+          <div className="flex-1 space-y-1.5" key={currentProject.id}>
             <div className="flex items-center gap-2.5">
               <span
                 className="w-2 h-2 rounded-full animate-pulse"
@@ -134,7 +156,11 @@ export function ProjectSection({
         </div>
 
         {/* Interaction Guidance */}
-        <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] tracking-wider uppercase opacity-50">
+        <div
+          className={`mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] tracking-wider uppercase transition-all duration-700 delay-200 ${
+            isRevealed ? "translate-y-0 opacity-50" : "translate-y-2 opacity-0"
+          }`}
+        >
           <span>Scroll, drag or use ← → arrow keys to explore projects</span>
           <span className="hidden sm:inline">Click any card to read full case study</span>
         </div>

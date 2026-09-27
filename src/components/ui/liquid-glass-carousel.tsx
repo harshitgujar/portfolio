@@ -38,6 +38,8 @@ export interface LiquidGlassCarouselProps {
   style?: CSSProperties;
   onActiveChange?: (index: number) => void;
   onFocusChange?: (focused: boolean) => void;
+  onBloomStart?: () => void;
+  onEntryDone?: (done: boolean) => void;
   ref?: React.Ref<LiquidGlassCarouselHandle>;
   hideCloseButton?: boolean;
 }
@@ -370,6 +372,7 @@ function createCarousel(
     onActiveChange: (index: number) => void;
     onFocusChange: (open: boolean) => void;
     onEntryDone: (done: boolean) => void;
+    onBloomStart?: () => void;
   },
 ): LiquidGlassCarouselHandle | null {
   const reduced = prefersReducedMotion();
@@ -1094,6 +1097,7 @@ function createCarousel(
 
   function playEntry() {
     if (!entryOn) {
+      options.onBloomStart?.();
       options.onEntryDone(true);
       return;
     }
@@ -1154,6 +1158,13 @@ function createCarousel(
     }));
     const growStart = lastRiseEnd + ENTRY.growDelay;
     let growEnd = growStart;
+    tl.call(
+      () => {
+        options.onBloomStart?.();
+      },
+      [],
+      growStart,
+    );
     tl.to(
       focusState,
       { lensFx: 1, duration: ENTRY.lensBloom, ease: ENTRY.lensBloomEase },
@@ -1281,7 +1292,10 @@ function createCarousel(
 
   startLoop();
   if (entryOn) playEntry();
-  else options.onEntryDone(true);
+  else {
+    options.onBloomStart?.();
+    options.onEntryDone(true);
+  }
 
   function onResize() {
     W = Math.max(1, mount.clientWidth);
@@ -1393,6 +1407,8 @@ export function LiquidGlassCarousel({
   style,
   onActiveChange,
   onFocusChange,
+  onBloomStart,
+  onEntryDone,
   ref,
   hideCloseButton = false,
 }: LiquidGlassCarouselProps) {
@@ -1417,6 +1433,7 @@ export function LiquidGlassCarousel({
   const revealPlayedRef = useRef(false);
   const [active, setActive] = useState(0);
   const [focused, setFocused] = useState(false);
+  const [bloomStarted, setBloomStarted] = useState(!entry);
   const [entryDone, setEntryDone] = useState(!entry);
   const [failed, setFailed] = useState(false);
   const labelId = useId();
@@ -1424,8 +1441,12 @@ export function LiquidGlassCarousel({
   const current = items[active] ?? items[0];
   const onActiveChangeRef = useRef(onActiveChange);
   const onFocusChangeRef = useRef(onFocusChange);
+  const onBloomStartRef = useRef(onBloomStart);
+  const onEntryDoneRef = useRef(onEntryDone);
   onActiveChangeRef.current = onActiveChange;
   onFocusChangeRef.current = onFocusChange;
+  onBloomStartRef.current = onBloomStart;
+  onEntryDoneRef.current = onEntryDone;
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -1446,7 +1467,14 @@ export function LiquidGlassCarousel({
         setFocused(open);
         onFocusChangeRef.current?.(open);
       },
-      onEntryDone: setEntryDone,
+      onBloomStart: () => {
+        setBloomStarted(true);
+        onBloomStartRef.current?.();
+      },
+      onEntryDone: (done) => {
+        setEntryDone(done);
+        onEntryDoneRef.current?.(done);
+      },
     });
     if (!engine) {
       setFailed(true);
@@ -1479,28 +1507,28 @@ export function LiquidGlassCarousel({
     gsap.set(title, { xPercent: -50 });
     gsap.set(counter, { xPercent: -50 });
 
-    if (!entryDone && entry && !reduced) {
+    if (!bloomStarted && entry && !reduced) {
       gsap.set([title, counter], { autoAlpha: 0 });
       revealPlayedRef.current = false;
       return;
     }
 
     const y = focused ? window.innerHeight * -0.05 : 0;
-    if (entryDone && !focused && !revealPlayedRef.current) {
+    if (bloomStarted && !focused && !revealPlayedRef.current) {
       revealPlayedRef.current = true;
       gsap.fromTo(
         title,
         { autoAlpha: 0 },
-        { autoAlpha: 1, duration: reduced ? 0 : 1.6, ease: "power2.out" },
+        { autoAlpha: 1, duration: reduced ? 0 : 1.4, ease: "power2.out" },
       );
       gsap.fromTo(
         counter,
         { autoAlpha: 0 },
         {
           autoAlpha: 1,
-          duration: reduced ? 0 : 1.6,
+          duration: reduced ? 0 : 1.4,
           ease: "power2.out",
-          delay: reduced ? 0 : 0.18,
+          delay: reduced ? 0 : 0.15,
         },
       );
       return;
@@ -1517,7 +1545,7 @@ export function LiquidGlassCarousel({
       duration: reduced ? 0 : 0.4,
       ease: "power3.out",
     });
-  }, [focused, entryDone, entry]);
+  }, [focused, bloomStarted, entry]);
 
   const onKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key === "ArrowRight") {
