@@ -125,8 +125,9 @@ body {
 .floating-nav {
   position: fixed;
   top: 22px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: clamp(20px, 4vw, 54px);
+  left: auto;
+  transform: none;
   display: flex;
   align-items: center;
   gap: 3px;
@@ -144,11 +145,8 @@ body {
 
 @media (max-width: 768px) {
   .floating-nav {
-    position: fixed;
     top: 18px;
     right: 16px;
-    left: auto;
-    transform: none;
   }
 }
 

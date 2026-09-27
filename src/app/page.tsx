@@ -223,18 +223,6 @@ export default function Home() {
             Contact
           </button>
         </nav>
-
-        {/* Right GitHub External Link */}
-        <a
-          href="https://github.com/harshitgujar"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:flex items-center gap-1.5 text-xs tracking-wider uppercase opacity-60 hover:opacity-100 transition-opacity"
-          style={{ color: "var(--ink)" }}
-        >
-          <span>GitHub</span>
-          <span className="text-[10px]">↗</span>
-        </a>
       </header>
 
       {/* Center Dynamic Label */}
@@ -254,20 +242,6 @@ export default function Home() {
           <p className="hint">Scroll or drag to run it faster</p>
         </div>
         <div className="controls relative">
-          {/* Projects Showcase Trigger */}
-          <button
-            type="button"
-            className="control hover:border-[var(--accent)] hover:scale-105 transition-all"
-            onClick={() => setShowProjects(true)}
-            title="Explore Selected Projects"
-          >
-            <span
-              className="w-2 h-2 rounded-full inline-block mr-1 animate-pulse"
-              style={{ backgroundColor: currentTheme.previewColor }}
-            />
-            <span>Projects ({PROJECTS.length}) →</span>
-          </button>
-
           {/* Theme Palette Switcher */}
           <div className="relative">
             <button
