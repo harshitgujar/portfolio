@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import { THEMES } from "@/data/themes";
 import { FisheyeInfiniteGrid } from "@/components/ui/fisheye-infinite-grid";
+import { HandDrawnSquiggle } from "@/components/ui/HandDrawnSquiggle";
+import { CircularLensAura } from "@/components/ui/CircularLensAura";
 
 const SOCIAL_LINKS = [
   { label: "LINKEDIN", href: "https://www.linkedin.com/in/harshitgujar" },
@@ -102,7 +104,48 @@ export default function AboutPage() {
           ))}
         </nav>
 
-        {/* 2. Hero Bio & Philosophy Quote */}
+        {/* 2. Hero Big Typography & Circular Lens Section */}
+        <section className="relative pt-4 sm:pt-6 pb-2 overflow-visible">
+          {/* Circular Gradient Lens Type Element (Consistent with Work page, but scaled to hero size) */}
+          <div className="absolute -top-10 -right-6 sm:-top-16 sm:right-6 md:right-16 -z-10">
+            <CircularLensAura
+              accentColor={currentTheme.previewColor}
+              groundColor={currentTheme.groundColor}
+              className="w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[460px] md:h-[460px]"
+            />
+          </div>
+
+          <div className="space-y-4 sm:space-y-6 max-w-4xl relative z-10">
+            {/* Introductory Eyebrow matching reference screenshot */}
+            <p className="text-sm sm:text-base md:text-lg text-white/60 font-normal leading-relaxed max-w-xl">
+              Howdy! Meet your trusted design engineer &amp; product builder, crafting strong systems, fluid interfaces &amp; digital delight.
+            </p>
+
+            {/* Massive Display Name with Theme Gradient */}
+            <div className="inline-block relative">
+              <h1
+                className="text-6xl sm:text-8xl md:text-9xl lg:text-[9.5rem] font-bold tracking-[-0.04em] leading-[0.88] select-none"
+                style={{
+                  backgroundImage: `linear-gradient(135deg, #ffffff 20%, ${currentTheme.previewColor} 68%, rgba(255,255,255,0.75) 100%)`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Harshit Gujar
+              </h1>
+
+              {/* Hand-drawn decorative squiggle underline matching screenshot */}
+              <div className="pt-2 sm:pt-3">
+                <HandDrawnSquiggle
+                  color={currentTheme.previewColor}
+                  className="w-48 sm:w-72 md:w-96 lg:w-[28rem] h-auto drop-shadow-md transition-colors duration-300"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. Hero Bio & Philosophy Quote */}
         <section className="text-center max-w-3xl mx-auto space-y-6">
           <blockquote
             className="text-base sm:text-lg md:text-xl font-normal leading-relaxed tracking-wide transition-colors duration-300"
@@ -115,7 +158,7 @@ export default function AboutPage() {
           </p>
         </section>
 
-        {/* 3. Education Section */}
+        {/* 4. Education Section */}
         <section className="space-y-8">
           <h2 className="text-lg sm:text-xl font-mono tracking-tight text-white">
             [ EDUCATION ]
@@ -142,7 +185,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 4. Experience Section (2-Column Grid matching screenshot) */}
+        {/* 5. Experience Section (2-Column Grid matching screenshot) */}
         <section className="space-y-8">
           <h2 className="text-lg sm:text-xl font-mono tracking-tight text-white">
             [ EXPERIENCE ]
@@ -197,7 +240,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 5. Extra Creative Work Gallery Showcase with WebGL Fisheye Infinite Grid */}
+        {/* 6. Extra Creative Work Gallery Showcase with WebGL Fisheye Infinite Grid */}
         <section className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-4 border-b border-white/10">
             <div>
@@ -229,7 +272,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 6. Contact & Direct Connection */}
+        {/* 7. Contact & Direct Connection */}
         <section className="space-y-6 pt-12 border-t border-white/10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
