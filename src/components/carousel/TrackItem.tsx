@@ -43,15 +43,6 @@ function TrackItemImpl({ item, slot, centered, scale = 0.65 }: Props) {
         transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rotation}deg)`,
       }}
     >
-      {item.glow && (
-        <div
-          className="dc-glow"
-          style={{
-            opacity: lit ? 1 : 0,
-            background: `radial-gradient(circle at 50% 45%, rgba(${item.glow}, 0.55) 0%, rgba(${item.glow}, 0.22) 34%, rgba(${item.glow}, 0) 70%)`,
-          }}
-        />
-      )}
       <img className="dc-art" src={item.src} alt={item.label} draggable={false} />
       {item.litSrc && (
         <img

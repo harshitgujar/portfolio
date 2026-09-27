@@ -42,12 +42,7 @@
 }
 
 .dc-glow {
-  position: absolute;
-  /* Spill well past the object so the light looks like it leaves it. */
-  inset: -70%;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  filter: blur(14px);
+  display: none;
 }
 
 .dc-live {
