@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import { THEMES } from "@/data/themes";
-import { AboutGallery } from "@/components/sections/AboutGallery";
+import { FisheyeInfiniteGrid } from "@/components/ui/fisheye-infinite-grid";
 
 const SOCIAL_LINKS = [
   { label: "LINKEDIN", href: "https://www.linkedin.com/in/harshitgujar" },
@@ -117,9 +117,8 @@ export default function AboutPage() {
 
         {/* 3. Education Section */}
         <section className="space-y-8">
-          <h2 className="text-lg sm:text-xl font-mono tracking-tight text-white flex items-center gap-2">
-            <span>[ EDUCATION ]</span>
-            <span className="text-sm opacity-60">↘</span>
+          <h2 className="text-lg sm:text-xl font-mono tracking-tight text-white">
+            [ EDUCATION ]
           </h2>
 
           <div className="space-y-6 max-w-2xl">
@@ -145,9 +144,8 @@ export default function AboutPage() {
 
         {/* 4. Experience Section (2-Column Grid matching screenshot) */}
         <section className="space-y-8">
-          <h2 className="text-lg sm:text-xl font-mono tracking-tight text-white flex items-center gap-2">
-            <span>[ EXPERIENCE ]</span>
-            <span className="text-sm opacity-60">↘</span>
+          <h2 className="text-lg sm:text-xl font-mono tracking-tight text-white">
+            [ EXPERIENCE ]
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
@@ -199,8 +197,37 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 5. Extra Creative Work Gallery Showcase */}
-        <AboutGallery accentColor={currentTheme.previewColor} />
+        {/* 5. Extra Creative Work Gallery Showcase with WebGL Fisheye Infinite Grid */}
+        <section className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-4 border-b border-white/10">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/50 block mb-1">
+                Visual Archive &amp; Explorations
+              </span>
+              <h2 className="text-lg sm:text-xl font-mono tracking-tight text-white">
+                [ GALLERY ]
+              </h2>
+            </div>
+            <p className="font-mono text-[11px] uppercase tracking-wider text-white/40">
+              Drag in any direction or scroll to explore
+            </p>
+          </div>
+
+          {/* Interactive WebGL Fisheye Infinite Canvas */}
+          <div className="relative h-[480px] sm:h-[580px] md:h-[640px] w-full rounded-2xl overflow-hidden border border-white/15 bg-[#070707] shadow-2xl">
+            <FisheyeInfiniteGrid
+              tileWidth={260}
+              tileHeight={300}
+              gap={16}
+              lensStrength={0.28}
+              theme="dark"
+              hoverNudge={18}
+              inertia={0.94}
+              wheelSensitivity={0.45}
+              className="h-full w-full"
+            />
+          </div>
+        </section>
 
         {/* 6. Contact & Direct Connection */}
         <section className="space-y-6 pt-12 border-t border-white/10">
@@ -209,9 +236,8 @@ export default function AboutPage() {
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/50 block mb-1">
                 Let&apos;s Build Something Memorable
               </span>
-              <h2 className="text-xl sm:text-2xl font-mono tracking-tight text-white flex items-center gap-2">
-                <span>[ CONTACT ]</span>
-                <span className="text-sm opacity-60">↘</span>
+              <h2 className="text-xl sm:text-2xl font-mono tracking-tight text-white">
+                [ CONTACT ]
               </h2>
             </div>
 
@@ -226,7 +252,6 @@ export default function AboutPage() {
                 }}
               >
                 <span>Send Email</span>
-                <span>→</span>
               </a>
 
               <button
