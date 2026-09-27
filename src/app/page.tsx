@@ -186,22 +186,22 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Center Dynamic Label & Subtitle */}
+      {/* Center Dynamic Label */}
       <div className="chrome chrome--caption">
-        <span className="caption__rule self-start mt-3.5" />
-        <div className="flex flex-col">
-          <span className="caption__label" key={label}>
-            {label}
-          </span>
-          <span className="caption__subtitle mt-0.5">
-            Things I am interested in
-          </span>
-        </div>
+        <span className="caption__rule" />
+        <span className="caption__label" key={label}>
+          {label}
+        </span>
       </div>
 
       {/* Bottom Controls */}
       <footer className="chrome chrome--bottom">
-        <p className="hint">Scroll or drag to run it faster</p>
+        <div className="flex flex-col gap-1">
+          <span className="caption__subtitle text-[var(--ink)] opacity-85 font-medium tracking-[0.16em]">
+            Things I am interested in
+          </span>
+          <p className="hint">Scroll or drag to run it faster</p>
+        </div>
         <div className="controls relative">
           {/* Theme Palette Switcher */}
           <div className="relative">
