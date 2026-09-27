@@ -1,11 +1,28 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Alienation";
+  src: url("/fonts/alienation.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Alienation Outline";
+  src: url("/fonts/alienation-outline.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --ground: #2c180f;
   --ink: #f2e7de;
   --ink-dim: rgba(242, 231, 222, 0.55);
   --accent: #f04e23;
   --display: var(--font-instrument-serif, "Instrument Serif", Georgia, serif);
+  --font-alienation: "Alienation", system-ui, sans-serif;
 }
 
 html {
@@ -264,5 +281,7 @@ body {
 }
 
 .liquid-text {
-  font-size: clamp(3.2rem, 9.5vw, 8.5rem);
+  font-family: var(--font-alienation), "Alienation", system-ui, sans-serif;
+  font-size: clamp(1.8rem, 4.8vw, 4.2rem);
+  letter-spacing: 0.02em;
 }

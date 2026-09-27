@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter, Syne } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -18,6 +19,23 @@ const syne = Syne({
   subsets: ["latin"],
   weight: ["700", "800"],
   variable: "--font-syne",
+});
+
+const alienation = localFont({
+  src: [
+    {
+      path: "../../public/fonts/alienation.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/alienation-outline.ttf",
+      weight: "400",
+      style: "italic",
+    },
+  ],
+  variable: "--font-alienation",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -44,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${inter.variable} ${syne.variable} dark antialiased`}
+      className={`${instrumentSerif.variable} ${inter.variable} ${syne.variable} ${alienation.variable} dark antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
