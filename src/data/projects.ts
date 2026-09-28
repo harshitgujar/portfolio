@@ -7,17 +7,27 @@ export interface CaseStudyMetric {
 export interface CaseStudyFeature {
   title: string;
   description: string;
+  tag?: string;
+  image?: string;
+}
+
+export interface CaseStudyDesignSystem {
+  tokens: string[];
+  description: string;
 }
 
 export interface CaseStudyData {
   headline: string;
   role: string;
   timeline: string;
+  platform?: string;
+  status?: string;
   metrics: CaseStudyMetric[];
   challenge: string;
   solution: string;
   architecture: string[];
   features: CaseStudyFeature[];
+  designSystem?: CaseStudyDesignSystem;
   results: string;
 }
 
@@ -30,8 +40,9 @@ export interface ProjectItem {
   src: string;
   aspect?: number;
   link?: string;
+  figma?: string;
   github?: string;
-  caseStudy: CaseStudyData;
+  caseStudy?: any;
 }
 
 const photo = (id: string) =>
@@ -39,52 +50,66 @@ const photo = (id: string) =>
 
 export const PROJECTS: ProjectItem[] = [
   {
-    id: "aether-3d",
-    title: "Aether 3D Engine",
-    category: "WebGL / Three.js / Creative Tech",
+    id: "nexus-ai",
+    title: "Nexus AI Studio",
+    category: "0→1 Product Design & Design Engineering",
     description:
-      "High-performance browser graphics engine featuring volumetric light diffusion, liquid glass refraction, and spring-driven kinematics.",
-    tags: ["WebGL", "Three.js", "GLSL", "TypeScript", "GSAP"],
-    src: photo("1618005182384-a83a8bd57fbe"),
+      "A spatial multimodal canvas and design system engineered for real-time generative UI reasoning, fluid 120fps gesture navigation, and agentic workflows.",
+    tags: ["0→1 Product", "Figma System", "Next.js", "Design Engineering", "WebGL"],
+    src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=1600&q=85&auto=format&fit=crop",
     aspect: 3 / 4,
     link: "https://github.com/harshitgujar",
+    figma: "https://www.figma.com/@harshitgujar",
     github: "https://github.com/harshitgujar",
     caseStudy: {
       headline:
-        "Building a 60fps WebGL refraction pipeline with real-time chromatic dispersion and tactile glass physics in modern web browsers.",
-      role: "Graphics Engineer & Creative Technologist",
-      timeline: "3 Months • 2025",
+        "Designing an infinite spatial canvas that shifts generative AI from linear chatboxes into tactile, direct-manipulation workspaces.",
+      role: "Lead Product Designer & Design Engineer",
+      timeline: "8 Weeks • 2026",
+      platform: "Web & Desktop (Next.js / WebGL / Rust)",
+      status: "Production Ready",
       metrics: [
-        { label: "Frame Rate", value: "60 FPS", detail: "Constant cadence on mid-tier mobile & desktop devices" },
-        { label: "GPU Draw Calls", value: "2 Calls", detail: "Multi-pass ping-pong rendering consolidated into two shader passes" },
-        { label: "Shader Overhead", value: "< 1.2ms", detail: "Optimized sample loops maintaining low thermals and battery usage" },
+        { label: "Design to Code", value: "100%", detail: "Figma tokens compiled directly into runtime CSS custom properties" },
+        { label: "Canvas Cadence", value: "120 FPS", detail: "Hardware-accelerated pan, pinch-zoom, and spatial card clusters" },
+        { label: "Iteration Speed", value: "3.4x", detail: "Faster workflow acceleration over traditional sequential prompt dialogs" },
+        { label: "System Components", value: "48+", detail: "Modular atomic variants with token-driven dynamic theme switching" },
       ],
       challenge:
-        "Standard CSS backdrop-filter lacks directional refraction, chromatic aberration, and tactile lens distortion. Replicating thick optical glass in real-time WebGL typically requires prohibitive ray-tracing passes that crash mobile GPUs.",
+        "Conventional generative AI interfaces are trapped in 2011-era linear text messaging bubbles. When users collaborate with multimodal models to build complex software, layouts, or visual assets, linear scrolling causes acute context fragmentation, loss of spatial relationship, and frustrating prompt loops.",
       solution:
-        "Engineered a two-pass offscreen render target pipeline. Pass one captures rendered DOM scene layers into an FBO; pass two processes a custom fragment shader calculating radial UV perturbation, 16-sample spectral dispersion, and dynamic rim shimmer.",
+        "Conceived and engineered an infinite spatial canvas where AI generations, user prompts, and code previews exist as interconnected physical cards. Built with direct-manipulation gesture physics, live Figma token binding, and an inline multimodal context pill that allows fluid contextual prompt chaining.",
+      designSystem: {
+        tokens: ["Figma Variables 2.0", "Fluid Typography Scale", "Dynamic HSL Semantic Colors", "Kinetic Spring Motion"],
+        description: "Built a ground-up design system in Figma featuring 48 interactive components, tokenized multi-theme modes, and auto-layout 5.0 matrices that compile directly into production Tailwind and CSS variables."
+      },
       architecture: [
-        "Off-screen ping-pong WebGLRenderTarget buffer capturing viewport states at fractional pixel ratios.",
-        "Custom GLSL fragment shader utilizing elliptical Snell's law approximations for real-time caustic highlights.",
-        "Spring-damped kinematic inertial scrolling coupled to GSAP ticker for physics-based deceleration.",
-        "Adaptive resolution throttling that automatically downsamples buffer passes during rapid scroll velocities.",
+        "Figma Variables & Token Engine: Bi-directional synchronization between design files and CSS runtime variables.",
+        "Infinite Spatial Viewport: Virtualized WebGL node canvas supporting 1,000+ simultaneous generation cards without GPU stall.",
+        "Kinetic Physics Pipeline: Spring-damped inertia curves mimicking mechanical mass and friction during pan and drag.",
+        "Agentic Context Graph: Directed acyclic graph (DAG) maintaining provenance and prompt dependency trees across generations.",
       ],
       features: [
         {
-          title: "Chromatic Dispersion & Caustic Shimmer",
-          description: "16-sample wavelength split that mimics physical light separation as it travels through curved crystalline glass.",
+          title: "Spatial Multimodal Context Pill",
+          tag: "Interaction Design",
+          description: "A floating contextual controller that docks to active canvas selections, enabling multi-selection prompt synthesis and instant visual diffing.",
+          image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1000&q=80",
         },
         {
-          title: "Kinematic Inertial Physics",
-          description: "Second-order differential equations power frictionless drag, smooth snap-to-center physics, and tactile velocity release.",
+          title: "Direct-Manipulation Canvas Physics",
+          tag: "Design Engineering",
+          description: "Spring-damped physics algorithms with natural velocity transfer, magnetic snapping, and spatial cluster grouping on high-density displays.",
+          image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&q=80",
         },
         {
-          title: "Dynamic WebGL Uniform Morphing",
-          description: "Hot-swappable color uniforms allow the lens glow and chromatic rim to synchronize instantly with site-wide theme palettes.",
+          title: "Live Token-Driven Micro-Interactions",
+          tag: "Design System",
+          description: "Tactile haptic ticks, acoustic audio cues, and seamless dark/light/accent theme transitions operating at zero layout shift.",
+          image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1000&q=80",
         },
       ],
       results:
-        "Achieved fluid 60fps rendering across all modern web browsers while maintaining low memory consumption and instant responsive touch interactions.",
+        "Successfully validated with 40+ product designers and AI engineers in a closed beta. Measured a 3.4x acceleration in end-to-end concept iteration speed, reduced context switching by 70%, and established a reusable 0→1 design engineering methodology from Figma prototype to deployed production code.",
     },
   },
   {

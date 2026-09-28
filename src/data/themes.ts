@@ -6,6 +6,9 @@ export interface ThemeConfig {
   previewColor: string;
   groundColor: string;
   vars: React.CSSProperties;
+  lightGroundColor: string;
+  lightPreviewColor: string;
+  lightVars: React.CSSProperties;
 }
 
 export const THEMES: ThemeConfig[] = [
@@ -23,6 +26,17 @@ export const THEMES: ThemeConfig[] = [
       "--ink": "#f2e7de",
       "--ink-dim": "rgba(242, 231, 222, 0.6)",
     } as React.CSSProperties,
+    lightGroundColor: "#fbf7f4",
+    lightPreviewColor: "#d73e15",
+    lightVars: {
+      "--ground": "#fbf7f4",
+      "--ambient-start": "#faede7",
+      "--ambient-end": "#f5e5dd",
+      "--accent": "#d73e15",
+      "--vignette": "rgba(180, 80, 40, 0.08)",
+      "--ink": "#1c120c",
+      "--ink-dim": "rgba(28, 18, 12, 0.65)",
+    } as React.CSSProperties,
   },
   {
     id: "sunset-amber",
@@ -37,6 +51,17 @@ export const THEMES: ThemeConfig[] = [
       "--vignette": "rgba(16, 9, 3, 0.65)",
       "--ink": "#fef3c7",
       "--ink-dim": "rgba(254, 243, 199, 0.6)",
+    } as React.CSSProperties,
+    lightGroundColor: "#fcf9f2",
+    lightPreviewColor: "#b45309",
+    lightVars: {
+      "--ground": "#fcf9f2",
+      "--ambient-start": "#fef3c7",
+      "--ambient-end": "#faebd7",
+      "--accent": "#b45309",
+      "--vignette": "rgba(180, 110, 20, 0.08)",
+      "--ink": "#191207",
+      "--ink-dim": "rgba(25, 18, 7, 0.65)",
     } as React.CSSProperties,
   },
   {
@@ -53,6 +78,17 @@ export const THEMES: ThemeConfig[] = [
       "--ink": "#f0f9ff",
       "--ink-dim": "rgba(240, 249, 255, 0.6)",
     } as React.CSSProperties,
+    lightGroundColor: "#f2f8fa",
+    lightPreviewColor: "#0284c7",
+    lightVars: {
+      "--ground": "#f2f8fa",
+      "--ambient-start": "#e0f2fe",
+      "--ambient-end": "#e3eff5",
+      "--accent": "#0284c7",
+      "--vignette": "rgba(2, 132, 199, 0.08)",
+      "--ink": "#071520",
+      "--ink-dim": "rgba(7, 21, 32, 0.65)",
+    } as React.CSSProperties,
   },
   {
     id: "solar-cobalt",
@@ -67,6 +103,17 @@ export const THEMES: ThemeConfig[] = [
       "--vignette": "rgba(5, 9, 18, 0.65)",
       "--ink": "#f0f8ff",
       "--ink-dim": "rgba(240, 248, 255, 0.6)",
+    } as React.CSSProperties,
+    lightGroundColor: "#f1f5f9",
+    lightPreviewColor: "#0369a1",
+    lightVars: {
+      "--ground": "#f1f5f9",
+      "--ambient-start": "#e0f2fe",
+      "--ambient-end": "#e2e8f0",
+      "--accent": "#0369a1",
+      "--vignette": "rgba(3, 105, 161, 0.08)",
+      "--ink": "#0b1320",
+      "--ink-dim": "rgba(11, 19, 32, 0.65)",
     } as React.CSSProperties,
   },
   {
@@ -83,6 +130,17 @@ export const THEMES: ThemeConfig[] = [
       "--ink": "#ede9fe",
       "--ink-dim": "rgba(237, 233, 254, 0.6)",
     } as React.CSSProperties,
+    lightGroundColor: "#f7f4fc",
+    lightPreviewColor: "#6d28d9",
+    lightVars: {
+      "--ground": "#f7f4fc",
+      "--ambient-start": "#ede9fe",
+      "--ambient-end": "#e9e4f5",
+      "--accent": "#6d28d9",
+      "--vignette": "rgba(109, 40, 217, 0.08)",
+      "--ink": "#130b24",
+      "--ink-dim": "rgba(19, 11, 36, 0.65)",
+    } as React.CSSProperties,
   },
   {
     id: "nocturne-magenta",
@@ -97,6 +155,17 @@ export const THEMES: ThemeConfig[] = [
       "--vignette": "rgba(11, 5, 15, 0.65)",
       "--ink": "#fae8ff",
       "--ink-dim": "rgba(250, 232, 255, 0.6)",
+    } as React.CSSProperties,
+    lightGroundColor: "#faf4fb",
+    lightPreviewColor: "#a21caf",
+    lightVars: {
+      "--ground": "#faf4fb",
+      "--ambient-start": "#fae8ff",
+      "--ambient-end": "#f5e3f7",
+      "--accent": "#a21caf",
+      "--vignette": "rgba(162, 28, 175, 0.08)",
+      "--ink": "#1a0a22",
+      "--ink-dim": "rgba(26, 10, 34, 0.65)",
     } as React.CSSProperties,
   },
   {
@@ -113,6 +182,17 @@ export const THEMES: ThemeConfig[] = [
       "--ink": "#ffe4e6",
       "--ink-dim": "rgba(255, 228, 230, 0.6)",
     } as React.CSSProperties,
+    lightGroundColor: "#fdf4f5",
+    lightPreviewColor: "#be123c",
+    lightVars: {
+      "--ground": "#fdf4f5",
+      "--ambient-start": "#ffe4e6",
+      "--ambient-end": "#fce7ea",
+      "--accent": "#be123c",
+      "--vignette": "rgba(190, 18, 60, 0.08)",
+      "--ink": "#200810",
+      "--ink-dim": "rgba(32, 8, 16, 0.65)",
+    } as React.CSSProperties,
   },
   {
     id: "crimson-eclipse",
@@ -127,6 +207,17 @@ export const THEMES: ThemeConfig[] = [
       "--vignette": "rgba(12, 4, 4, 0.7)",
       "--ink": "#fee2e2",
       "--ink-dim": "rgba(254, 226, 226, 0.6)",
+    } as React.CSSProperties,
+    lightGroundColor: "#fdf4f4",
+    lightPreviewColor: "#b91c1c",
+    lightVars: {
+      "--ground": "#fdf4f4",
+      "--ambient-start": "#fee2e2",
+      "--ambient-end": "#fce5e5",
+      "--accent": "#b91c1c",
+      "--vignette": "rgba(185, 28, 28, 0.08)",
+      "--ink": "#220909",
+      "--ink-dim": "rgba(34, 9, 9, 0.65)",
     } as React.CSSProperties,
   },
   {
@@ -143,6 +234,17 @@ export const THEMES: ThemeConfig[] = [
       "--ink": "#f2fbf4",
       "--ink-dim": "rgba(242, 251, 244, 0.6)",
     } as React.CSSProperties,
+    lightGroundColor: "#f6faf4",
+    lightPreviewColor: "#4d7c0f",
+    lightVars: {
+      "--ground": "#f6faf4",
+      "--ambient-start": "#ecfccb",
+      "--ambient-end": "#ebf5e7",
+      "--accent": "#4d7c0f",
+      "--vignette": "rgba(77, 124, 15, 0.08)",
+      "--ink": "#0d170f",
+      "--ink-dim": "rgba(13, 23, 15, 0.65)",
+    } as React.CSSProperties,
   },
   {
     id: "acid-emerald",
@@ -157,6 +259,17 @@ export const THEMES: ThemeConfig[] = [
       "--vignette": "rgba(3, 12, 8, 0.65)",
       "--ink": "#ecfdf5",
       "--ink-dim": "rgba(236, 253, 245, 0.6)",
+    } as React.CSSProperties,
+    lightGroundColor: "#f3fbf6",
+    lightPreviewColor: "#047857",
+    lightVars: {
+      "--ground": "#f3fbf6",
+      "--ambient-start": "#d1fae5",
+      "--ambient-end": "#e5f7ed",
+      "--accent": "#047857",
+      "--vignette": "rgba(4, 120, 87, 0.08)",
+      "--ink": "#061a12",
+      "--ink-dim": "rgba(6, 26, 18, 0.65)",
     } as React.CSSProperties,
   },
   {
@@ -173,6 +286,17 @@ export const THEMES: ThemeConfig[] = [
       "--ink": "#f4f4f5",
       "--ink-dim": "rgba(244, 244, 245, 0.55)",
     } as React.CSSProperties,
+    lightGroundColor: "#fafafa",
+    lightPreviewColor: "#18181b",
+    lightVars: {
+      "--ground": "#fafafa",
+      "--ambient-start": "#f4f4f5",
+      "--ambient-end": "#e4e4e7",
+      "--accent": "#18181b",
+      "--vignette": "rgba(0, 0, 0, 0.06)",
+      "--ink": "#09090b",
+      "--ink-dim": "rgba(9, 9, 11, 0.65)",
+    } as React.CSSProperties,
   },
   {
     id: "glacier-titanium",
@@ -188,5 +312,17 @@ export const THEMES: ThemeConfig[] = [
       "--ink": "#f8fafc",
       "--ink-dim": "rgba(248, 250, 252, 0.6)",
     } as React.CSSProperties,
+    lightGroundColor: "#f4f6f8",
+    lightPreviewColor: "#334155",
+    lightVars: {
+      "--ground": "#f4f6f8",
+      "--ambient-start": "#e2e8f0",
+      "--ambient-end": "#cbd5e1",
+      "--accent": "#334155",
+      "--vignette": "rgba(51, 65, 85, 0.08)",
+      "--ink": "#0f172a",
+      "--ink-dim": "rgba(15, 23, 42, 0.65)",
+    } as React.CSSProperties,
   },
 ];
+

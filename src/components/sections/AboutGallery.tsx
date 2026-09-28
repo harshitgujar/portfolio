@@ -46,7 +46,7 @@ export function AboutGallery({ accentColor = "var(--accent)" }: AboutGalleryProp
             Visual Exploration & Laboratory
           </span>
           <h2 className="text-xl sm:text-2xl font-mono tracking-tight text-white flex items-center gap-2">
-            <span>[ GALLERY ]</span>
+            <span>[ EXTRAS ]</span>
             <span className="text-sm opacity-60">↘</span>
           </h2>
         </div>

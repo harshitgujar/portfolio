@@ -34,6 +34,9 @@ export interface LiquidGlassCarouselProps {
   tintColor?: string;
   /** Play the rise-and-grow intro. Ignored when the user prefers reduced motion. */
   entry?: boolean;
+  autoScroll?: boolean;
+  autoScrollSpeed?: number;
+  pauseOnHover?: boolean;
   className?: string;
   style?: CSSProperties;
   onActiveChange?: (index: number) => void;
@@ -337,6 +340,8 @@ export type LiquidGlassCarouselHandle = {
   destroy: () => void;
   setTintColor?: (color: string) => void;
   setBackground?: (background: string) => void;
+  setAutoScroll?: (enabled: boolean) => void;
+  isAutoScrollEnabled?: () => boolean;
 };
 
 function prefersReducedMotion() {
@@ -369,6 +374,9 @@ function createCarousel(
     background: string;
     tintColor?: string;
     entry: boolean;
+    autoScroll?: boolean;
+    autoScrollSpeed?: number;
+    pauseOnHover?: boolean;
     onActiveChange: (index: number) => void;
     onFocusChange: (open: boolean) => void;
     onEntryDone: (done: boolean) => void;
@@ -397,6 +405,13 @@ function createCarousel(
   const SHRINK_MAX = 60;
   const SHRINK_ATTACK = 0.25;
   const SHRINK_DECAY = 0.06;
+
+  // Autoscroll & Drag Animation Engine
+  let autoScrollEnabled = options.autoScroll ?? (!reduced);
+  const AUTO_SPEED = options.autoScrollSpeed ?? 0.85;
+  const RESUME_IDLE_MS = 650;
+  let autoSpeedFactor = 0;
+  let lastFrameTime = performance.now();
 
   let renderer: THREE.WebGLRenderer;
   try {
@@ -813,7 +828,6 @@ function createCarousel(
   function updateCursor() {
     if (focusState.active || entryActive || entrySettled) return setCursor("");
     if (dragging) return setCursor("grabbing");
-    if (!hoverPanel) return setCursor("");
     return setCursor("grab");
   }
 
@@ -860,6 +874,7 @@ function createCarousel(
     if (inputLocked()) return;
     userInteracted = true;
     pendingFocus = null;
+    autoSpeedFactor = 0;
     target += (e.deltaY || e.deltaX) * WHEEL;
     lastInput = performance.now();
     snapped = false;
@@ -871,6 +886,8 @@ function createCarousel(
     if (dragging) return;
     if (e.button !== 0 && e.pointerType === "mouse") return;
     dragging = true;
+    autoSpeedFactor = 0;
+    target = scroll;
     dragPointerId = e.pointerId;
     dragPointerType = e.pointerType || "mouse";
     try {
@@ -891,11 +908,13 @@ function createCarousel(
     userInteracted = true;
     snapped = false;
     lastInput = dragMoveT;
+    updateCursor();
   }
 
   function onPointerMove(e: PointerEvent) {
     const p = localPoint(e);
     if (dragging && e.pointerId === dragPointerId) {
+      autoSpeedFactor = 0;
       const sens = dragPointerType === "mouse" ? DRAG : TOUCH_DRAG;
       const dx = p.x - dragLastX;
       dragLastX = p.x;
@@ -1197,6 +1216,7 @@ function createCarousel(
     userInteracted = true;
     velocity = 0;
     pendingFocus = null;
+    autoSpeedFactor = 0;
     target = centerForIndex(nearestIndex(scroll) + direction);
     snapped = true;
     lastInput = performance.now();
@@ -1221,22 +1241,52 @@ function createCarousel(
       raf = 0;
       return;
     }
+
+    const now = performance.now();
+    const dt = Math.min(50, Math.max(1, now - lastFrameTime));
+    lastFrameTime = now;
+    const dtFactor = dt / 16.67;
+
+    const inIntro = entryActive || entrySettled;
+    const canAutoScroll =
+      autoScrollEnabled &&
+      !focusState.active &&
+      !inIntro &&
+      !dragging &&
+      Math.abs(velocity) < 0.1 &&
+      now - lastInput > RESUME_IDLE_MS;
+
+    if (canAutoScroll) {
+      autoSpeedFactor = Math.min(1, autoSpeedFactor + dt / 450);
+      const autoDelta = AUTO_SPEED * autoSpeedFactor * dtFactor;
+      target += autoDelta;
+      snapped = false;
+    } else {
+      autoSpeedFactor = Math.max(0, autoSpeedFactor - dt / 150);
+    }
+
     if (!dragging) {
       target += velocity;
       velocity *= FRICTION;
       if (Math.abs(velocity) < 0.05) velocity = 0;
+
+      // Only snap if autoscroll is explicitly disabled by user and idle
       if (
+        !autoScrollEnabled &&
         !snapped &&
         !focusState.active &&
-        performance.now() - lastInput > SNAP_IDLE_MS
+        !inIntro &&
+        Math.abs(velocity) === 0 &&
+        now - lastInput > SNAP_IDLE_MS
       ) {
         target = centerForIndex(nearestIndex(scroll));
         snapped = true;
       }
     }
+
     const follow =
-      dragging && dragPointerType !== "mouse"
-        ? TOUCH_EASE
+      dragging
+        ? (dragPointerType === "mouse" ? 0.26 : TOUCH_EASE)
         : snapped && !pendingFocus
           ? SNAP_EASE
           : EASE;
@@ -1405,6 +1455,21 @@ function createCarousel(
     }
   }
 
+  function setAutoScroll(enabled: boolean) {
+    autoScrollEnabled = enabled;
+    if (!enabled) {
+      autoSpeedFactor = 0;
+      target = centerForIndex(nearestIndex(scroll));
+      snapped = true;
+    } else {
+      lastInput = 0;
+    }
+  }
+
+  function isAutoScrollEnabled() {
+    return autoScrollEnabled;
+  }
+
   return {
     closeFocus,
     next: () => step(1),
@@ -1412,6 +1477,8 @@ function createCarousel(
     destroy,
     setTintColor,
     setBackground,
+    setAutoScroll,
+    isAutoScrollEnabled,
   };
 }
 
@@ -1427,6 +1494,9 @@ export function LiquidGlassCarousel({
   background = "#ffffff",
   tintColor = "#009dff",
   entry = true,
+  autoScroll = true,
+  autoScrollSpeed = 0.85,
+  pauseOnHover = true,
   className,
   style,
   onActiveChange,
@@ -1449,8 +1519,10 @@ export function LiquidGlassCarousel({
       destroy: () => engineRef.current?.destroy(),
       setTintColor: (c: string) => engineRef.current?.setTintColor?.(c),
       setBackground: (b: string) => engineRef.current?.setBackground?.(b),
+      setAutoScroll: (enabled: boolean) => engineRef.current?.setAutoScroll?.(enabled),
+      isAutoScrollEnabled: () => engineRef.current?.isAutoScrollEnabled?.() ?? autoScroll,
     }),
-    []
+    [autoScroll]
   );
   const titleRef = useRef<HTMLParagraphElement>(null);
   const counterRef = useRef<HTMLParagraphElement>(null);
@@ -1483,6 +1555,9 @@ export function LiquidGlassCarousel({
       background,
       tintColor,
       entry,
+      autoScroll,
+      autoScrollSpeed,
+      pauseOnHover,
       onActiveChange: (index) => {
         setActive(index);
         onActiveChangeRef.current?.(index);
@@ -1510,6 +1585,12 @@ export function LiquidGlassCarousel({
       engineRef.current = null;
     };
   }, [items, panelHeight, gap, entry]);
+
+  useEffect(() => {
+    if (engineRef.current?.setAutoScroll && typeof autoScroll === "boolean") {
+      engineRef.current.setAutoScroll(autoScroll);
+    }
+  }, [autoScroll]);
 
   useEffect(() => {
     if (engineRef.current?.setTintColor && tintColor) {
@@ -1625,13 +1706,13 @@ export function LiquidGlassCarousel({
 
       <p
         ref={titleRef}
-        className="pointer-events-none absolute left-1/2 top-[4.5%] z-10 m-0 text-center text-[15px] font-medium tracking-[-0.02em] text-white opacity-0 sm:text-[17px] drop-shadow-md"
+        className="pointer-events-none absolute left-1/2 top-[4.5%] z-10 m-0 text-center font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl font-normal tracking-tight text-[var(--ink,#ffffff)] opacity-0 drop-shadow-sm transition-colors duration-300"
       >
         {current?.title}
       </p>
       <p
         ref={counterRef}
-        className="pointer-events-none absolute bottom-[6%] left-1/2 z-10 m-0 text-center text-[13px] font-medium tabular-nums tracking-[-0.02em] text-white/80 opacity-0 sm:text-[15px]"
+        className="pointer-events-none absolute bottom-[6%] left-1/2 z-10 m-0 text-center font-mono text-xs sm:text-sm font-medium tabular-nums tracking-widest text-[var(--ink-dim,rgba(255,255,255,0.8))] opacity-0 transition-colors duration-300"
       >
         {pad(active + 1)}/{pad(items.length)}
       </p>

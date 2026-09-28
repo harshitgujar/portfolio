@@ -44,6 +44,12 @@ export interface FisheyeInfiniteGridProps extends Omit<
   wheelSensitivity?: number;
   /** Additional classes applied to the root container. */
   className?: string;
+  /** Accent color used for the chromatic lens ring and ambient glow. */
+  accentColor?: string;
+  /** External vertical offset applied to the grid from scroll drag. */
+  externalOffsetY?: number;
+  /** Whether mouse-wheel / trackpad scroll moves the grid (useful on full-screen standalone pages). */
+  enableWheel?: boolean;
 }
 
 export const FISHEYE_GRID_ITEMS: FisheyeGridItem[] = [
@@ -229,6 +235,24 @@ function drawCoverImage(
   );
 }
 
+function hexToRgb(hex?: string): [number, number, number] {
+  if (!hex) return [0.94, 0.31, 0.14];
+  const clean = hex.replace("#", "");
+  if (clean.length === 3) {
+    const r = parseInt(clean[0] + clean[0], 16) / 255;
+    const g = parseInt(clean[1] + clean[1], 16) / 255;
+    const b = parseInt(clean[2] + clean[2], 16) / 255;
+    return [r, g, b];
+  }
+  if (clean.length === 6) {
+    const r = parseInt(clean.slice(0, 2), 16) / 255;
+    const g = parseInt(clean.slice(2, 4), 16) / 255;
+    const b = parseInt(clean.slice(4, 6), 16) / 255;
+    return [r, g, b];
+  }
+  return [0.94, 0.31, 0.14];
+}
+
 export function FisheyeInfiniteGrid({
   items = FISHEYE_GRID_ITEMS,
   tileWidth = 238,
@@ -241,6 +265,9 @@ export function FisheyeInfiniteGrid({
   wheelSensitivity = 0.42,
   className,
   style,
+  accentColor = "#f04e23",
+  externalOffsetY = 0,
+  enableWheel = false,
   "aria-label": ariaLabel = "Infinite draggable image grid",
   ...rest
 }: FisheyeInfiniteGridProps) {
@@ -248,6 +275,11 @@ export function FisheyeInfiniteGrid({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const positionRef = useRef({ x: 0, y: 0 });
   const velocityRef = useRef({ x: 0, y: 0 });
+  const accentColorRef = useRef(accentColor);
+  accentColorRef.current = accentColor;
+  const externalOffsetYRef = useRef(externalOffsetY);
+  externalOffsetYRef.current = externalOffsetY;
+  const requestRenderRef = useRef<() => void>(() => {});
   const dragRef = useRef({
     active: false,
     pointerId: -1,
@@ -493,7 +525,7 @@ export function FisheyeInfiniteGrid({
       gl.uniform2f(
         offsetLocation,
         positionRef.current.x + nudge.x,
-        positionRef.current.y + nudge.y,
+        positionRef.current.y + nudge.y + externalOffsetYRef.current,
       );
       gl.uniform1f(curvatureLocation, clamp(lensStrength, 0, 2.5));
       gl.activeTexture(gl.TEXTURE0);
@@ -537,6 +569,7 @@ export function FisheyeInfiniteGrid({
       previousFrame = performance.now();
       animationFrame = requestAnimationFrame(tick);
     };
+    requestRenderRef.current = requestRender;
 
     const resize = () => {
       const rect = root.getBoundingClientRect();
@@ -695,30 +728,34 @@ export function FisheyeInfiniteGrid({
       requestRender();
     };
 
-    const onWheel = (event: WheelEvent) => {
-      if (dragRef.current.active) return;
-      event.preventDefault();
-      commitNudge(performance.now());
+    let onWheel: ((event: WheelEvent) => void) | null = null;
+    if (enableWheel) {
+      onWheel = (event: WheelEvent) => {
+        if (dragRef.current.active) return;
+        event.preventDefault();
+        commitNudge(performance.now());
 
-      const modeMultiplier =
-        event.deltaMode === WheelEvent.DOM_DELTA_LINE
-          ? 16
-          : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
-            ? Math.max(viewHeight, 1)
-            : 1;
-      const impulse = Math.max(0, wheelSensitivity) * 0.003;
-      velocityRef.current.x = clamp(
-        velocityRef.current.x - event.deltaX * modeMultiplier * impulse,
-        -1.25,
-        1.25,
-      );
-      velocityRef.current.y = clamp(
-        velocityRef.current.y - event.deltaY * modeMultiplier * impulse,
-        -1.25,
-        1.25,
-      );
-      requestRender();
-    };
+        const modeMultiplier =
+          event.deltaMode === WheelEvent.DOM_DELTA_LINE
+            ? 16
+            : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
+              ? Math.max(viewHeight, 1)
+              : 1;
+        const impulse = Math.max(0, wheelSensitivity) * 0.003;
+        velocityRef.current.x = clamp(
+          velocityRef.current.x - event.deltaX * modeMultiplier * impulse,
+          -1.25,
+          1.25,
+        );
+        velocityRef.current.y = clamp(
+          velocityRef.current.y - event.deltaY * modeMultiplier * impulse,
+          -1.25,
+          1.25,
+        );
+        requestRender();
+      };
+      root.addEventListener("wheel", onWheel, { passive: false });
+    }
 
     root.addEventListener("pointerenter", onPointerEnter);
     root.addEventListener("pointerleave", onPointerLeave);
@@ -728,7 +765,6 @@ export function FisheyeInfiniteGrid({
     root.addEventListener("pointercancel", endDrag);
     window.addEventListener("blur", cancelDrag);
     root.addEventListener("keydown", onKeyDown);
-    root.addEventListener("wheel", onWheel, { passive: false });
     requestRender();
 
     return () => {
@@ -736,6 +772,9 @@ export function FisheyeInfiniteGrid({
       cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
       motionQuery.removeEventListener("change", syncMotionPreference);
+      if (onWheel) {
+        root.removeEventListener("wheel", onWheel);
+      }
       root.removeEventListener("pointerenter", onPointerEnter);
       root.removeEventListener("pointerleave", onPointerLeave);
       root.removeEventListener("pointerdown", onPointerDown);
@@ -744,12 +783,12 @@ export function FisheyeInfiniteGrid({
       root.removeEventListener("pointercancel", endDrag);
       window.removeEventListener("blur", cancelDrag);
       root.removeEventListener("keydown", onKeyDown);
-      root.removeEventListener("wheel", onWheel);
       gl.deleteTexture(texture);
       gl.deleteBuffer(positionBuffer);
       gl.deleteProgram(program);
     };
   }, [
+    enableWheel,
     gap,
     hoverNudge,
     inertia,
@@ -760,6 +799,16 @@ export function FisheyeInfiniteGrid({
     tileWidth,
     wheelSensitivity,
   ]);
+
+  useEffect(() => {
+    accentColorRef.current = accentColor;
+    requestRenderRef.current();
+  }, [accentColor]);
+
+  useEffect(() => {
+    externalOffsetYRef.current = externalOffsetY;
+    requestRenderRef.current();
+  }, [externalOffsetY]);
 
   return (
     <div
@@ -773,7 +822,7 @@ export function FisheyeInfiniteGrid({
         "group/fisheye-grid relative isolate h-full w-full cursor-grab touch-none select-none overflow-hidden outline-none [perspective:900px] focus-visible:ring-2 focus-visible:ring-inset data-[dragging=true]:cursor-grabbing",
         resolvedTheme === "light"
           ? "bg-[#f1efe9] text-[#171717] focus-visible:ring-black/50"
-          : "bg-[#070707] text-white focus-visible:ring-white/60",
+          : "bg-[#050507] text-white focus-visible:ring-white/60",
         className,
       )}
       style={
@@ -796,16 +845,14 @@ export function FisheyeInfiniteGrid({
 
       <div
         className={cn(
-          "pointer-events-none absolute inset-0 z-50",
-          resolvedTheme === "light"
-            ? "bg-[radial-gradient(circle_at_center,transparent_48%,rgba(42,35,24,0.13)_100%)]"
-            : "bg-[radial-gradient(circle_at_center,transparent_48%,rgba(0,0,0,0.28)_100%)]",
+          "pointer-events-none absolute inset-x-0 top-0 z-20 h-24 bg-gradient-to-b to-transparent",
+          resolvedTheme === "light" ? "from-[#f1efe9]/50" : "from-black/50",
         )}
       />
       <div
         className={cn(
-          "pointer-events-none absolute inset-x-0 top-0 z-50 h-20 bg-gradient-to-b to-transparent",
-          resolvedTheme === "light" ? "from-[#f1efe9]/50" : "from-black/45",
+          "pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t to-transparent",
+          resolvedTheme === "light" ? "from-[#f1efe9]/50" : "from-black/50",
         )}
       />
     </div>
