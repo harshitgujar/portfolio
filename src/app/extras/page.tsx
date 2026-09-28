@@ -27,6 +27,22 @@ export default function ExtrasPage() {
     setExtrasExperiment,
   } = useTheme();
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const themeMenuRef = useRef<HTMLDivElement | null>(null);
+
+  // Close theme menu when clicking outside
+  useEffect(() => {
+    if (!themeMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        themeMenuRef.current &&
+        !themeMenuRef.current.contains(e.target as Node)
+      ) {
+        setThemeMenuOpen(false);
+      }
+    };
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => window.removeEventListener("mousedown", handleClickOutside);
+  }, [themeMenuOpen]);
 
   // Determine initial progress: 1 if direct subpage/hash, 0 for fresh extras landing
   const initialProgress = (() => {
@@ -206,8 +222,8 @@ export default function ExtrasPage() {
       )}
 
       {/* Bottom Chrome Bar - Fixed and flush to all outer edges */}
-      <motion.footer
-        className={`fixed bottom-0 inset-x-0 z-40 w-full px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 text-xs tracking-normal transition-colors duration-300 ${
+      <footer
+        className={`fixed bottom-0 inset-x-0 z-[70] w-full px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 text-xs tracking-normal transition-colors duration-300 pointer-events-auto ${
           extrasExperiment === "music"
             ? "border-white/10 bg-black/70 text-white"
             : isLight
@@ -220,8 +236,6 @@ export default function ExtrasPage() {
           bottom: 0,
           width: "100%",
           margin: 0,
-          opacity: extrasExperiment ? 1 : footerOpacity,
-          pointerEvents: isHubActive || extrasExperiment ? "auto" : "none",
         }}
       >
         {/* Bottom Left Corner */}
@@ -229,7 +243,7 @@ export default function ExtrasPage() {
           {extrasExperiment !== "music" ? (
             <>
               {/* Theme Palette Switcher */}
-              <div className="relative">
+              <div className="relative" ref={themeMenuRef}>
                 <button
                   type="button"
                   onClick={() => setThemeMenuOpen((v) => !v)}
@@ -337,7 +351,7 @@ export default function ExtrasPage() {
         >
           harshitgujar1604@gmail.com
         </a>
-      </motion.footer>
+      </footer>
     </main>
   );
 }

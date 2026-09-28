@@ -5,9 +5,11 @@ import * as THREE from "three";
 
 interface WorkLensCanvasProps {
   tintColor: string;
+  backgroundColor?: string;
+  isLight?: boolean;
   rotation?: number; // In degrees, e.g. 45
-  sizeX?: number; // Default 0.66 (slightly bigger than work-page 0.565)
-  sizeY?: number; // Default 1.15 (slightly bigger than work-page 1.0)
+  sizeX?: number; // Default 0.46
+  sizeY?: number; // Default 0.82
   glow?: number; // Default 4.5
   className?: string;
 }
@@ -58,14 +60,10 @@ uniform float uVignetteSize;
 uniform float uShape;
 uniform float uSquareRound;
 uniform float uRotation;
+uniform float uIsLight;
 uniform int uSamples;
 
 const int MAX_SAMPLES = 16;
-
-float sdRoundBox(vec2 p, vec2 b, float r){
-  vec2 q = abs(p) - b + r;
-  return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r;
-}
 
 vec3 discLens(vec2 center, float aspectCorrect, out float outA) {
   vec2 p = (vUv - center);
@@ -133,26 +131,44 @@ vec3 discLens(vec2 center, float aspectCorrect, out float outA) {
     col = mix(bcol / btw, col, rimMask);
   }
 
-  col *= mix(0.91, 1.0, smoothstep(0.0, 0.38, shapeND));
-
-  float r2 = shapeND * shapeND * 0.25;
-  float gs = max(uNovaSize * uGlow * 0.003, 0.004);
-  float nova = exp(-r2 / gs) + exp(-r2 / (gs * 7.0)) * 0.18;
-  nova *= uWhiteGlow * (uGlow / 17.0) * 1.15;
-  col += vec3(nova);
-
   float dC = shapeND * 0.5;
   float tR = clamp(uRingRadius, 0.1, 0.49);
   float rW = max(uRingWidth, 0.003);
   float ring = exp(-pow((dC - tR) / rW, 2.0));
-  ring *= uBlueRing * (uGlow / 17.0) * 1.8;
   if (uShimmer > 0.5) ring *= sin(angle * uShimmerFreq + uTime * uShimmerSpeed) * uShimmerDepth + (1.0 - uShimmerDepth);
-  float ringAura = exp(-pow((dC - tR) / (rW * 6.0), 2.0)) * 0.28 * uBlueRing * (uGlow / 17.0);
-  col += uBlueColor * (ring + ringAura);
-  col += vec3(exp(-pow((dC - uRimLinePos) / max(uRimLineWidth, 0.0001), 2.0)) * uRimLine);
+  float ringAura = exp(-pow((dC - tR) / (rW * 5.5), 2.0)) * 0.36;
 
-  outA = smoothstep(1.0, 0.93, maskND);
-  return col;
+  if (uIsLight > 0.5) {
+    // ☀️ Light Mode: Frosted optical glass refraction, pigmented chromatic rim, and clean specular gleam
+    col *= mix(0.965, 1.0, smoothstep(0.0, 0.45, shapeND));
+
+    float accentAlpha = clamp(ring * 0.88 + ringAura * 0.45, 0.0, 1.0);
+    col = mix(col, uBlueColor, accentAlpha);
+
+    // Specular outer highlight
+    float spec = exp(-pow((dC - uRimLinePos) / max(uRimLineWidth * 1.5, 0.0001), 2.0));
+    col = mix(col, vec3(1.0), clamp(spec * 0.9, 0.0, 1.0));
+
+    outA = smoothstep(1.0, 0.94, maskND);
+    return col;
+  } else {
+    // 🌙 Dark Mode: Original fiery additive glow math from work section
+    col *= mix(0.91, 1.0, smoothstep(0.0, 0.38, shapeND));
+
+    float r2 = shapeND * shapeND * 0.25;
+    float gs = max(uNovaSize * uGlow * 0.003, 0.004);
+    float nova = exp(-r2 / gs) + exp(-r2 / (gs * 7.0)) * 0.18;
+    nova *= uWhiteGlow * (uGlow / 17.0) * 1.15;
+    col += vec3(nova);
+
+    ring *= uBlueRing * (uGlow / 17.0) * 1.8;
+    float darkAura = exp(-pow((dC - tR) / (rW * 6.0), 2.0)) * 0.28 * uBlueRing * (uGlow / 17.0);
+    col += uBlueColor * (ring + darkAura);
+    col += vec3(exp(-pow((dC - uRimLinePos) / max(uRimLineWidth, 0.0001), 2.0)) * uRimLine);
+
+    outA = smoothstep(1.0, 0.93, maskND);
+    return col;
+  }
 }
 
 void main(){
@@ -161,7 +177,7 @@ void main(){
   float a = 0.0;
   vec3 c = discLens(uCenter, uAspect, a);
   outc = mix(outc, c, a);
-  if (uVignette > 0.001) {
+  if (uVignette > 0.001 && uIsLight < 0.5) {
     vec2 vc = vUv - 0.5;
     vc.x *= uAspect;
     float d = length(vc) / max(uVignetteSize, 0.0001);
@@ -174,14 +190,20 @@ void main(){
 
 export function WorkLensCanvas({
   tintColor,
+  backgroundColor = "#000000",
+  isLight = false,
   rotation = 45,
-  sizeX = 0.65,
-  sizeY = 1.15,
+  sizeX = 0.46,
+  sizeY = 0.82,
   glow = 4.5,
   className = "",
 }: WorkLensCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const uniformsRef = useRef<Record<string, { value: unknown }> | null>(null);
+  const bgTexRef = useRef<THREE.DataTexture | null>(null);
 
+  // Initialize WebGL Scene
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -194,6 +216,7 @@ export function WorkLensCanvas({
         antialias: true,
         powerPreference: "high-performance",
       });
+      rendererRef.current = renderer;
     } catch (e) {
       console.warn("Failed to create WebGLRenderer for WorkLensCanvas:", e);
       return;
@@ -201,26 +224,34 @@ export function WorkLensCanvas({
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     renderer.setPixelRatio(dpr);
-    renderer.setClearColor(0x000000, 1);
+
+    const initialBg = new THREE.Color(backgroundColor || (isLight ? "#fbf7f4" : "#000000"));
+    renderer.setClearColor(initialBg, 1);
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-    // Empty 1x1 black texture for uTex
-    const blackTex = new THREE.DataTexture(
-      new Uint8Array([0, 0, 0, 255]),
+    // Dynamic 1x1 background texture for uTex matching backgroundColor
+    const bgTex = new THREE.DataTexture(
+      new Uint8Array([
+        Math.round(initialBg.r * 255),
+        Math.round(initialBg.g * 255),
+        Math.round(initialBg.b * 255),
+        255,
+      ]),
       1,
       1,
       THREE.RGBAFormat
     );
-    blackTex.needsUpdate = true;
+    bgTex.needsUpdate = true;
+    bgTexRef.current = bgTex;
 
     const width = canvas.clientWidth || window.innerWidth;
     const height = canvas.clientHeight || window.innerHeight;
     renderer.setSize(width, height, false);
 
     const uniforms = {
-      uTex: { value: blackTex },
+      uTex: { value: bgTex },
       uRes: { value: new THREE.Vector2(width * dpr, height * dpr) },
       uCenter: { value: new THREE.Vector2(0.5, 0.5) },
       uSizeX: { value: sizeX },
@@ -228,6 +259,7 @@ export function WorkLensCanvas({
       uShape: { value: 0 },
       uSquareRound: { value: 0 },
       uRotation: { value: (rotation * Math.PI) / 180 },
+      uIsLight: { value: isLight ? 1.0 : 0.0 },
       uAspect: { value: width / height },
       uZoom: { value: 0 },
       uDispersion: { value: 11.0 },
@@ -256,6 +288,7 @@ export function WorkLensCanvas({
       uVignetteSize: { value: 0.85 },
       uSamples: { value: 16 },
     };
+    uniformsRef.current = uniforms;
 
     const material = new THREE.ShaderMaterial({
       uniforms,
@@ -298,10 +331,32 @@ export function WorkLensCanvas({
       window.removeEventListener("resize", handleResize);
       mesh.geometry.dispose();
       material.dispose();
-      blackTex.dispose();
+      bgTex.dispose();
       renderer?.dispose();
+      rendererRef.current = null;
+      uniformsRef.current = null;
+      bgTexRef.current = null;
     };
-  }, [tintColor, rotation, sizeX, sizeY, glow]);
+  }, [rotation, sizeX, sizeY, glow]);
+
+  // Reactive updates for theme switching without re-initializing WebGL
+  useEffect(() => {
+    if (!rendererRef.current || !uniformsRef.current) return;
+    const col = new THREE.Color(backgroundColor || (isLight ? "#fbf7f4" : "#000000"));
+    rendererRef.current.setClearColor(col, 1);
+
+    (uniformsRef.current.uIsLight as { value: number }).value = isLight ? 1.0 : 0.0;
+    (uniformsRef.current.uBlueColor as { value: THREE.Color }).value.set(tintColor || "#f04e23");
+
+    const tex = bgTexRef.current;
+    if (tex && tex.image && tex.image.data) {
+      tex.image.data[0] = Math.round(col.r * 255);
+      tex.image.data[1] = Math.round(col.g * 255);
+      tex.image.data[2] = Math.round(col.b * 255);
+      tex.image.data[3] = 255;
+      tex.needsUpdate = true;
+    }
+  }, [backgroundColor, isLight, tintColor]);
 
   return (
     <canvas

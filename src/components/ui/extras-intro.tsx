@@ -22,7 +22,7 @@ export function ExtrasIntro({
   smoothProgress,
   isHubActive = false,
 }: ExtrasIntroProps) {
-  const { currentTheme } = useTheme();
+  const { currentTheme, isLight } = useTheme();
   const [isIntroHidden, setIsIntroHidden] = useState(false);
 
   const fallbackProgress = useMotionValue(0);
@@ -132,8 +132,14 @@ export function ExtrasIntro({
 
   const isMonochrome = currentTheme.id === "monochrome";
   const accentColor = isMonochrome
-    ? "#ffffff"
-    : currentTheme.previewColor;
+    ? isLight
+      ? "#18181b"
+      : "#ffffff"
+    : isLight
+      ? currentTheme.lightPreviewColor || currentTheme.previewColor
+      : currentTheme.previewColor;
+
+  const introBgColor = isLight ? currentTheme.groundColor : "#000000";
 
   return (
     <motion.div
@@ -145,24 +151,32 @@ export function ExtrasIntro({
         scale: introScale,
         pointerEvents: isHubActive ? "none" : "auto",
         visibility: isIntroHidden ? "hidden" : "visible",
-        backgroundColor: "#000000",
-        color: "#ffffff",
+        backgroundColor: introBgColor,
+        color: isLight ? "var(--ink)" : "#ffffff",
       }}
-      className="fixed inset-0 z-[60] flex flex-col items-center justify-center px-4 sm:px-8 select-none outline-none overflow-hidden bg-black"
+      className={`fixed inset-0 z-[60] flex flex-col items-center justify-center px-4 sm:px-8 select-none outline-none overflow-hidden transition-colors duration-500 ${
+        isLight ? "" : "bg-black"
+      }`}
     >
-      {/* 1. Real Three.js WebGL Work-Page Lens Canvas (Exact shader math from work section) */}
+      {/* 1. Real Three.js WebGL Work-Page Lens Canvas with dynamic light/dark mode support */}
       <WorkLensCanvas
         tintColor={accentColor}
+        backgroundColor={introBgColor}
+        isLight={isLight}
         rotation={45}
         sizeX={0.46}
         sizeY={0.82}
-        glow={4.6}
+        glow={isLight ? 3.6 : 4.6}
         className="z-0"
       />
 
       {/* Tactile 35mm Analog Film Grain Overlay */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-15 mix-blend-overlay z-[5]"
+        className={`pointer-events-none absolute inset-0 z-[5] transition-opacity duration-500 ${
+          isLight
+            ? "opacity-5 mix-blend-multiply"
+            : "opacity-15 mix-blend-overlay"
+        }`}
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
           backgroundRepeat: "repeat",
@@ -184,7 +198,11 @@ export function ExtrasIntro({
             className="w-2 h-2 rounded-full inline-block animate-pulse shadow-[0_0_8px_currentColor]"
             style={{ backgroundColor: accentColor, color: accentColor }}
           />
-          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-white/60">
+          <span
+            className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 ${
+              isLight ? "text-neutral-500 font-medium" : "text-white/60"
+            }`}
+          >
             IN SUPPORT OF THE DESIGN COMMUNITY &bull; OPEN COMMONS
           </span>
         </motion.div>
@@ -194,7 +212,11 @@ export function ExtrasIntro({
           initial={{ opacity: 0, y: 22, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          className="font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-[34px] lg:text-[38px] font-normal leading-[1.2] sm:leading-[1.16] tracking-tight text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.9)]"
+          className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-[34px] lg:text-[38px] font-normal leading-[1.2] sm:leading-[1.16] tracking-tight transition-colors duration-300 ${
+            isLight
+              ? "text-neutral-900"
+              : "text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.9)]"
+          }`}
         >
           &ldquo;Great craft flourishes when shared. A collective space built for the design community &mdash; to showcase tools, discover rare resources, and build together.&rdquo;
         </motion.h1>
@@ -204,30 +226,40 @@ export function ExtrasIntro({
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}
-          className="font-[family-name:var(--font-space-grotesk)] text-xs sm:text-sm font-medium tracking-normal max-w-md text-neutral-300 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]"
+          className={`font-[family-name:var(--font-space-grotesk)] text-xs sm:text-sm font-medium tracking-normal max-w-md transition-colors duration-300 ${
+            isLight
+              ? "text-neutral-600"
+              : "text-neutral-300 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]"
+          }`}
         >
           Share your software, shaders, and creative tools &bull; or explore what others have made.
         </motion.p>
       </div>
 
-      {/* Persistent Scroll Prompt Indicator at Bottom */}
+      {/* Persistent Scroll Prompt Indicator at Bottom (Positioned cleanly above footer) */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.75 }}
-        className="absolute bottom-6 sm:bottom-8 z-20 flex flex-col items-center gap-1.5 pointer-events-none select-none"
+        className="absolute bottom-20 sm:bottom-24 z-20 flex flex-col items-center gap-1.5 pointer-events-none select-none"
       >
         <div
           className="flex flex-col items-center gap-2 select-none"
           aria-label="Scroll to enter"
         >
-          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-white/50">
+          <span
+            className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 ${
+              isLight ? "text-neutral-500 font-medium" : "text-white/50"
+            }`}
+          >
             Scroll to enter
           </span>
           <motion.span
             animate={{ y: [0, 5, 0] }}
             transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-            className="text-sm leading-none text-white/70"
+            className={`text-sm leading-none transition-colors duration-300 ${
+              isLight ? "text-neutral-700" : "text-white/70"
+            }`}
           >
             &darr;
           </motion.span>
