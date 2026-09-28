@@ -236,12 +236,12 @@ export function ExtrasIntro({
         </motion.p>
       </div>
 
-      {/* Persistent Scroll Prompt Indicator at Bottom (Positioned cleanly above footer) */}
+      {/* Persistent Scroll Prompt Indicator at Bottom */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.75 }}
-        className="absolute bottom-20 sm:bottom-24 z-20 flex flex-col items-center gap-1.5 pointer-events-none select-none"
+        className="absolute bottom-8 sm:bottom-10 z-20 flex flex-col items-center gap-1.5 pointer-events-none select-none"
       >
         <div
           className="flex flex-col items-center gap-2 select-none"

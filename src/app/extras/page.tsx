@@ -119,6 +119,7 @@ export default function ExtrasPage() {
   const hubScale = useTransform(smoothProgress, [0, 1], [0.975, 1]);
 
   const footerOpacity = useTransform(smoothProgress, [0.65, 1], [0, 1]);
+  const footerY = useTransform(smoothProgress, [0.65, 1], [30, 0]);
 
   return (
     <main
@@ -221,9 +222,9 @@ export default function ExtrasPage() {
         </div>
       )}
 
-      {/* Bottom Chrome Bar - Fixed and flush to all outer edges */}
-      <footer
-        className={`fixed bottom-0 inset-x-0 z-[70] w-full px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 text-xs tracking-normal transition-colors duration-300 pointer-events-auto ${
+      {/* Bottom Chrome Bar - Appears progressively when scrolling into cards listing */}
+      <motion.footer
+        className={`fixed bottom-0 inset-x-0 z-[70] w-full px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 text-xs tracking-normal transition-colors duration-300 ${
           extrasExperiment === "music"
             ? "border-white/10 bg-black/70 text-white"
             : isLight
@@ -236,6 +237,9 @@ export default function ExtrasPage() {
           bottom: 0,
           width: "100%",
           margin: 0,
+          opacity: extrasExperiment ? 1 : footerOpacity,
+          y: extrasExperiment ? 0 : footerY,
+          pointerEvents: isHubActive || extrasExperiment ? "auto" : "none",
         }}
       >
         {/* Bottom Left Corner */}
@@ -351,7 +355,7 @@ export default function ExtrasPage() {
         >
           harshitgujar1604@gmail.com
         </a>
-      </footer>
+      </motion.footer>
     </main>
   );
 }
