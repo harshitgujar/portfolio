@@ -32,12 +32,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (savedTheme && THEMES.some((t) => t.id === savedTheme)) {
         setSelectedThemeIdState(savedTheme);
       }
-      const savedMode = localStorage.getItem("portfolio_color_mode") as ColorMode | null;
-      if (savedMode === "light" || savedMode === "dark") {
-        setColorModeState(savedMode);
+
+      // Default to dark theme on initial load / fresh visits.
+      // Only keep mode if user explicitly switched it during their active session.
+      const sessionMode = sessionStorage.getItem("portfolio_color_mode") as ColorMode | null;
+      if (sessionMode === "light" || sessionMode === "dark") {
+        setColorModeState(sessionMode);
+      } else {
+        setColorModeState("dark");
+        // Clear any old stored light mode preference from localStorage
+        try {
+          localStorage.removeItem("portfolio_color_mode");
+        } catch {
+          // Ignore
+        }
       }
     } catch {
-      // Ignore localStorage errors
+      // Ignore storage errors
     }
   }, []);
 
@@ -53,9 +64,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const setColorMode = (mode: ColorMode) => {
     setColorModeState(mode);
     try {
-      localStorage.setItem("portfolio_color_mode", mode);
+      sessionStorage.setItem("portfolio_color_mode", mode);
     } catch {
-      // Ignore localStorage errors
+      // Ignore storage errors
     }
   };
 
