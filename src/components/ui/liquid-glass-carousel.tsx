@@ -1706,7 +1706,7 @@ export function LiquidGlassCarousel({
 
       <p
         ref={titleRef}
-        className="pointer-events-none absolute left-1/2 top-[4.5%] z-10 m-0 text-center font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl font-normal tracking-tight text-[var(--ink,#ffffff)] opacity-0 drop-shadow-sm transition-colors duration-300"
+        className="hidden md:block pointer-events-none absolute left-1/2 top-[4.5%] z-10 m-0 text-center font-[family-name:var(--font-instrument-serif)] text-2xl lg:text-3xl font-normal tracking-tight text-[var(--ink,#ffffff)] opacity-0 drop-shadow-sm transition-colors duration-300"
       >
         {current?.title}
       </p>
