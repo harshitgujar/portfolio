@@ -200,7 +200,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
 
         {/* Responsive, unified action text directly below card/image */}
         <div
-          className="mt-8 sm:mt-10 flex items-center justify-center z-30 select-none transition-all duration-300"
+          className="mt-14 sm:mt-16 flex items-center justify-center z-30 select-none transition-all duration-300"
           style={{
             opacity: isRevealed ? 1 : 0,
             transform: `translateY(${progress * 6}px)`,
