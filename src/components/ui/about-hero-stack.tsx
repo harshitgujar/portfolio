@@ -84,17 +84,17 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
   }, []);
 
   // --- CHOREOGRAPHY WITH PHYSICAL INERTIA ---
-  // 1. Below Accent Card: Starts shrinking on first scroll (progress 0.0 -> 0.38) with smooth ease
-  const shrinkProgress = Math.min(progress / 0.38, 1);
+  // 1. Below Accent Card: Starts shrinking on first scroll (progress 0.0 -> 0.32) with smooth ease
+  const shrinkProgress = Math.min(progress / 0.32, 1);
   const belowCardScale = 1 - shrinkProgress * 0.25; // 1.0 -> 0.75
   const belowCardOpacity = Math.max(1 - shrinkProgress * 0.25, 0.75);
 
-  // 2. Second Image / Portrait: Starts revealing IN THE MIDDLE OF SHRINKING (at progress = 0.18)
-  const stage2Progress = Math.min(Math.max((progress - 0.18) / 0.68, 0), 1);
+  // 2. Second Image / Portrait: Starts revealing earlier (at progress = 0.08) and completes smoothly
+  const stage2Progress = Math.min(Math.max((progress - 0.08) / 0.58, 0), 1);
 
   // Top Image / Portrait:
-  // Rendered in the BIGGER size (scale: 1.16 -> 1.20, noticeably larger than the below card)
-  const portraitScale = 1.16 + stage2Progress * 0.04;
+  // Rendered in the BIGGER size (scale: 1.12 -> 1.16, noticeably larger than the below card)
+  const portraitScale = 1.12 + stage2Progress * 0.04;
   // Revealed from the bottom upward (de-crops from 100% down to 0%)
   const cropTop = Math.max((1 - stage2Progress) * 100, 0); // 100% -> 0%
   const portraitOpacity = stage2Progress > 0.005 ? 1 : 0;
@@ -102,7 +102,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
   return (
     <section
       ref={trackRef}
-      className="relative w-full h-[185vh] sm:h-[260vh] select-none"
+      className="relative w-full h-[160vh] sm:h-[240vh] select-none"
     >
       {/* Sticky Viewport Stage: Pinned in viewport while scrolling */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-4 z-20">
@@ -198,53 +198,52 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
           </div>
         </div>
 
-        {/* Pure Minimalist Instruction Text Below Card (No containers or pills, non-clickable) */}
+        {/* Responsive, unified action text directly below card/image */}
         <div
-          className={`mt-3 sm:mt-5 flex items-center justify-center gap-2.5 sm:gap-3 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] uppercase tracking-[0.14em] font-medium pointer-events-none select-none z-30 transition-all duration-500 ${
-            isLight ? "text-neutral-500" : "text-white/50"
-          }`}
+          className="mt-8 sm:mt-10 flex items-center justify-center z-30 select-none transition-all duration-300"
           style={{
-            opacity: isRevealed ? Math.max(0, 1 - progress * 3) : 0,
-            transform: `translateY(${progress * 12}px)`,
+            opacity: isRevealed ? 1 : 0,
+            transform: `translateY(${progress * 6}px)`,
             transitionDelay: isRevealed && isRevealing ? "700ms" : "0ms",
           }}
         >
-          <span className="flex items-center gap-1.5">
-            <span
-              className="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0"
-              style={{ backgroundColor: currentTheme.previewColor }}
-            />
-            <span>Tap card to interact</span>
-          </span>
-          <span className="opacity-40">&bull;</span>
-          <span className="flex items-center gap-1">
-            <span>Scroll to see more</span>
-            <span className="text-[10px] leading-none">&darr;</span>
-          </span>
+          {progress < 0.08 ? (
+            <div
+              className={`flex items-center justify-center gap-2.5 sm:gap-3 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] uppercase tracking-[0.14em] font-medium pointer-events-none select-none transition-opacity duration-300 ${
+                isLight ? "text-neutral-500" : "text-white/50"
+              }`}
+            >
+              <span className="flex items-center gap-1.5">
+                <span
+                  className="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0"
+                  style={{ backgroundColor: currentTheme.previewColor }}
+                />
+                <span>Tap card to interact</span>
+              </span>
+              <span className="opacity-40">&bull;</span>
+              <span className="flex items-center gap-1">
+                <span>Scroll to see more</span>
+                <span className="text-[10px] leading-none">&darr;</span>
+              </span>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={onScrollDown}
+              className={`group flex items-center gap-1.5 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] tracking-[0.16em] uppercase font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
+                isLight
+                  ? "text-neutral-600 hover:text-black"
+                  : "text-white/60 hover:text-white"
+              }`}
+              aria-label="Scroll to explore journey"
+            >
+              <span>Scroll to explore journey</span>
+              <span className="text-xs transition-transform duration-300 group-hover:translate-y-1">
+                ↓
+              </span>
+            </button>
+          )}
         </div>
-
-        {/* Persistent Scroll Progress Hint at Viewport Bottom (Shifted upward on mobile to reduce gap) */}
-        <button
-          type="button"
-          onClick={onScrollDown}
-          className={`absolute bottom-[clamp(4.25rem,9vh,5.5rem)] sm:bottom-8 z-30 group flex flex-col items-center gap-1 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] tracking-[0.16em] uppercase font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
-            isLight ? "text-neutral-500 hover:text-neutral-900" : "text-white/50 hover:text-white"
-          }`}
-          style={{
-            opacity: progress > 0.12 ? 1 : 0,
-            pointerEvents: progress > 0.12 ? "auto" : "none",
-          }}
-          aria-label="Scroll to read bio and journey"
-        >
-          <span>
-            {progress < 0.8
-              ? "Scroll to unmask portrait ↓"
-              : "Scroll to explore journey ↓"}
-          </span>
-          <span className="text-xs transition-transform duration-300 group-hover:translate-y-1">
-            ↓
-          </span>
-        </button>
       </div>
     </section>
   );
