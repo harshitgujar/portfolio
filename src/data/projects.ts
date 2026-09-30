@@ -50,66 +50,66 @@ const photo = (id: string) =>
 
 export const PROJECTS: ProjectItem[] = [
   {
-    id: "nexus-ai",
-    title: "Nexus AI Studio",
-    category: "0→1 Product Design & Design Engineering",
+    id: "evora",
+    title: "EVORA",
+    category: "0→1 Product Design & Creative Direction",
     description:
-      "A spatial multimodal canvas and design system engineered for real-time generative UI reasoning, fluid 120fps gesture navigation, and agentic workflows.",
-    tags: ["0→1 Product", "Figma System", "Next.js", "Design Engineering", "WebGL"],
-    src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=1600&q=85&auto=format&fit=crop",
+      "A conceptual digital streetwear and lifestyle platform crafted with visceral brutalist typography, kinetic motion systems, and tactile brand identity.",
+    tags: ["0→1 Product", "Creative Direction", "Brand Identity", "Design System", "Next.js"],
+    src: "/evora.png",
     aspect: 3 / 4,
     link: "https://github.com/harshitgujar",
     figma: "https://www.figma.com/@harshitgujar",
     github: "https://github.com/harshitgujar",
     caseStudy: {
       headline:
-        "Designing an infinite spatial canvas that shifts generative AI from linear chatboxes into tactile, direct-manipulation workspaces.",
-      role: "Lead Product Designer & Design Engineer",
+        "Designing an immersive digital lifestyle and streetwear platform merging raw analog aesthetics with high-performance commerce architecture.",
+      role: "Lead Product Designer & Creative Director",
       timeline: "8 Weeks • 2026",
-      platform: "Web & Desktop (Next.js / WebGL / Rust)",
-      status: "Production Ready",
+      platform: "Web & Mobile (Next.js / WebGL / Tailwind)",
+      status: "Featured Project",
       metrics: [
-        { label: "Design to Code", value: "100%", detail: "Figma tokens compiled directly into runtime CSS custom properties" },
-        { label: "Canvas Cadence", value: "120 FPS", detail: "Hardware-accelerated pan, pinch-zoom, and spatial card clusters" },
-        { label: "Iteration Speed", value: "3.4x", detail: "Faster workflow acceleration over traditional sequential prompt dialogs" },
-        { label: "System Components", value: "48+", detail: "Modular atomic variants with token-driven dynamic theme switching" },
+        { label: "Brand Identity", value: "100%", detail: "Custom brutalist typography with distinct subculture visual identity" },
+        { label: "Display Cadence", value: "120 FPS", detail: "Hardware-accelerated touch physics and fluid lookbook transitions" },
+        { label: "Engagement", value: "3.8x", detail: "Longer session duration through interactive product showcases" },
+        { label: "Design Tokens", value: "54+", detail: "Modular token system translating Figma variables into CSS architecture" },
       ],
       challenge:
-        "Conventional generative AI interfaces are trapped in 2011-era linear text messaging bubbles. When users collaborate with multimodal models to build complex software, layouts, or visual assets, linear scrolling causes acute context fragmentation, loss of spatial relationship, and frustrating prompt loops.",
+        "Conventional lifestyle and streetwear storefronts rely on predictable, sterile e-commerce layouts that dilute the visceral energy, physical weight, and cultural edge of independent drops.",
       solution:
-        "Conceived and engineered an infinite spatial canvas where AI generations, user prompts, and code previews exist as interconnected physical cards. Built with direct-manipulation gesture physics, live Figma token binding, and an inline multimodal context pill that allows fluid contextual prompt chaining.",
+        "Engineered a tactile 0→1 digital experience built around cinematic grain, bold graphic typography, interactive gesture-driven lookbooks, and sub-second page transitions.",
       designSystem: {
-        tokens: ["Figma Variables 2.0", "Fluid Typography Scale", "Dynamic HSL Semantic Colors", "Kinetic Spring Motion"],
-        description: "Built a ground-up design system in Figma featuring 48 interactive components, tokenized multi-theme modes, and auto-layout 5.0 matrices that compile directly into production Tailwind and CSS variables."
+        tokens: ["Evora Crimson Tokens", "Custom Headline Typography", "Analog Film Grain Overlays", "Fluid Spatial Grids"],
+        description: "Developed a bespoke visual system pairing intense red accents with deep noir tones, modular typographic scales, and micro-interactions tuned for tactile response."
       },
       architecture: [
-        "Figma Variables & Token Engine: Bi-directional synchronization between design files and CSS runtime variables.",
-        "Infinite Spatial Viewport: Virtualized WebGL node canvas supporting 1,000+ simultaneous generation cards without GPU stall.",
-        "Kinetic Physics Pipeline: Spring-damped inertia curves mimicking mechanical mass and friction during pan and drag.",
-        "Agentic Context Graph: Directed acyclic graph (DAG) maintaining provenance and prompt dependency trees across generations.",
+        "Dynamic Lookbook Engine: Virtualized visual slider capable of streaming uncompressed editorial imagery without frame drops.",
+        "Kinetic Physics Pipeline: Fluid spring curves mimicking the tactile momentum of editorial magazine flipping.",
+        "Design Token Synchronization: Seamless alignment between Figma component styles and production code.",
+        "Responsive Commerce Architecture: Mobile-first layout hierarchy with sticky action bars and zero layout shifts.",
       ],
       features: [
         {
-          title: "Spatial Multimodal Context Pill",
+          title: "Brutalist Editorial Typography",
+          tag: "Brand Identity",
+          description: "Signature oversized bubble wordmarks and raw graphic elements that anchor the collection's visual identity.",
+          image: "/evora.png",
+        },
+        {
+          title: "Kinetic Interactive Showcase",
           tag: "Interaction Design",
-          description: "A floating contextual controller that docks to active canvas selections, enabling multi-selection prompt synthesis and instant visual diffing.",
+          description: "Gesture-controlled fluid cards and interactive lighting effects simulating analog photography development.",
           image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1000&q=80",
         },
         {
-          title: "Direct-Manipulation Canvas Physics",
-          tag: "Design Engineering",
-          description: "Spring-damped physics algorithms with natural velocity transfer, magnetic snapping, and spatial cluster grouping on high-density displays.",
-          image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&q=80",
-        },
-        {
-          title: "Live Token-Driven Micro-Interactions",
+          title: "Adaptive Dark Theme Architecture",
           tag: "Design System",
-          description: "Tactile haptic ticks, acoustic audio cues, and seamless dark/light/accent theme transitions operating at zero layout shift.",
+          description: "Deep obsidian backdrop with calibrated crimson luminescence optimized for OLED mobile displays.",
           image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1000&q=80",
         },
       ],
       results:
-        "Successfully validated with 40+ product designers and AI engineers in a closed beta. Measured a 3.4x acceleration in end-to-end concept iteration speed, reduced context switching by 70%, and established a reusable 0→1 design engineering methodology from Figma prototype to deployed production code.",
+        "Established a distinctive, high-impact digital identity that redefines the streetwear drop experience, blending editorial fashion storytelling with precision frontend engineering.",
     },
   },
   {
