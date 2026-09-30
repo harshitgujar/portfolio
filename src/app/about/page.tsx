@@ -69,7 +69,7 @@ export default function AboutPage() {
       {/* Main Scrollable Content Container */}
       <div
         id="about-content"
-        className="pt-12 sm:pt-20 pb-36 px-[clamp(20px,5vw,72px)] max-w-5xl mx-auto space-y-20 sm:space-y-28"
+        className="-mt-16 sm:mt-0 pt-4 sm:pt-20 pb-36 px-[clamp(20px,5vw,72px)] max-w-5xl mx-auto space-y-16 sm:space-y-28 relative z-30 scroll-mt-6"
       >
         {/* 1. Category Tag & Display Headline */}
         <section className="space-y-6 max-w-4xl">

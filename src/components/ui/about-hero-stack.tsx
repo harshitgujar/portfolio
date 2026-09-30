@@ -55,8 +55,8 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
 
       // Distance scrolled into the sticky track
       const scrolled = -rect.top;
-      // Complete all choreographed phases over the first 75% of the scroll track
-      target = Math.min(Math.max(scrolled / (totalScrollable * 0.75), 0), 1);
+      // Complete all choreographed phases over the first 88% of the scroll track
+      target = Math.min(Math.max(scrolled / (totalScrollable * 0.88), 0), 1);
     };
 
     // Smooth physical inertia loop (0.042 damping gives deeper, weighted physical inertia)
@@ -102,12 +102,12 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
   return (
     <section
       ref={trackRef}
-      className="relative w-full h-[280vh] select-none"
+      className="relative w-full h-[185vh] sm:h-[260vh] select-none"
     >
       {/* Sticky Viewport Stage: Pinned in viewport while scrolling */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-4 z-20">
         {/* Layered Composition Anchor: Shared aspect ratio frame with sharp editorial edges */}
-        <div className="relative w-[min(370px,80vw)] aspect-[502/804] max-h-[64vh] flex items-center justify-center">
+        <div className="relative w-[min(370px,80vw)] aspect-[502/804] max-h-[60vh] sm:max-h-[64vh] flex items-center justify-center">
           {/* Below Card: Ambient Glow + Accent Card that Auto-Reveals on page open & SHRINKS on scroll */}
           <div
             className="absolute inset-0 z-10 flex items-center justify-center will-change-transform rounded-none pointer-events-auto"
@@ -200,7 +200,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
 
         {/* Pure Minimalist Instruction Text Below Card (No containers or pills, non-clickable) */}
         <div
-          className={`mt-4 sm:mt-5 flex items-center justify-center gap-2.5 sm:gap-3 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] uppercase tracking-[0.14em] font-medium pointer-events-none select-none z-30 transition-all duration-500 ${
+          className={`mt-3 sm:mt-5 flex items-center justify-center gap-2.5 sm:gap-3 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] uppercase tracking-[0.14em] font-medium pointer-events-none select-none z-30 transition-all duration-500 ${
             isLight ? "text-neutral-500" : "text-white/50"
           }`}
           style={{
@@ -223,14 +223,16 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
           </span>
         </div>
 
-        {/* Persistent Scroll Progress Hint at Viewport Bottom (Visible when scrolled) */}
+        {/* Persistent Scroll Progress Hint at Viewport Bottom (Shifted upward on mobile to reduce gap) */}
         <button
           type="button"
           onClick={onScrollDown}
-          className="absolute bottom-6 sm:bottom-8 z-30 group flex flex-col items-center gap-1.5 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] tracking-[0.16em] uppercase font-medium text-white/40 hover:text-white/80 transition-all duration-300 focus:outline-none cursor-pointer"
+          className={`absolute bottom-[clamp(4.25rem,9vh,5.5rem)] sm:bottom-8 z-30 group flex flex-col items-center gap-1 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] tracking-[0.16em] uppercase font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
+            isLight ? "text-neutral-500 hover:text-neutral-900" : "text-white/50 hover:text-white"
+          }`}
           style={{
-            opacity: progress > 0.15 ? 1 : 0,
-            pointerEvents: progress > 0.15 ? "auto" : "none",
+            opacity: progress > 0.12 ? 1 : 0,
+            pointerEvents: progress > 0.12 ? "auto" : "none",
           }}
           aria-label="Scroll to read bio and journey"
         >
