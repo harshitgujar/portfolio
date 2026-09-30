@@ -199,7 +199,7 @@ export function ExtrasIntro({
             style={{ backgroundColor: accentColor, color: accentColor }}
           />
           <span
-            className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 ${
+            className={`font-[family-name:var(--font-space-grotesk)] text-[10.5px] sm:text-[11.5px] uppercase tracking-[0.14em] font-medium transition-colors duration-300 ${
               isLight ? "text-neutral-500 font-medium" : "text-white/60"
             }`}
           >
@@ -248,7 +248,7 @@ export function ExtrasIntro({
           aria-label="Scroll to enter"
         >
           <span
-            className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 ${
+            className={`font-[family-name:var(--font-space-grotesk)] text-[10.5px] sm:text-[11.5px] uppercase tracking-[0.16em] font-medium transition-colors duration-300 ${
               isLight ? "text-neutral-500 font-medium" : "text-white/50"
             }`}
           >

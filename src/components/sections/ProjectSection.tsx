@@ -8,6 +8,7 @@ import {
 import { PROJECTS, type ProjectItem } from "@/data/projects";
 import { THEMES } from "@/data/themes";
 import { useTheme } from "@/context/ThemeContext";
+import { Sun, Moon, Play, Pause, ChevronDown } from "lucide-react";
 
 export interface ProjectSectionProps {
   onClose?: () => void;
@@ -202,7 +203,7 @@ export function ProjectSection({
                     style={{ backgroundColor: currentTheme.previewColor }}
                   />
                   <span>Theme</span>
-                  <span className="opacity-50 text-[10px]">▾</span>
+                  <ChevronDown className="w-2.5 h-2.5 opacity-60 ml-0.5" />
                 </button>
 
                 {themeMenuOpen && (
@@ -258,8 +259,12 @@ export function ProjectSection({
               title={isLight ? "Switch to Dark Mode" : "Switch to Light Mode"}
               aria-label="Toggle Dark and Light Mode"
             >
-              <span className="text-[11px] leading-none opacity-70">
-                {isLight ? "☼" : "☾"}
+              <span className="flex items-center justify-center">
+                {isLight ? (
+                  <Sun className="w-3 h-3 opacity-75" />
+                ) : (
+                  <Moon className="w-3 h-3 opacity-75" />
+                )}
               </span>
               <span>{isLight ? "Light" : "Dark"}</span>
             </button>
@@ -280,8 +285,12 @@ export function ProjectSection({
               title={autoScroll ? "Pause auto-scroll animation" : "Resume auto-scroll animation"}
               aria-label={autoScroll ? "Pause auto-scroll animation" : "Resume auto-scroll animation"}
             >
-              <span className="text-[9px] leading-none opacity-60">
-                {autoScroll ? "⏸" : "▶"}
+              <span className="flex items-center justify-center">
+                {autoScroll ? (
+                  <Pause className="w-2.5 h-2.5 opacity-75 fill-current" />
+                ) : (
+                  <Play className="w-2.5 h-2.5 opacity-75 fill-current" />
+                )}
               </span>
               <span>{autoScroll ? "Auto" : "Paused"}</span>
             </button>

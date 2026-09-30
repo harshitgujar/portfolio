@@ -200,7 +200,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
 
         {/* Pure Minimalist Instruction Text Below Card (No containers or pills, non-clickable) */}
         <div
-          className={`mt-4 sm:mt-5 flex items-center justify-center gap-2.5 sm:gap-3 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] pointer-events-none select-none z-30 transition-all duration-500 ${
+          className={`mt-4 sm:mt-5 flex items-center justify-center gap-2.5 sm:gap-3 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] uppercase tracking-[0.14em] font-medium pointer-events-none select-none z-30 transition-all duration-500 ${
             isLight ? "text-neutral-500" : "text-white/50"
           }`}
           style={{
@@ -227,7 +227,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
         <button
           type="button"
           onClick={onScrollDown}
-          className="absolute bottom-6 sm:bottom-8 z-30 group flex flex-col items-center gap-1.5 font-mono text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-white/40 hover:text-white/80 transition-all duration-300 focus:outline-none cursor-pointer"
+          className="absolute bottom-6 sm:bottom-8 z-30 group flex flex-col items-center gap-1.5 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] tracking-[0.16em] uppercase font-medium text-white/40 hover:text-white/80 transition-all duration-300 focus:outline-none cursor-pointer"
           style={{
             opacity: progress > 0.15 ? 1 : 0,
             pointerEvents: progress > 0.15 ? "auto" : "none",

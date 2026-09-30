@@ -14,6 +14,7 @@ import { FisheyeInfiniteGrid } from "@/components/ui/fisheye-infinite-grid";
 import { MusicLibraryScroll } from "@/components/ui/music-library-scroll";
 import { PlaygroundHub } from "@/components/sections/PlaygroundHub";
 import { ExtrasIntro } from "@/components/ui/extras-intro";
+import { Sun, Moon, ChevronDown } from "lucide-react";
 
 export default function ExtrasPage() {
   const {
@@ -258,7 +259,7 @@ export default function ExtrasPage() {
                     style={{ backgroundColor: currentTheme.previewColor }}
                   />
                   <span>Theme</span>
-                  <span className="opacity-50 text-[10px]">▾</span>
+                  <ChevronDown className="w-2.5 h-2.5 opacity-60 ml-0.5" />
                 </button>
 
                 {themeMenuOpen && (
@@ -313,7 +314,13 @@ export default function ExtrasPage() {
                 title={isLight ? "Switch to Dark Mode" : "Switch to Light Mode"}
                 aria-label="Toggle Dark and Light Mode"
               >
-                <span className="text-[11px] leading-none opacity-70">{isLight ? "☼" : "☾"}</span>
+                <span className="flex items-center justify-center">
+                  {isLight ? (
+                    <Sun className="w-3 h-3 opacity-75" />
+                  ) : (
+                    <Moon className="w-3 h-3 opacity-75" />
+                  )}
+                </span>
                 <span>{isLight ? "Light" : "Dark"}</span>
               </button>
 

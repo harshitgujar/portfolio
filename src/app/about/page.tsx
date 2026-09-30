@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import { THEMES } from "@/data/themes";
 import { AboutHeroStack } from "@/components/ui/about-hero-stack";
+import { Sun, Moon, ChevronDown } from "lucide-react";
 
 export default function AboutPage() {
   const {
@@ -78,7 +79,7 @@ export default function AboutPage() {
               style={{ backgroundColor: currentTheme.previewColor }}
             />
             <span
-              className={`font-mono text-xs uppercase tracking-[0.25em] ${
+              className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium ${
                 isLight ? "text-neutral-500" : "text-white/50"
               }`}
             >
@@ -194,7 +195,7 @@ export default function AboutPage() {
         >
           <div className="flex items-center gap-2.5">
             <span
-              className={`font-mono text-xs uppercase tracking-[0.25em] flex items-center gap-2 ${
+              className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium flex items-center gap-2 ${
                 isLight ? "text-neutral-500" : "text-white/50"
               }`}
             >
@@ -353,7 +354,7 @@ export default function AboutPage() {
           }`}
         >
           <span
-            className={`font-mono text-xs uppercase tracking-[0.25em] block ${
+            className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium block ${
               isLight ? "text-neutral-500" : "text-white/50"
             }`}
           >
@@ -606,7 +607,7 @@ export default function AboutPage() {
           }`}
         >
           <span
-            className={`font-mono text-xs uppercase tracking-[0.25em] block ${
+            className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium block ${
               isLight ? "text-neutral-500" : "text-white/50"
             }`}
           >
@@ -708,7 +709,7 @@ export default function AboutPage() {
           }`}
         >
           <span
-            className={`font-mono text-xs uppercase tracking-[0.25em] block ${
+            className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium block ${
               isLight ? "text-neutral-500" : "text-white/50"
             }`}
           >
@@ -852,7 +853,7 @@ export default function AboutPage() {
                 style={{ backgroundColor: currentTheme.previewColor }}
               />
               <span>Theme</span>
-              <span className="opacity-50 text-[10px]">▾</span>
+              <ChevronDown className="w-2.5 h-2.5 opacity-60 ml-0.5" />
             </button>
 
             {themeMenuOpen && (
@@ -907,7 +908,13 @@ export default function AboutPage() {
             title={isLight ? "Switch to Dark Mode" : "Switch to Light Mode"}
             aria-label="Toggle Dark and Light Mode"
           >
-            <span className="text-[11px] leading-none opacity-70">{isLight ? "☼" : "☾"}</span>
+            <span className="flex items-center justify-center">
+              {isLight ? (
+                <Sun className="w-3 h-3 opacity-75" />
+              ) : (
+                <Moon className="w-3 h-3 opacity-75" />
+              )}
+            </span>
             <span>{isLight ? "Light" : "Dark"}</span>
           </button>
 
