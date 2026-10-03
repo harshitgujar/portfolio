@@ -43,6 +43,7 @@ export interface LiquidGlassCarouselProps {
   onFocusChange?: (focused: boolean) => void;
   onBloomStart?: () => void;
   onEntryDone?: (done: boolean) => void;
+  onItemClick?: (index: number, item: LiquidGlassCarouselItem) => void;
   ref?: React.Ref<LiquidGlassCarouselHandle>;
   hideCloseButton?: boolean;
 }
@@ -381,6 +382,7 @@ function createCarousel(
     onFocusChange: (open: boolean) => void;
     onEntryDone: (done: boolean) => void;
     onBloomStart?: () => void;
+    onItemClick?: (index: number, item: LiquidGlassCarouselItem) => void;
   },
 ): LiquidGlassCarouselHandle | null {
   const reduced = prefersReducedMotion();
@@ -458,7 +460,7 @@ function createCarousel(
         tex.magFilter = THREE.LinearFilter;
         tex.generateMipmaps = true;
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.colorSpace = THREE.LinearSRGBColorSpace;
         if (!s.locked && tex.image) {
           s.aspect = tex.image.width / tex.image.height;
         }
@@ -539,7 +541,7 @@ function createCarousel(
   for (let r = 0; r < REPEATS; r++) {
     for (let i = 0; i < sources.length; i++) {
       const mat = new THREE.MeshBasicMaterial({
-        color: 0xdddddd,
+        color: 0xffffff,
         transparent: true,
       });
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1, 1, 1), mat);
@@ -826,8 +828,9 @@ function createCarousel(
   }
 
   function updateCursor() {
-    if (focusState.active || entryActive || entrySettled) return setCursor("");
+    if (entryActive || entrySettled) return setCursor("");
     if (dragging) return setCursor("grabbing");
+    if (hoverPanel) return setCursor("pointer");
     return setCursor("grab");
   }
 
@@ -839,11 +842,14 @@ function createCarousel(
   function refreshHover() {
     if (!pointerInside || lastPointerType !== "mouse") return;
     if (!Number.isFinite(lastPointerX)) return;
-    if (focusState.active) {
-      setHover(false);
-      return;
+    const hit = panelAtPointer(lastPointerX, lastPointerY);
+    if (cursorElement && hit) {
+      const isCentered = Boolean(
+        (centeredPanel && hit.poolIdx === centeredPanel.poolIdx) || focusState.active
+      );
+      cursorElement.textContent = isCentered ? "Open ↗" : "View";
     }
-    setHover(panelAtPointer(lastPointerX, lastPointerY) !== null);
+    setHover(hit !== null);
   }
 
   function setView(on: boolean) {
@@ -932,11 +938,14 @@ function createCarousel(
     if (e.pointerType !== "mouse") return;
     if (moveX) moveX(p.x);
     if (moveY) moveY(p.y);
-    if (focusState.active) {
-      setHover(false);
-      return;
+    const hit = panelAtPointer(p.x, p.y);
+    if (cursorElement && hit) {
+      const isCentered = Boolean(
+        (centeredPanel && hit.poolIdx === centeredPanel.poolIdx) || focusState.active
+      );
+      cursorElement.textContent = isCentered ? "Open ↗" : "View";
     }
-    setHover(panelAtPointer(p.x, p.y) !== null);
+    setHover(hit !== null);
   }
 
   function onPointerUp(e?: PointerEvent) {
@@ -975,20 +984,45 @@ function createCarousel(
     setHover(false);
   }
 
+  let lastClickTime = 0;
+  let lastClickedSrcIndex = -1;
+
   function onClick(e: MouseEvent) {
     if (suppressClick) {
       suppressClick = false;
       return;
     }
-    if (inputLocked()) return;
+    if (entryActive || entrySettled) return;
     const p = localPoint(e);
     const hit = panelAtPointer(p.x, p.y);
-    if (!hit) return;
-    if (centeredPanel && hit.poolIdx === centeredPanel.poolIdx) {
+    if (!hit) {
+      if (focusState.active) {
+        closeFocus();
+      }
+      return;
+    }
+
+    const now = performance.now();
+    const isDoubleClick =
+      lastClickedSrcIndex === hit.srcIndex && now - lastClickTime < 500;
+    lastClickTime = now;
+    lastClickedSrcIndex = hit.srcIndex;
+
+    const isCentered = Boolean(
+      centeredPanel && hit.poolIdx === centeredPanel.poolIdx
+    );
+
+    // If already centered, already focused, or double-clicked:
+    if (isCentered || focusState.active || isDoubleClick) {
+      if (options.onItemClick) {
+        options.onItemClick(hit.srcIndex, items[hit.srcIndex]);
+        return;
+      }
       pendingFocus = null;
       openFocus();
       return;
     }
+
     userInteracted = true;
     velocity = 0;
     target = centerForIndex(nearestIndex(scroll + hit.centerX));
@@ -1312,7 +1346,9 @@ function createCarousel(
         const pf = pendingFocus;
         pendingFocus = null;
         if (centeredPanel && centeredPanel.srcIndex === pf.srcIndex) {
-          openFocus();
+          if (!options.onItemClick) {
+            openFocus();
+          }
         }
       }
     }
@@ -1503,6 +1539,7 @@ export function LiquidGlassCarousel({
   onFocusChange,
   onBloomStart,
   onEntryDone,
+  onItemClick,
   ref,
   hideCloseButton = false,
 }: LiquidGlassCarouselProps) {
@@ -1539,10 +1576,12 @@ export function LiquidGlassCarousel({
   const onFocusChangeRef = useRef(onFocusChange);
   const onBloomStartRef = useRef(onBloomStart);
   const onEntryDoneRef = useRef(onEntryDone);
+  const onItemClickRef = useRef(onItemClick);
   onActiveChangeRef.current = onActiveChange;
   onFocusChangeRef.current = onFocusChange;
   onBloomStartRef.current = onBloomStart;
   onEntryDoneRef.current = onEntryDone;
+  onItemClickRef.current = onItemClick;
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -1573,6 +1612,9 @@ export function LiquidGlassCarousel({
       onEntryDone: (done) => {
         setEntryDone(done);
         onEntryDoneRef.current?.(done);
+      },
+      onItemClick: (index, item) => {
+        onItemClickRef.current?.(index, item);
       },
     });
     if (!engine) {

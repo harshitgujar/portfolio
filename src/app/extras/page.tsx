@@ -14,6 +14,8 @@ import { FisheyeInfiniteGrid } from "@/components/ui/fisheye-infinite-grid";
 import { MusicLibraryScroll } from "@/components/ui/music-library-scroll";
 import { PlaygroundHub } from "@/components/sections/PlaygroundHub";
 import { ExtrasIntro } from "@/components/ui/extras-intro";
+import { TriangularClock3D } from "@/components/ui/TriangularClock3D";
+import { DigitalCDStudio } from "@/components/ui/DigitalCDStudio";
 import { Sun, Moon, ChevronDown } from "lucide-react";
 
 export default function ExtrasPage() {
@@ -54,7 +56,11 @@ export default function ExtrasPage() {
         hash === "gallery" ||
         search.includes("exp=gallery") ||
         hash === "music" ||
-        search.includes("exp=music")
+        search.includes("exp=music") ||
+        hash === "clock" ||
+        search.includes("exp=clock") ||
+        hash === "cd" ||
+        search.includes("exp=cd")
       ) {
         return 1;
       }
@@ -100,6 +106,12 @@ export default function ExtrasPage() {
         progress.set(1);
       } else if (hash === "music" || search.includes("exp=music")) {
         setExtrasExperiment("music");
+        progress.set(1);
+      } else if (hash === "clock" || search.includes("exp=clock")) {
+        setExtrasExperiment("clock");
+        progress.set(1);
+      } else if (hash === "cd" || search.includes("exp=cd")) {
+        setExtrasExperiment("cd");
         progress.set(1);
       }
     }
@@ -220,23 +232,38 @@ export default function ExtrasPage() {
         </div>
       )}
 
-      {/* Bottom Chrome Bar - Fixed and flush to all outer edges */}
-      <footer
-        className={`fixed bottom-0 inset-x-0 z-[70] w-full px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 text-xs tracking-normal transition-colors duration-300 pointer-events-auto ${
-          extrasExperiment === "music"
-            ? "border-white/10 bg-black/70 text-white"
-            : isLight
-              ? "border-black/10 bg-white/80 text-neutral-900"
-              : "border-white/10 bg-black/70 text-white"
-        }`}
-        style={{
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: "100%",
-          margin: 0,
-        }}
-      >
+      {/* 4. Interactive Experiment: Triangular 3D Precision Clock */}
+      {extrasExperiment === "clock" && (
+        <div className="absolute inset-0 w-full h-full pb-16">
+          <TriangularClock3D className="h-full w-full" />
+        </div>
+      )}
+
+      {/* 5. Interactive Experiment: Digital CD Studio */}
+      {extrasExperiment === "cd" && (
+        <div className="absolute inset-0 w-full h-full z-50">
+          <DigitalCDStudio className="h-full w-full" />
+        </div>
+      )}
+
+      {/* Bottom Chrome Bar - Fixed and flush to all outer edges (hidden when in CD Studio) */}
+      {extrasExperiment !== "cd" && (
+        <footer
+          className={`fixed bottom-0 inset-x-0 z-[70] w-full px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 text-xs tracking-normal transition-colors duration-300 pointer-events-auto ${
+            extrasExperiment === "music"
+              ? "border-white/10 bg-black/70 text-white"
+              : isLight
+                ? "border-black/10 bg-white/80 text-neutral-900"
+                : "border-white/10 bg-black/70 text-white"
+          }`}
+          style={{
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: "100%",
+            margin: 0,
+          }}
+        >
         {/* Bottom Left Corner */}
         <div className="flex items-center gap-2.5 sm:gap-3">
           {extrasExperiment !== "music" ? (
@@ -357,6 +384,7 @@ export default function ExtrasPage() {
           harshitgujar1604@gmail.com
         </a>
       </footer>
+      )}
     </main>
   );
 }

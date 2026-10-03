@@ -50,6 +50,130 @@ const photo = (id: string) =>
 
 export const PROJECTS: ProjectItem[] = [
   {
+    id: "digital-cd",
+    title: "Digital CD Studio",
+    category: "0→1 Creative Tool & Interactive Audio",
+    description:
+      "A tactile digital CD & vinyl packaging workstation featuring physical light refraction, anisotropic reflection physics, real-time audio playback, and high-res export.",
+    tags: ["0→1 Product", "Creative Tool", "Interactive Audio", "Canvas 2D", "Next.js"],
+    src: "/digital-cd.png",
+    aspect: 3 / 4,
+    link: "/cd",
+    github: "https://github.com/harshitgujar",
+    caseStudy: {
+      headline:
+        "Engineering a tactile digital CD and jewel packaging workstation combining physical optics, rotational physics, and lossless multi-format audio-video export.",
+      role: "Lead Product Designer & Creative Technologist",
+      timeline: "2026",
+      platform: "Web & Interactive Workstation (Canvas API / Next.js / Web Audio)",
+      status: "Featured Project",
+      metrics: [
+        { label: "Frame Rate", value: "60 FPS", detail: "Hardware-accelerated anisotropic lighting and smooth turntable physics" },
+        { label: "Light Physics", value: "100% Real-Time", detail: "Directional specular highlights with static spatial illumination" },
+        { label: "Export Formats", value: "4 Formats", detail: "60fps MP4 video, animated GIF, high-res PNG, and alpha cutout" },
+        { label: "Audio Sync", value: "< 5ms", detail: "Lossless Web Audio synthesis with RPM speed modulation (33/45/78)" },
+      ],
+      challenge:
+        "Digital music experiences have flattened album art into static 2D thumbnails, discarding the physical intimacy, reflective packaging, and tactile ritual of physical CDs and digipaks.",
+      solution:
+        "Crafted a high-craft interactive workstation replicating the authentic physics of compact discs—die-cut frosted packaging, holographic specular reflections, continuous typography, and multi-format studio exports.",
+      designSystem: {
+        tokens: ["Electric Sapphire Optics", "Frosted Glassmorphism Flaps", "Swiss Bold Grotesk", "Minimalist Hardware Console"],
+        description: "Engineered a tactile design system balancing nostalgic Y2K physical music hardware with a modern, distraction-free creative studio interface."
+      },
+      architecture: [
+        "Anisotropic Refraction Pipeline: Real-time multi-band specular gradients simulating physical laser groove dispersion.",
+        "Glassmorphism Flap Compositor: Multi-pass Gaussian blur simulation showing underlying disc geometry through die-cut envelopes.",
+        "Lossless Media Export Pipeline: Pure client-side frame rendering encoding 60fps MP4 video with synced AAC audio and universal playback.",
+        "Rotational Physics & Turntable Controller: Gesture-driven momentum dragging with synchronized turntable RPM speeds.",
+      ],
+      features: [
+        {
+          title: "Stationary Specular Optics",
+          tag: "Physical Simulation",
+          description: "Physically authentic light reflections that stay anchored in space as the CD spins beneath them.",
+          image: "/digital-cd.png",
+        },
+        {
+          title: "Frosted Die-Cut Jewel Sleeve",
+          tag: "Packaging Design",
+          description: "Tactile digipak enclosure with signature corner rivets and translucent frosted glassmorphism preview flap.",
+          image: "/digital-cd.png",
+        },
+        {
+          title: "Multi-Format Production Export",
+          tag: "Engineering",
+          description: "One-click generation of 60fps MP4 video with fast-start moov atom and looping 360° GIFs.",
+          image: "/digital-cd.png",
+        },
+      ],
+      results:
+        "Delivered a viral, interactive digital music studio that transforms static music listening into a tangible, customizable physical artifact.",
+    },
+  },
+  {
+    id: "webgl-liquid",
+    title: "Fluid Motion Studio",
+    category: "0→1 Creative Tool & WebGL Shader",
+    description:
+      "A cinematic real-time WebGL liquid shader field and interactive customization studio for high-craft hero surfaces and kinetic brand presences.",
+    tags: ["0→1 Product", "Creative Tool", "WebGL", "GLSL Shaders", "Next.js"],
+    src: "/webgl-liquid.png",
+    aspect: 3 / 4,
+    link: "/liquid",
+    github: "https://github.com/harshitgujar",
+    caseStudy: {
+      headline:
+        "Engineering a zero-dependency GPU liquid flow field with parametric FBM noise, chromatic diffusion, and live code export.",
+      role: "Lead Creative Technologist & Shader Engineer",
+      timeline: "2026",
+      platform: "Web & Interactive Tool (WebGL / GLSL / Next.js / React)",
+      status: "Featured Tool",
+      metrics: [
+        { label: "Rendering Performance", value: "60 FPS", detail: "Hardware-accelerated fragment shader running on zero external 3D libraries" },
+        { label: "Memory Overhead", value: "0 MB", detail: "Zero-bundle texture footprint utilizing pure mathematical procedural noise" },
+        { label: "Export Formats", value: "3 Modes", detail: "Single-click copy for JSX snippets, standalone TSX components, and JSON configs" },
+        { label: "Presets", value: "5 Curated", detail: "Midnight, Aurora, Rose Gold, Kinetic Wave, and Default oceanic horizons" },
+      ],
+      challenge:
+        "Modern digital experiences demand organic, fluid visual motion, yet off-the-shelf video loops are heavy, non-interactive, and static in resolution.",
+      solution:
+        "Engineered a lightweight GPU fragment shader simulating fractional Brownian motion fluid waves with interactive color tuning, typography sync, and direct code copy.",
+      designSystem: {
+        tokens: ["Procedural FBM Noise", "Atmospheric Chromatic Grain", "Custom Hardware Sliders", "Minimalist Studio Console"],
+        description: "Crafted a tactile creative workstation balancing cinematic visual fluidity with precise, repeatable developer export tooling."
+      },
+      architecture: [
+        "FBM Noise Waveform Synthesizer: Multi-octave rotated domain warping generating organic fluid eddies in pure GLSL.",
+        "Zero-Overhead Uniform Dispatcher: Continuous RAF render loop polling updated parameters without WebGL context destruction.",
+        "Adaptive Viewport Resolution: Native devicePixelRatio scaling with aspect ratio compensation preventing texture stretching.",
+        "Direct Code Synthesizer: Client-side JSX and TSX code generation tailoring production-ready components on the fly.",
+      ],
+      features: [
+        {
+          title: "Real-Time GLSL Fluid Dynamics",
+          tag: "Creative Coding",
+          description: "Silky smooth procedural liquid flow computed directly on the client GPU with zero network latency.",
+          image: "/webgl-liquid.png",
+        },
+        {
+          title: "Hardware-Inspired Studio Console",
+          tag: "Interaction Design",
+          description: "Tactile tick-mark sliders and live palette pickers providing instant visual feedback on every micro-adjustment.",
+          image: "/webgl-liquid.png",
+        },
+        {
+          title: "One-Click Production Export",
+          tag: "Developer Experience",
+          description: "Instantly copy tailored JSX snippets or the entire self-contained component source into any Next.js app.",
+          image: "/webgl-liquid.png",
+        },
+      ],
+      results:
+        "Delivered a viral open-source creative tool empowering designers and developers to generate, personalize, and copy production-grade WebGL hero backgrounds.",
+    },
+  },
+  {
     id: "evora",
     title: "EVORA",
     category: "0→1 Product Design & Creative Direction",
@@ -176,52 +300,66 @@ export const PROJECTS: ProjectItem[] = [
     },
   },
   {
-    id: "hypersync-cloud",
-    title: "HyperSync Cloud API",
-    category: "Backend Systems & Real-Time Sync",
+    id: "runagon",
+    title: "Runagon",
+    category: "0→1 Product Design & Social Fitness",
     description:
-      "Resilient distributed cloud service handling 50k+ persistent WebSocket connections with sub-10ms pub/sub event dispatch.",
-    tags: ["Node.js", "Go", "PostgreSQL", "Redis", "Docker"],
-    src: photo("1568557412756-7d219873dd11"),
-    aspect: 3 / 4,
+      "A community-centric running platform and social athletic ecosystem uniting urban run clubs, live telemetry tracking, and dynamic group challenges.",
+    tags: ["0→1 Product", "Mobile App", "Brand Identity", "Design System", "Product Design"],
+    src: "/runagon.png",
+    aspect: 4445 / 5556,
     link: "https://github.com/harshitgujar",
+    figma: "https://www.figma.com/@harshitgujar",
     github: "https://github.com/harshitgujar",
     caseStudy: {
       headline:
-        "Architecting a high-throughput real-time distributed message broker capable of handling 50,000+ persistent sockets with sub-10ms delivery.",
-      role: "Backend & Systems Engineer",
-      timeline: "4 Months • 2024",
+        "Designing a high-energy running platform uniting urban run clubs, kinetic activity tracking, and social milestone dynamics.",
+      role: "Lead Product Designer",
+      timeline: "2025 – 2026",
+      platform: "iOS, Android & Design System",
+      status: "Featured Project",
       metrics: [
-        { label: "Conns Handled", value: "50,000+", detail: "Simultaneous concurrent WebSocket sessions per cluster" },
-        { label: "Pub/Sub Latency", value: "8.4 ms", detail: "P99 message propagation from ingest to client delivery" },
-        { label: "Uptime SLA", value: "99.99%", detail: "Zero-downtime rolling upgrades backed by Redis cluster state" },
+        { label: "Active Runners", value: "25k+", detail: "Engaged runners participating in weekly urban club meetups" },
+        { label: "Session Retention", value: "84%", detail: "Day-30 retention powered by group streaks and pace leaderboards" },
+        { label: "Pace Precision", value: "Real-time", detail: "Sub-second cadence sync and audio coaching feedback" },
+        { label: "Design Tokens", value: "60+", detail: "Dynamic typography, electric cobalt accents, and modular HUD cards" },
       ],
       challenge:
-        "Real-time event synchronization systems suffer from socket memory bloat, 'thundering herd' reconnection cascades during cluster failovers, and head-of-line blocking across distributed database write bottlenecks.",
+        "Traditional running apps prioritize clinical solo telemetry and sterile data tables, missing the social camaraderie, kinetic momentum, and cultural energy that define modern urban run clubs.",
       solution:
-        "Built a modular pub/sub relay using Go micro-daemons for connection multiplexing, Redis streams for high-speed message queuing, and PostgreSQL with logical replication for permanent audit trails and persistent storage.",
+        "Engineered Runagon from 0→1 as an athletic lifestyle ecosystem merging high-contrast performance telemetry, live group run synchronization, social milestone challenges, and a bold modern athletic identity.",
+      designSystem: {
+        tokens: ["Electric Cobalt Tokens", "Kinetic Speed Scales", "High-Contrast HUD Cards", "Haptic Cadence Indicators"],
+        description: "Engineered a high-visibility outdoor design system featuring vibrant cobalt luminescence, bold typographic hierarchies, and glanceable glance-and-go widgets calibrated for daylight running."
+      },
       architecture: [
-        "Go-based socket edge proxy terminating TLS and managing connection keep-alives with low memory footprint (~4KB per socket).",
-        "Redis Streams backing distributed topic partitions with atomic consumer group acknowledgment.",
-        "Token-bucket rate limiting and jittered reconnect protocols preventing reconnection stampedes.",
-        "Prometheus & Grafana telemetry observing p95/p99 roundtrip latencies and queue depth dynamics.",
+        "Real-Time Pace Engine: Low-overhead GPS telemetry filtering and spatial cadence visualization.",
+        "Club Discovery Network: Location-based run club scheduling, live route previews, and RSVP check-in flows.",
+        "Adaptive Sunlight Interface: High-contrast typography and ultra-legible HUD cards readable at sprint pace in direct sunlight.",
+        "Milestone & Badge Rewards: Dynamic 3D badge visual systems and shareable post-run recap cards.",
       ],
       features: [
         {
-          title: "Multiplexed Socket Routing",
-          description: "Combines multiple logical application subscriptions over a single lightweight duplex connection.",
+          title: "High-Visibility Running HUD",
+          tag: "Mobile Product",
+          description: "Glanceable real-time speed, heart rate, and split tracking engineered for instant readability while in motion.",
+          image: "/runagon.png",
         },
         {
-          title: "Adaptive Backpressure Control",
-          description: "Monitors client buffer drains and temporarily throttles high-volume publishers to prevent client-side out-of-memory crashes.",
+          title: "Run Club Community & Group Streaks",
+          tag: "Social Experience",
+          description: "Interactive crew meetups, synchronized live checkpoints, and collaborative weekly distance challenges.",
+          image: "/runagon.png",
         },
         {
-          title: "Atomic Session Recovery",
-          description: "Allows clients to resume interrupted sessions within a 60-second grace window without losing unacknowledged messages.",
+          title: "Dynamic Milestone Badges & Recaps",
+          tag: "Gamification & Identity",
+          description: "Custom 3D visual rewards celebrating personal records, streak consistency, and route conquests.",
+          image: "/runagon.png",
         },
       ],
       results:
-        "Successfully reduced server infrastructure compute costs by 45% while decreasing P99 real-time message latency from 140ms to under 10ms.",
+        "Transformed solo workout routines into a connected community ritual, boosting weekly runner engagement and establishing a benchmark design system for modern athletic software.",
     },
   },
   {

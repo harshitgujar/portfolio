@@ -141,9 +141,9 @@ const LIQUID_HEADLINE_CLASS =
   "pb-[0.08em] text-[11cqi] md:text-[7cqi] lg:text-[5.5cqi] leading-[0.92] tracking-[-0.03em] font-semibold text-white";
 
 export function WebGLLiquid({
-  title = "Fluid Motion",
-  subtitle = "Premium Presence",
-  description = "A cinematic liquid field tuned for modern hero sections with polished depth and restrained motion.",
+  title = "",
+  subtitle = "",
+  description = "",
   colorDeep = FALLBACK_DEEP,
   colorMid = FALLBACK_MID,
   colorHighlight = FALLBACK_HIGHLIGHT,
@@ -192,6 +192,9 @@ export function WebGLLiquid({
       revealDuration,
     ],
   );
+
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
 
   useEffect(() => {
     if (hasWebGLError) {
@@ -314,14 +317,15 @@ export function WebGLLiquid({
       const start = performance.now();
 
       const render = (now: number) => {
-        const elapsedSec = Math.max(0, (now - start - settings.delayMs) / 1000);
-        const revealProgress = settings.reveal
-          ? Math.min(1, elapsedSec / Math.max(settings.revealDuration, 0.05))
+        const cur = settingsRef.current;
+        const elapsedSec = Math.max(0, (now - start - cur.delayMs) / 1000);
+        const revealProgress = cur.reveal
+          ? Math.min(1, elapsedSec / Math.max(cur.revealDuration, 0.05))
           : 1;
 
-        const deep = hexToRgb01(settings.colorDeep);
-        const mid = hexToRgb01(settings.colorMid);
-        const highlight = hexToRgb01(settings.colorHighlight);
+        const deep = hexToRgb01(cur.colorDeep);
+        const mid = hexToRgb01(cur.colorMid);
+        const highlight = hexToRgb01(cur.colorHighlight);
 
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
@@ -330,11 +334,11 @@ export function WebGLLiquid({
         gl.uniform3f(uColorDeep, deep[0], deep[1], deep[2]);
         gl.uniform3f(uColorMid, mid[0], mid[1], mid[2]);
         gl.uniform3f(uColorHighlight, highlight[0], highlight[1], highlight[2]);
-        gl.uniform1f(uSpeed, settings.speed);
-        gl.uniform1f(uFlowStrength, settings.flowStrength);
-        gl.uniform1f(uGrain, settings.grain);
-        gl.uniform1f(uContrast, settings.contrast);
-        gl.uniform1f(uOpacity, settings.opacity);
+        gl.uniform1f(uSpeed, cur.speed);
+        gl.uniform1f(uFlowStrength, cur.flowStrength);
+        gl.uniform1f(uGrain, cur.grain);
+        gl.uniform1f(uContrast, cur.contrast);
+        gl.uniform1f(uOpacity, cur.opacity);
         gl.uniform1f(uReveal, revealProgress);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
@@ -355,7 +359,7 @@ export function WebGLLiquid({
       setHasWebGLError(true);
       return;
     }
-  }, [hasWebGLError, settings]);
+  }, [hasWebGLError]);
 
   const fallbackContent = (
     <div

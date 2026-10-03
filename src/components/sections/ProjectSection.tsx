@@ -8,7 +8,9 @@ import {
 import { PROJECTS, type ProjectItem } from "@/data/projects";
 import { THEMES } from "@/data/themes";
 import { useTheme } from "@/context/ThemeContext";
-import { Sun, Moon, Play, Pause, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Sun, Moon, Play, Pause, ChevronDown, ArrowUpRight } from "lucide-react";
 
 export interface ProjectSectionProps {
   onClose?: () => void;
@@ -27,6 +29,7 @@ export function ProjectSection({
   selectedThemeId = "terracotta",
   onSelectTheme,
 }: ProjectSectionProps) {
+  const router = useRouter();
   const { currentTheme, isLight, toggleColorMode } = useTheme();
   const [activeIdx, setActiveIdx] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
@@ -37,6 +40,18 @@ export function ProjectSection({
   const carouselRef = useRef<LiquidGlassCarouselHandle>(null);
 
   const currentProject: ProjectItem = PROJECTS[activeIdx] ?? PROJECTS[0];
+
+  const handleOpenProject = (idx: number) => {
+    const project = PROJECTS[idx] ?? currentProject;
+    if (!project) return;
+    if (project.link) {
+      if (project.link.startsWith("/")) {
+        router.push(project.link);
+      } else {
+        window.open(project.link, "_blank", "noopener,noreferrer");
+      }
+    }
+  };
 
   const handleBloomStart = () => {
     setIsRevealed(true);
@@ -108,6 +123,7 @@ export function ProjectSection({
           onActiveChange={(idx) => setActiveIdx(idx)}
           onFocusChange={handleFocusChange}
           onBloomStart={handleBloomStart}
+          onItemClick={handleOpenProject}
           className="h-full w-full"
         />
       </div>
@@ -158,8 +174,21 @@ export function ProjectSection({
             </p>
           </div>
 
-          {/* Tech Stack Tags (Clean Minimalist space-grotesk chips) */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          {/* Tech Stack Tags & Action Links */}
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            {currentProject.link && (
+              <Link
+                href={currentProject.link}
+                className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold font-[family-name:var(--font-space-grotesk)] rounded-md transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] ${
+                  isLight
+                    ? "bg-neutral-900 text-white hover:bg-neutral-800"
+                    : "bg-white text-neutral-950 hover:bg-neutral-200"
+                }`}
+              >
+                <span>Launch Experience</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
             {currentProject.tags.map((tag) => (
               <span
                 key={tag}

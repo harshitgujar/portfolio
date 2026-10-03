@@ -11,6 +11,8 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { extrasExperiment, setExtrasExperiment, isLight } = useTheme();
 
+  const isCDPage = pathname === "/cd" || pathname.startsWith("/cd/");
+  const isLiquidPage = pathname === "/liquid" || pathname.startsWith("/liquid/");
   const isExtrasSubpage =
     (pathname === "/extras" || pathname === "/gallery" || pathname.startsWith("/extras/")) &&
     Boolean(extrasExperiment);
@@ -21,6 +23,29 @@ export function SiteHeader() {
       window.history.pushState(null, "", "/extras");
     }
   };
+
+  // If on studio pages (/cd, /liquid): they render their own unified studio header
+  if (isCDPage || isLiquidPage) {
+    return null;
+  }
+
+  // If inside CD experiment in /extras: show only Back button
+  if (extrasExperiment === "cd") {
+    return (
+      <header className="chrome chrome--top w-full z-50 pointer-events-none flex items-center justify-between">
+        <button
+          type="button"
+          onClick={handleBackToPlayground}
+          className="pointer-events-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-[family-name:var(--font-space-grotesk)] text-xs font-medium backdrop-blur-xl border border-white/10 bg-black/60 text-white/80 hover:text-white hover:bg-black/80 transition-all duration-150 active:scale-[0.98]"
+          title="Back"
+          aria-label="Back"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back</span>
+        </button>
+      </header>
+    );
+  }
 
   return (
     <header className="chrome chrome--top w-full z-50">
