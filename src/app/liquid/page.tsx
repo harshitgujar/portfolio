@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Copy,
@@ -499,6 +500,16 @@ function ColorSwatchCard({ label, value, onChange }: ColorSwatchCardProps) {
 }
 
 export default function WebGLLiquidStudioPage() {
+  const router = useRouter();
+
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
+
   const [isControlsOpen, setIsControlsOpen] = useState(false);
   const [showTextOverlay, setShowTextOverlay] = useState(false);
   const [activePresetId, setActivePresetId] = useState<string>("kinetic");
@@ -662,13 +673,16 @@ export default function WebGLLiquidStudioPage() {
       <header className="relative w-full h-14 px-4 sm:px-6 md:px-8 flex items-center justify-between border-b border-white/[0.08] bg-[#08090d]/85 backdrop-blur-xl text-white z-40">
         {/* Left: Back to Portfolio & Studio Name */}
         <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium bg-white/[0.06] hover:bg-white/[0.12] text-neutral-300 hover:text-white transition-all"
+          <button
+            type="button"
+            onClick={handleBack}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium bg-white/[0.06] hover:bg-white/[0.12] text-neutral-300 hover:text-white transition-all cursor-pointer"
+            title="Back"
+            aria-label="Back"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Portfolio</span>
-          </Link>
+            <span>Back</span>
+          </button>
           <div className="h-4 w-px bg-white/10" />
           <div className="flex items-center gap-2">
             <span className="font-semibold text-xs tracking-tight">

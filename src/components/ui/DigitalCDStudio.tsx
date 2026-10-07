@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Play,
   Pause,
@@ -48,6 +49,7 @@ import {
 interface DigitalCDStudioProps {
   initialConfig?: Partial<CDConfig>;
   className?: string;
+  onBack?: () => void;
 }
 
 // -----------------------------------------------------------------------------
@@ -225,7 +227,22 @@ function StudioColorSwatch({
 export function DigitalCDStudio({
   initialConfig,
   className = "",
+  onBack,
 }: DigitalCDStudioProps) {
+  const router = useRouter();
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+      return;
+    }
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
+
   // Theme state: "dark" or "light"
   const [studioTheme, setStudioTheme] = useState<"dark" | "light">("dark");
   const isLight = studioTheme === "light";
@@ -658,17 +675,20 @@ export function DigitalCDStudio({
       >
         {/* Left: Minimal Back Button & Studio Breadcrumb */}
         <div className="flex items-center gap-3">
-          <Link
-            href="/extras"
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${
+          <button
+            type="button"
+            onClick={handleBack}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer ${
               isLight
                 ? "bg-neutral-100 hover:bg-neutral-200 text-neutral-700"
                 : "bg-white/[0.06] hover:bg-white/[0.12] text-neutral-300 hover:text-white"
             }`}
+            title="Back"
+            aria-label="Back"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back</span>
-          </Link>
+          </button>
           <div
             className={`h-4 w-px ${
               isLight ? "bg-neutral-200" : "bg-white/10"

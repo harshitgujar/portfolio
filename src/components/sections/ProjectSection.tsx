@@ -8,9 +8,8 @@ import {
 import { PROJECTS, type ProjectItem } from "@/data/projects";
 import { THEMES } from "@/data/themes";
 import { useTheme } from "@/context/ThemeContext";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sun, Moon, Play, Pause, ChevronDown, ArrowUpRight } from "lucide-react";
+import { Sun, Moon, Play, Pause, ChevronDown } from "lucide-react";
 
 export interface ProjectSectionProps {
   onClose?: () => void;
@@ -174,21 +173,8 @@ export function ProjectSection({
             </p>
           </div>
 
-          {/* Tech Stack Tags & Action Links */}
+          {/* Tech Stack Tags */}
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-            {currentProject.link && (
-              <Link
-                href={currentProject.link}
-                className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold font-[family-name:var(--font-space-grotesk)] rounded-md transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] ${
-                  isLight
-                    ? "bg-neutral-900 text-white hover:bg-neutral-800"
-                    : "bg-white text-neutral-950 hover:bg-neutral-200"
-                }`}
-              >
-                <span>Launch Experience</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </Link>
-            )}
             {currentProject.tags.map((tag) => (
               <span
                 key={tag}

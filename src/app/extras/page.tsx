@@ -242,7 +242,10 @@ export default function ExtrasPage() {
       {/* 5. Interactive Experiment: Digital CD Studio */}
       {extrasExperiment === "cd" && (
         <div className="absolute inset-0 w-full h-full z-50">
-          <DigitalCDStudio className="h-full w-full" />
+          <DigitalCDStudio
+            className="h-full w-full"
+            onBack={() => setExtrasExperiment(null)}
+          />
         </div>
       )}
 
