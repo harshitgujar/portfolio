@@ -85,14 +85,14 @@ export function StronCaseStudy({
         step: "01",
         badge: "brand identity",
         title: "stron minimal brand card & centered emblem",
-        subtitle: "1200 × 1600px • mathematical s-monogram & radiant cobalt aura",
+        subtitle: "1200 × 1600px • athletic dark obsidian & sapphire halo",
         src: "/stron.png",
         pixelDimensions: "1200 × 1600px",
         aspectClass: "aspect-[3/4]",
         bgClass: "bg-[#06070a]",
         objectFit: "cover",
         description:
-          "Official STRON minimal emblem card: mathematical S-monogram floating in the optical center with radiant athletic cobalt depth luminescence.",
+          "Official STRON minimal emblem card: mathematical S-monogram floating on dark athletic obsidian with subtle sapphire backlight illumination.",
       },
       {
         id: "app-social-racing",
@@ -324,8 +324,8 @@ export function StronCaseStudy({
               openLightbox(
                 "/stron.png",
                 "STRON — Minimal Brand Card & Emblem",
-                "1200 × 1600px • Mathematical S-Monogram & Radiant Cobalt Aura",
-                "Minimal project card featuring the official STRON mathematical S-monogram centered with radiant athletic depth luminescence.",
+                "1200 × 1600px • Dark Athletic Obsidian & Sapphire Halo",
+                "Minimal project card featuring the official STRON mathematical S-monogram centered on a dark athletic obsidian surface with sapphire backlighting.",
                 0
               )
             }
