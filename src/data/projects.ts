@@ -214,19 +214,19 @@ export const PROJECTS: ProjectItem[] = [
           title: "Student Discovery & Instant Pass",
           tag: "Mobile Experience",
           description: "Categorized event exploration with in-app UPI checkout and dynamic QR passes stored directly in the student wallet.",
-          image: "/evora/Users_perspective_iPhone_13_mini_-_104.png",
+          image: "/evora/screens/Users_perspective_iPhone_13_mini_-_104.png",
         },
         {
           title: "Club Organizer Studio",
           tag: "Event Operations",
           description: "Centralized workspace for club leads to stage events, manage ticket tiers, track live revenue, and scan QR check-ins.",
-          image: "/evora/Organizers_Perspective_Clubs_home_page.png",
+          image: "/evora/screens/Organizers_Perspective_Clubs_home_page.png",
         },
         {
           title: "Faculty Governance Console",
           tag: "Administrative Portal",
           description: "Single-pane dashboard for campus authorities to review club submissions, ensure policy compliance, and audit engagement.",
-          image: "/evora/Authorities_perspective_Home.png",
+          image: "/evora/screens/Authorities_Perspective_Home.png",
         },
       ],
       results:
@@ -283,13 +283,13 @@ export const PROJECTS: ProjectItem[] = [
           title: "Tactile Merchandise & Audio CD Kit",
           tag: "Physical Artifacts",
           description: "Physical collectible release system featuring jewel-case CD audio packaging, 3D chrome star charms, and specimen sheets.",
-          image: "/arken/arken-sticker-sheet-artifacts.png",
+          image: "/arken/arken-sticker-sheet-artifacts.webp",
         },
         {
           title: "Optical Identity & Creative Direction",
           tag: "Campaign Art Direction",
           description: "Cinematic macro iris campaign key visual pairing high-detail human eye optics with an emerald neon Arken insignia.",
-          image: "/arken/arken-vision-eye-campaign.png",
+          image: "/arken/arken-vision-eye-campaign.webp",
         },
       ],
       results:

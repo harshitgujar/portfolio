@@ -222,7 +222,7 @@ export function SpotifyCaseStudy({
         badge: "case study presentation",
         title: "spotify reimagine — complete behance presentation artboard",
         subtitle: "2667 × 21911px • end-to-end case study narrative, user research & wireframes",
-        src: "/spotify/spotify-reimagine-full-board.png",
+        src: "/spotify/spotify-reimagine-full-board.webp",
         pixelDimensions: "2667 × 21911px",
         aspectClass: "aspect-[16/10]",
         bgClass: "bg-[#08090d]",

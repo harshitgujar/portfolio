@@ -85,7 +85,7 @@ export function ArkenCaseStudy({
         badge: "full landing page",
         title: "arken creatives — full desktop web ui",
         subtitle: "complete 1512 × 8047px flagship agency experience",
-        src: "/arken/arken-full-web-ui.png",
+        src: "/arken/arken-full-web-ui.webp",
         isLongScroll: true,
         pixelDimensions: "1512 × 8047px",
         aspectClass: "aspect-[16/10]",
@@ -117,7 +117,7 @@ export function ArkenCaseStudy({
         badge: "work showcase",
         title: "projects — 'what we do' editorial rail",
         subtitle: "layered chrome calligraphy over swiss grid typography",
-        src: "/arken/sections/02-projects-showcase.png",
+        src: "/arken/sections/02-projects-showcase.webp",
         isLongScroll: false,
         pixelDimensions: "1512 × 1360px",
         aspectClass: "aspect-[16/10]",
@@ -133,7 +133,7 @@ export function ArkenCaseStudy({
         badge: "manifesto & emblem",
         title: "founder manifesto & steel 'k' plaque",
         subtitle: "brutalist statement over orbital star watermark",
-        src: "/arken/sections/03-manifesto-monogram.png",
+        src: "/arken/sections/03-manifesto-monogram.webp",
         isLongScroll: false,
         pixelDimensions: "1512 × 1315px",
         aspectClass: "aspect-[16/10]",
@@ -149,7 +149,7 @@ export function ArkenCaseStudy({
         badge: "capabilities matrix",
         title: "services — 'what we can do' numbered index",
         subtitle: "01 ui/ux • 02 branding • 03 web dev • 04 app dev",
-        src: "/arken/sections/04-services-index.png",
+        src: "/arken/sections/04-services-index.webp",
         isLongScroll: false,
         pixelDimensions: "1512 × 1050px",
         aspectClass: "aspect-[16/10]",
@@ -165,7 +165,7 @@ export function ArkenCaseStudy({
         badge: "leadership layout",
         title: "meet our team — staggered director grid",
         subtitle: "harshit gujar, amaan ahmed & mukunda bhanot",
-        src: "/arken/sections/05-team-editorial.png",
+        src: "/arken/sections/05-team-editorial.webp",
         isLongScroll: true,
         pixelDimensions: "1512 × 2480px",
         aspectClass: "aspect-[16/10]",
@@ -199,7 +199,7 @@ export function ArkenCaseStudy({
         badge: "campaign poster",
         title: "a glimpse behind the curtain — 3d keychain poster",
         subtitle: "2284 × 4096px photorealistic studio teaser artwork",
-        src: "/arken/glimpse-behind-curtain-poster.png",
+        src: "/arken/glimpse-behind-curtain-poster.webp",
         isLongScroll: false,
         pixelDimensions: "2284 × 4096px",
         aspectClass: "aspect-[16/10]",
@@ -263,7 +263,7 @@ export function ArkenCaseStudy({
         badge: "physical artifacts & merch",
         title: "tactile brand merchandise & sticker specimen sheet",
         subtitle: "1987 × 2484px • jewel case cd, 3d chrome keychains & die-cut decals",
-        src: "/arken/arken-sticker-sheet-artifacts.png",
+        src: "/arken/arken-sticker-sheet-artifacts.webp",
         isLongScroll: false,
         pixelDimensions: "1987 × 2484px",
         aspectClass: "aspect-[4/5]",
@@ -279,7 +279,7 @@ export function ArkenCaseStudy({
         badge: "brand campaign poster",
         title: "vision in focus — macro iris campaign key visual",
         subtitle: "1536 × 2752px • macro eye photography with luminous green pupil logo",
-        src: "/arken/arken-vision-eye-campaign.png",
+        src: "/arken/arken-vision-eye-campaign.webp",
         isLongScroll: false,
         pixelDimensions: "1536 × 2752px",
         aspectClass: "aspect-[9/16]",
@@ -469,7 +469,7 @@ export function ArkenCaseStudy({
           <div
             onClick={() =>
               openLightbox(
-                "/arken/glimpse-behind-curtain-poster.png",
+                "/arken/glimpse-behind-curtain-poster.webp",
                 "A Glimpse Behind The Curtain — Brand Teaser Poster",
                 "3D Chrome Keyring, Fur Pom-Pom & Metallic Charm Render",
                 "High-resolution studio campaign poster introducing Arken's signature textures, chrome hardware, and subculture energy.",
@@ -480,7 +480,7 @@ export function ArkenCaseStudy({
             className="lg:col-span-4 relative aspect-[3/4] lg:aspect-auto min-h-[360px] rounded-3xl sm:rounded-[36px] overflow-hidden border border-white/[0.08] bg-[#7a7c80] cursor-pointer group transition-all duration-500 hover:border-white/25"
           >
             <Image
-              src="/arken/glimpse-behind-curtain-poster.png"
+              src="/arken/glimpse-behind-curtain-poster.webp"
               alt="A Glimpse Behind The Curtain Poster"
               fill
               priority
@@ -1059,7 +1059,7 @@ export function ArkenCaseStudy({
               <div
                 onClick={() =>
                   openLightbox(
-                    "/arken/arken-vision-eye-campaign.png",
+                    "/arken/arken-vision-eye-campaign.webp",
                     "Vision in Focus — Macro Iris Campaign Key Visual",
                     "Optical Brand Identity & Macro Campaign (1536 × 2752px)",
                     "Cinematic macro photography of human eye optics with an emerald pupil radiance housing the glowing Arken Creatives wordmark, expressing hyper-detailed precision and creative clarity.",
@@ -1071,7 +1071,7 @@ export function ArkenCaseStudy({
               >
                 <div className="relative w-full aspect-square max-h-[320px] overflow-hidden bg-black">
                   <Image
-                    src="/arken/arken-vision-eye-campaign.png"
+                    src="/arken/arken-vision-eye-campaign.webp"
                     alt="Arken Iris Campaign Key Visual"
                     fill
                     unoptimized
@@ -1102,7 +1102,7 @@ export function ArkenCaseStudy({
               <div
                 onClick={() =>
                   openLightbox(
-                    "/arken/arken-sticker-sheet-artifacts.png",
+                    "/arken/arken-sticker-sheet-artifacts.webp",
                     "Arken Tactile Brand Merchandise & Sticker Kit",
                     "Physical Brand Specimen & Jewel Case CD (1987 × 2484px)",
                     "Comprehensive physical merchandise sheet showcasing Arken jewel-case CD audio edition ('ARKEN CREATIVES AUDIO PRODUCTION', barcode 4 017866 ARKEN1), sculpted chrome star keyrings, Helvetica specimen, plush mascot decals, and numbered Series One specimen plates.",
@@ -1114,7 +1114,7 @@ export function ArkenCaseStudy({
               >
                 <div className="relative w-full aspect-square max-h-[320px] overflow-hidden bg-[#182744]">
                   <Image
-                    src="/arken/arken-sticker-sheet-artifacts.png"
+                    src="/arken/arken-sticker-sheet-artifacts.webp"
                     alt="Arken Sticker Specimen Sheet & CD Edition"
                     fill
                     unoptimized
@@ -1207,7 +1207,7 @@ export function ArkenCaseStudy({
                     type="button"
                     onClick={() =>
                       openLightbox(
-                        "/arken/arken-full-web-ui.png",
+                        "/arken/arken-full-web-ui.webp",
                         "Arken Creatives — Full Desktop Web UI (1512 × 8047px)",
                         "Complete End-to-End Landing Page Design",
                         "Scrollable high-resolution desktop interface.",
@@ -1227,7 +1227,7 @@ export function ArkenCaseStudy({
               {/* Scrollable Viewport Container */}
               <div className="relative w-full h-[520px] sm:h-[680px] overflow-y-auto overflow-x-hidden bg-[#f4f4f2] scrollbar-thin">
                 <Image
-                  src="/arken/arken-full-web-ui.png"
+                  src="/arken/arken-full-web-ui.webp"
                   alt="Arken Full Desktop Website UI/UX Design"
                   width={1512}
                   height={8047}

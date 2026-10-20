@@ -187,6 +187,12 @@ export function PlaygroundHub({
 
   const internalRef = React.useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    if (scrollContainerRef && internalRef.current) {
+      (scrollContainerRef as React.MutableRefObject<HTMLDivElement | null>).current = internalRef.current;
+    }
+  }, [scrollContainerRef]);
+
   // Hard scroll up detection at top of content (overscroll upwards)
   useEffect(() => {
     const el = internalRef.current;
@@ -306,12 +312,7 @@ export function PlaygroundHub({
 
   return (
     <div
-      ref={(node) => {
-        internalRef.current = node;
-        if (scrollContainerRef) {
-          (scrollContainerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-        }
-      }}
+      ref={internalRef}
       className={`h-full w-full px-6 sm:px-12 md:px-16 lg:px-24 pt-28 sm:pt-32 pb-36 ${
         isInteractive
           ? "overflow-y-auto pointer-events-auto"

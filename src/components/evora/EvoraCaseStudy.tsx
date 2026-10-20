@@ -476,7 +476,7 @@ export function EvoraCaseStudy({
   const navigateLightbox = (direction: "prev" | "next") => {
     if (lightbox.currentIndex === -1) return;
     const total = screens.length;
-    let nextIndex =
+    const nextIndex =
       direction === "next"
         ? (lightbox.currentIndex + 1) % total
         : (lightbox.currentIndex - 1 + total) % total;
