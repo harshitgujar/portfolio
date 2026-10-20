@@ -84,15 +84,15 @@ export function StronCaseStudy({
         category: "brand",
         step: "01",
         badge: "brand identity",
-        title: "stron visual identity & system poster",
-        subtitle: "1200 × 1600px • mathematical s-monogram & athletic dark os",
+        title: "stron minimal brand card & centered emblem",
+        subtitle: "1200 × 1600px • mathematical s-monogram & radiant cobalt aura",
         src: "/stron.png",
         pixelDimensions: "1200 × 1600px",
         aspectClass: "aspect-[3/4]",
         bgClass: "bg-[#06070a]",
-        objectFit: "contain",
+        objectFit: "cover",
         description:
-          "Official STRON brand identity showcase: electric sapphire radial gradient (#96C1FF to #0067FF), tactical grid markings, and athletic-premium typography system.",
+          "Official STRON minimal emblem card: mathematical S-monogram floating in the optical center with radiant athletic cobalt depth luminescence.",
       },
       {
         id: "app-social-racing",
@@ -323,9 +323,9 @@ export function StronCaseStudy({
             onClick={() =>
               openLightbox(
                 "/stron.png",
-                "STRON — Ecosystem System Poster & Monogram",
-                "1200 × 1600px • Electric Sapphire Radial & Tactical Grid",
-                "Full-bleed visual identity poster showcasing the mathematical S-monogram logo and dark athletic UI framework.",
+                "STRON — Minimal Brand Card & Emblem",
+                "1200 × 1600px • Mathematical S-Monogram & Radiant Cobalt Aura",
+                "Minimal project card featuring the official STRON mathematical S-monogram centered with radiant athletic depth luminescence.",
                 0
               )
             }
@@ -333,11 +333,11 @@ export function StronCaseStudy({
           >
             <Image
               src="/stron.png"
-              alt="STRON Ecosystem Poster"
+              alt="STRON Minimal Brand Card"
               fill
               priority
               unoptimized
-              className="object-contain p-2 sm:p-4 group-hover:scale-[1.02] transition-transform duration-700"
+              className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
             />
             <div className="absolute bottom-5 left-6 right-6 flex items-center justify-between text-white pointer-events-none">
               <div>
