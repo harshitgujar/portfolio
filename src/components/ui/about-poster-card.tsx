@@ -151,7 +151,7 @@ export function AboutPosterCard({
         {/* Pure Minimalist Quote & Author */}
         <div className="relative z-30 max-w-full space-y-4 px-1 sm:px-2">
           <p
-            className={`font-[family-name:var(--font-instrument-serif)] italic text-2xl sm:text-3xl md:text-[34px] leading-[1.2] sm:leading-[1.15] tracking-tight font-normal transition-all duration-150 ${
+            className={`font-[family-name:var(--font-instrument-serif)] italic text-xl sm:text-2xl md:text-[26px] leading-[1.25] tracking-tight font-normal transition-all duration-150 ${
               isMonochrome ? "text-white" : "text-[#0a0a0c]"
             } ${
               isTransitioning
@@ -168,7 +168,7 @@ export function AboutPosterCard({
             }`}
           >
             <span
-              className={`font-mono text-[9.5px] sm:text-[10.5px] uppercase tracking-[0.25em] font-semibold block ${
+              className={`font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.22em] font-semibold block ${
                 isMonochrome ? "text-white/80" : "text-[#0a0a0c]/80"
               }`}
             >

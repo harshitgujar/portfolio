@@ -375,7 +375,7 @@ export default function ExtrasPage() {
         {/* Bottom Right Corner */}
         <a
           href="mailto:harshitgujar1604@gmail.com"
-          className={`font-[family-name:var(--font-space-grotesk)] text-sm sm:text-base font-medium tracking-normal transition-colors duration-200 lowercase hover:opacity-100 ml-auto sm:ml-0 ${
+          className={`font-mono text-[11px] sm:text-xs tracking-wide transition-colors duration-200 lowercase hover:opacity-100 ml-auto sm:ml-0 ${
             extrasExperiment === "music"
               ? "text-white/80 hover:text-white"
               : isLight

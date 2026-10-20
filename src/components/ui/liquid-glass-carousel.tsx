@@ -776,12 +776,18 @@ function createCarousel(
   }
 
   function panelAtPointer(px: number, py: number) {
+    let best: PanelRect | null = null;
+    let bestDist = Infinity;
     for (const r of panelRects) {
       if (px >= r.left && px <= r.right && py >= r.top && py <= r.bottom) {
-        return r;
+        const dist = Math.abs(r.centerX);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = r;
+        }
       }
     }
-    return null;
+    return best;
   }
 
   function localPoint(e: { clientX: number; clientY: number }) {
@@ -1012,12 +1018,14 @@ function createCarousel(
       centeredPanel && hit.poolIdx === centeredPanel.poolIdx
     );
 
+    // If an external item click handler is provided, invoke it directly
+    if (options.onItemClick) {
+      options.onItemClick(hit.srcIndex, items[hit.srcIndex]);
+      return;
+    }
+
     // If already centered, already focused, or double-clicked:
     if (isCentered || focusState.active || isDoubleClick) {
-      if (options.onItemClick) {
-        options.onItemClick(hit.srcIndex, items[hit.srcIndex]);
-        return;
-      }
       pendingFocus = null;
       openFocus();
       return;
@@ -1748,13 +1756,13 @@ export function LiquidGlassCarousel({
 
       <p
         ref={titleRef}
-        className="hidden md:block pointer-events-none absolute left-1/2 top-[4.5%] z-10 m-0 text-center font-[family-name:var(--font-instrument-serif)] text-2xl lg:text-3xl font-normal tracking-tight text-[var(--ink,#ffffff)] opacity-0 drop-shadow-sm transition-colors duration-300"
+        className="hidden md:block pointer-events-none absolute left-1/2 top-[4.5%] z-10 m-0 text-center text-[12px] sm:text-[13px] font-medium tracking-[0.2em] text-white/80 uppercase opacity-0 drop-shadow-md transition-colors duration-300"
       >
         {current?.title}
       </p>
       <p
         ref={counterRef}
-        className="pointer-events-none absolute bottom-[6%] left-1/2 z-10 m-0 text-center font-mono text-xs sm:text-sm font-medium tabular-nums tracking-widest text-[var(--ink-dim,rgba(255,255,255,0.8))] opacity-0 transition-colors duration-300"
+        className="pointer-events-none absolute bottom-[6%] left-1/2 z-10 m-0 text-center font-mono text-[10px] sm:text-[11px] font-normal tabular-nums tracking-[0.2em] text-white/60 opacity-0 transition-colors duration-300"
       >
         {pad(active + 1)}/{pad(items.length)}
       </p>

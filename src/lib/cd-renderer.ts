@@ -260,11 +260,18 @@ export function renderCDToCanvas(
   ctx.fillStyle = outerRimGrad;
   ctx.fill();
 
-  // B. Aluminum Mirror Data Storage Layer (94% down to 36%)
+  // Inner circular hub & spindle hole radii scaled by config.hubScale (default 1.0)
+  const hubScale = Math.max(0, Math.min(1.6, config.hubScale ?? 1.0));
+  const hubR = discR * 0.36 * hubScale;
+  const holeR = discR * 0.14 * hubScale;
+
+  // B. Aluminum Mirror Data Storage Layer (94% down to hubR)
   ctx.save();
   ctx.beginPath();
   ctx.arc(0, 0, discR * 0.94, 0, Math.PI * 2);
-  ctx.arc(0, 0, discR * 0.36, 0, Math.PI * 2, true);
+  if (hubR > 0.5) {
+    ctx.arc(0, 0, hubR, 0, Math.PI * 2, true);
+  }
   ctx.closePath();
   ctx.clip();
 
@@ -280,7 +287,7 @@ export function renderCDToCanvas(
   const discBright = adjustColorBrightness(discBaseColor, 35);
 
   // Base CD data disc body gradient
-  const cdBodyGrad = ctx.createRadialGradient(0, 0, discR * 0.36, 0, 0, discR * 0.94);
+  const cdBodyGrad = ctx.createRadialGradient(0, 0, hubR, 0, 0, discR * 0.94);
   cdBodyGrad.addColorStop(0, discDark);
   cdBodyGrad.addColorStop(0.2, discMidDark);
   cdBodyGrad.addColorStop(0.52, discVivid);
@@ -302,7 +309,8 @@ export function renderCDToCanvas(
   ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
   ctx.lineWidth = 1;
   const step = discR * 0.012;
-  for (let r = discR * 0.38; r < discR * 0.94; r += step) {
+  const startGrooveR = Math.max(discR * 0.03, hubR + discR * 0.02);
+  for (let r = startGrooveR; r < discR * 0.94; r += step) {
     ctx.beginPath();
     ctx.arc(0, 0, r, 0, Math.PI * 2);
     ctx.stroke();
@@ -502,9 +510,9 @@ export function renderCDToCanvas(
     const tapeH = discR * Math.max(0.14, Math.min(0.32, (config.tapeWidth / 100) * 1.15));
 
     // Distance from center:
-    // Hub outer radius is discR * 0.38
+    // Hub outer radius is hubR
     // We enforce safe clearance so the chord NEVER overlaps or touches the center hub / spindle hole
-    const minSafeDist = discR * 0.38 + tapeH / 2 + discR * 0.04;
+    const minSafeDist = hubR + tapeH / 2 + discR * 0.04;
     const requestedDist = discR * (config.chordDistance ?? 0.58);
     const chordDist = Math.max(minSafeDist, Math.min(discR * 0.76, requestedDist));
 
@@ -616,70 +624,82 @@ export function renderCDToCanvas(
 
   ctx.restore(); // End data ring clip
 
-  // 4. Clear Transparent Hub & Clamping Ring (36% down to 14%)
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(0, 0, discR * 0.36, 0, Math.PI * 2);
-  ctx.arc(0, 0, discR * 0.14, 0, Math.PI * 2, true);
-  ctx.closePath();
-  ctx.clip();
+  // 4. Clear Transparent Hub & Clamping Ring (hubR down to holeR)
+  if (hubR > 0.5) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(0, 0, hubR, 0, Math.PI * 2);
+    if (holeR > 0.5) {
+      ctx.arc(0, 0, holeR, 0, Math.PI * 2, true);
+    }
+    ctx.closePath();
+    ctx.clip();
 
-  // Clear plastic translucent fill
-  const hubGrad = ctx.createRadialGradient(0, 0, discR * 0.14, 0, 0, discR * 0.36);
-  hubGrad.addColorStop(0, "rgba(240, 245, 255, 0.35)");
-  hubGrad.addColorStop(0.5, "rgba(200, 215, 235, 0.2)");
-  hubGrad.addColorStop(0.85, "rgba(180, 195, 220, 0.45)");
-  hubGrad.addColorStop(1, "rgba(255, 255, 255, 0.7)");
-  ctx.fillStyle = hubGrad;
-  ctx.fillRect(-discR * 0.4, -discR * 0.4, discR * 0.8, discR * 0.8);
+    // Clear plastic translucent fill
+    const hubGrad = ctx.createRadialGradient(0, 0, holeR, 0, 0, hubR);
+    hubGrad.addColorStop(0, "rgba(240, 245, 255, 0.35)");
+    hubGrad.addColorStop(0.5, "rgba(200, 215, 235, 0.2)");
+    hubGrad.addColorStop(0.85, "rgba(180, 195, 220, 0.45)");
+    hubGrad.addColorStop(1, "rgba(255, 255, 255, 0.7)");
+    ctx.fillStyle = hubGrad;
+    ctx.fillRect(-hubR * 1.15, -hubR * 1.15, hubR * 2.3, hubR * 2.3);
 
-  // Plastic mould seam rings
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.arc(0, 0, discR * 0.32, 0, Math.PI * 2);
-  ctx.stroke();
+    // Plastic mould seam rings
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(0, 0, discR * 0.32 * hubScale, 0, Math.PI * 2);
+    ctx.stroke();
 
-  ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
-  ctx.beginPath();
-  ctx.arc(0, 0, discR * 0.24, 0, Math.PI * 2);
-  ctx.stroke();
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
+    ctx.beginPath();
+    ctx.arc(0, 0, discR * 0.24 * hubScale, 0, Math.PI * 2);
+    ctx.stroke();
 
-  // Micro laser matrix text on the inner clear hub ring
-  ctx.save();
-  ctx.rotate(config.rotationAngle);
-  ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
-  const hubFontSize = Math.max(7, Math.round(discR * 0.024));
-  ctx.font = `600 ${hubFontSize}px monospace`;
-  drawCurvedText(
-    ctx,
-    "COMPACT DISC DIGITAL AUDIO • IFPI 9840 • STEREO • ",
-    0,
-    0,
-    discR * 0.28,
-    0,
-    true
-  );
-  ctx.restore();
+    // Micro laser matrix text on the inner clear hub ring
+    if (hubScale >= 0.4) {
+      ctx.save();
+      ctx.rotate(config.rotationAngle);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+      const hubFontSize = Math.max(6, Math.round(discR * 0.024 * hubScale));
+      ctx.font = `600 ${hubFontSize}px monospace`;
+      drawCurvedText(
+        ctx,
+        "COMPACT DISC DIGITAL AUDIO • IFPI 9840 • STEREO • ",
+        0,
+        0,
+        discR * 0.28 * hubScale,
+        0,
+        true
+      );
+      ctx.restore();
+    }
 
-  ctx.restore(); // End hub clip
+    ctx.restore(); // End hub clip
+  }
 
   // 4b. Center Vinyl Label (Circular printed sticker layer over the hub)
   const isCenterLabelActive = Boolean(config.showCenterLabel || config.artworkStyle === "center");
   if (isCenterLabelActive && artworkImg) {
     ctx.save();
     ctx.rotate(config.rotationAngle);
+    const labelScale = Math.max(0.2, Math.min(2.0, config.centerLabelSize ?? 1.0));
+    const labelOuterR = Math.min(discR * 0.93, discR * 0.44 * labelScale);
+    const labelInnerR = Math.min(labelOuterR * 0.85, holeR);
+
     // Outer circle for the label sticker with cutout for the center spindle hole
     ctx.beginPath();
-    ctx.arc(0, 0, discR * 0.44, 0, Math.PI * 2);
-    ctx.arc(0, 0, discR * 0.14, 0, Math.PI * 2, true);
+    ctx.arc(0, 0, labelOuterR, 0, Math.PI * 2);
+    if (labelInnerR > 0.5) {
+      ctx.arc(0, 0, labelInnerR, 0, Math.PI * 2, true);
+    }
     ctx.closePath();
     ctx.clip();
 
     ctx.globalCompositeOperation = config.artworkBlendMode || "source-over";
     ctx.globalAlpha = config.artworkOpacity ?? 1.0;
 
-    const labelD = discR * 0.88 * (config.artworkScale || 1.0);
+    const labelD = labelOuterR * 2 * (config.artworkScale || 1.0);
     const imgW = artworkImg.naturalWidth || artworkImg.width || labelD;
     const imgH = artworkImg.naturalHeight || artworkImg.height || labelD;
     const minDim = Math.min(imgW, imgH);
@@ -701,51 +721,53 @@ export function renderCDToCanvas(
     ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
     ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.arc(0, 0, discR * 0.44, 0, Math.PI * 2);
+    ctx.arc(0, 0, labelOuterR, 0, Math.PI * 2);
     ctx.stroke();
 
     ctx.restore();
   }
 
-  // 5. Center Spindle Hole (14% radius cutout)
+  // 5. Center Spindle Hole (holeR radius cutout)
   // Shows whatever is behind the disc: if in sleeve, shows the sleeve interior!
-  ctx.save();
-  if (config.sleeveMode !== "disc-only") {
-    // Show the recessed purple sleeve interior inside the center hole
-    const holeGrad = ctx.createRadialGradient(
-      -discR * 0.03,
-      -discR * 0.03,
-      discR * 0.02,
-      0,
-      0,
-      discR * 0.14
-    );
-    holeGrad.addColorStop(0, adjustColorBrightness(config.sleeveColor, -35));
-    holeGrad.addColorStop(1, adjustColorBrightness(config.sleeveColor, -15));
-    ctx.fillStyle = holeGrad;
-    ctx.beginPath();
-    ctx.arc(0, 0, discR * 0.14, 0, Math.PI * 2);
-    ctx.fill();
+  if (holeR > 0.5) {
+    ctx.save();
+    if (config.sleeveMode !== "disc-only") {
+      // Show the recessed sleeve interior inside the center hole
+      const holeGrad = ctx.createRadialGradient(
+        -holeR * 0.2,
+        -holeR * 0.2,
+        holeR * 0.14,
+        0,
+        0,
+        holeR
+      );
+      holeGrad.addColorStop(0, adjustColorBrightness(config.sleeveColor, -35));
+      holeGrad.addColorStop(1, adjustColorBrightness(config.sleeveColor, -15));
+      ctx.fillStyle = holeGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, holeR, 0, Math.PI * 2);
+      ctx.fill();
 
-    // Inner rim shadow inside hole
-    ctx.strokeStyle = "rgba(0, 0, 0, 0.4)";
-    ctx.lineWidth = 1.2;
+      // Inner rim shadow inside hole
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.4)";
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    } else {
+      // Transparent hole for disc-only
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath();
+      ctx.arc(0, 0, holeR, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // Spindle hole bevel edge highlight
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.75)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(0, 0, holeR, 0, Math.PI * 2);
     ctx.stroke();
-  } else {
-    // Transparent hole for disc-only
-    ctx.globalCompositeOperation = "destination-out";
-    ctx.beginPath();
-    ctx.arc(0, 0, discR * 0.14, 0, Math.PI * 2);
-    ctx.fill();
   }
-  ctx.restore();
-
-  // Spindle hole bevel edge highlight
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.75)";
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.arc(0, 0, discR * 0.14, 0, Math.PI * 2);
-  ctx.stroke();
 
   // 6. Overall Polycarbonate Glass Gloss Sheen across upper hemisphere
   ctx.save();

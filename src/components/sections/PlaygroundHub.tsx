@@ -8,6 +8,7 @@ import {
   PlaygroundExperiment,
 } from "@/data/extras-experiments";
 import { INITIAL_DESIGN_TOOLS, DesignToolItem } from "@/data/design-tools";
+import { fetchCommunityTools, submitCommunityTool } from "@/lib/community-tools";
 import { useTheme } from "@/context/ThemeContext";
 import { SubmitToolModal } from "@/components/ui/submit-tool-modal";
 import { HoverTransition } from "@/components/ui/hover-transition";
@@ -67,7 +68,7 @@ function ExtraCard({
 
       {/* Just the Name of the Tool */}
       <div className="relative z-10">
-        <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-white leading-tight">
+        <h3 className="text-base sm:text-lg font-medium tracking-tight text-white leading-tight">
           {title}
         </h3>
       </div>
@@ -95,7 +96,7 @@ function ExtraCard({
       {/* Middle Body: Description ("remaining info the user provides while submitting") */}
       <div className="my-auto py-2">
         <p
-          className={`text-sm sm:text-base font-normal leading-relaxed line-clamp-4 sm:line-clamp-5 ${
+          className={`text-xs sm:text-[13px] font-normal leading-relaxed line-clamp-4 sm:line-clamp-5 ${
             isDarkText ? "text-black/85" : "text-white/85"
           }`}
         >
@@ -111,14 +112,14 @@ function ExtraCard({
       >
         <div className="flex items-center justify-between gap-2">
           <h4
-            className={`text-lg sm:text-xl font-bold tracking-tight truncate ${
+            className={`text-sm sm:text-base font-semibold tracking-tight truncate ${
               isDarkText ? "text-black" : "text-white"
             }`}
           >
             {title}
           </h4>
           <ArrowUpRight
-            className={`w-5 h-5 flex-shrink-0 ${
+            className={`w-4 h-4 flex-shrink-0 ${
               isDarkText ? "text-black" : "text-white"
             }`}
           />
@@ -269,46 +270,37 @@ export function PlaygroundHub({
     };
   }, [onHardScrollUp, isInteractive]);
 
-  // Load community submissions from localStorage on mount
+  // Load community submissions from Cloud Firestore (or fallback cache) on mount
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("portfolio_community_tools");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const combined = [
-            ...parsed,
-            ...INITIAL_DESIGN_TOOLS.filter(
-              (init) => !parsed.some((p: DesignToolItem) => p.id === init.id)
-            ),
-          ];
-          setToolsList(combined);
+    let isMounted = true;
+    async function loadTools() {
+      try {
+        const tools = await fetchCommunityTools();
+        if (isMounted) {
+          setToolsList(tools);
         }
+      } catch (error) {
+        console.warn("Error loading community tools:", error);
       }
-    } catch {
-      // Ignore localStorage errors
     }
+    loadTools();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const handleAddTool = (newTool: Omit<DesignToolItem, "id">) => {
-    const item: DesignToolItem = {
-      ...newTool,
-      id: `tool-${Date.now()}`,
-    };
-    const updated = [item, ...toolsList];
-    setToolsList(updated);
+  const handleAddTool = async (newTool: Omit<DesignToolItem, "id">) => {
     try {
-      const userSubmissions = JSON.parse(
-        localStorage.getItem("portfolio_community_tools") || "[]"
-      );
-      localStorage.setItem(
-        "portfolio_community_tools",
-        JSON.stringify([item, ...userSubmissions])
-      );
-    } catch {
-      // Ignore localStorage errors
+      const savedItem = await submitCommunityTool(newTool);
+      setToolsList((prev) => [
+        savedItem,
+        ...prev.filter((t) => t.id !== savedItem.id && t.url.toLowerCase() !== savedItem.url.toLowerCase()),
+      ]);
+      setToastMessage(`"${savedItem.title}" submitted to the community library!`);
+    } catch (error) {
+      console.error("Submission failed:", error);
+      setToastMessage(`Could not submit "${newTool.title}". Please try again.`);
     }
-    setToastMessage(`"${item.title}" added to the library!`);
     setTimeout(() => setToastMessage(null), 3500);
   };
 
@@ -334,14 +326,14 @@ export function PlaygroundHub({
           {/* Section 1 Header */}
           <div className="flex flex-col items-start max-w-2xl space-y-2">
             <h2
-              className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight ${
+              className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight ${
                 isLight ? "text-neutral-900" : "text-white"
               }`}
             >
               Personal
             </h2>
             <p
-              className={`font-sans text-base sm:text-lg md:text-xl font-normal leading-relaxed tracking-tight ${
+              className={`font-sans text-sm sm:text-base font-normal leading-relaxed tracking-tight ${
                 isLight ? "text-neutral-600" : "text-neutral-300"
               }`}
             >
@@ -392,14 +384,14 @@ export function PlaygroundHub({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5">
             <div className="flex flex-col items-start max-w-xl space-y-2">
               <h2
-                className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight ${
+                className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight ${
                   isLight ? "text-neutral-900" : "text-white"
                 }`}
               >
                 Community
               </h2>
               <p
-                className={`font-sans text-base sm:text-lg md:text-xl font-normal leading-relaxed tracking-tight ${
+                className={`font-sans text-sm sm:text-base font-normal leading-relaxed tracking-tight ${
                   isLight ? "text-neutral-600" : "text-neutral-300"
                 }`}
               >

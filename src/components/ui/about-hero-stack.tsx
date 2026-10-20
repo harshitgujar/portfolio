@@ -93,8 +93,8 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
   const stage2Progress = Math.min(Math.max((progress - 0.08) / 0.58, 0), 1);
 
   // Top Image / Portrait:
-  // Rendered in the BIGGER size (scale: 1.12 -> 1.16, noticeably larger than the below card)
-  const portraitScale = 1.12 + stage2Progress * 0.04;
+  // Rendered in the BIGGER size (scale: 1.16 -> 1.20, noticeably larger than the below card)
+  const portraitScale = 1.16 + stage2Progress * 0.04;
   // Revealed from the bottom upward (de-crops from 100% down to 0%)
   const cropTop = Math.max((1 - stage2Progress) * 100, 0); // 100% -> 0%
   const portraitOpacity = stage2Progress > 0.005 ? 1 : 0;
@@ -102,7 +102,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
   return (
     <section
       ref={trackRef}
-      className="relative w-full h-[160vh] sm:h-[240vh] select-none"
+      className="relative w-full h-[185vh] sm:h-[260vh] select-none"
     >
       {/* Sticky Viewport Stage: Pinned in viewport while scrolling */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-4 z-20">
@@ -200,7 +200,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
 
         {/* Responsive, unified action text directly below card/image */}
         <div
-          className="mt-14 sm:mt-16 flex items-center justify-center z-30 select-none transition-all duration-300"
+          className="mt-4 sm:mt-5 flex items-center justify-center z-30 select-none transition-all duration-300"
           style={{
             opacity: isRevealed ? 1 : 0,
             transform: `translateY(${progress * 6}px)`,
@@ -209,7 +209,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
         >
           {progress < 0.08 ? (
             <div
-              className={`flex items-center justify-center gap-2.5 sm:gap-3 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] uppercase tracking-[0.14em] font-medium pointer-events-none select-none transition-opacity duration-300 ${
+              className={`flex items-center justify-center gap-2.5 sm:gap-3 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] pointer-events-none select-none transition-opacity duration-300 ${
                 isLight ? "text-neutral-500" : "text-white/50"
               }`}
             >
@@ -230,7 +230,7 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
             <button
               type="button"
               onClick={onScrollDown}
-              className={`group flex items-center gap-1.5 font-[family-name:var(--font-space-grotesk)] text-[10px] sm:text-[11px] tracking-[0.16em] uppercase font-medium transition-all duration-300 focus:outline-none cursor-pointer ${
+              className={`group flex items-center gap-1.5 font-mono text-[9px] sm:text-[10px] tracking-[0.25em] uppercase transition-all duration-300 focus:outline-none cursor-pointer ${
                 isLight
                   ? "text-neutral-600 hover:text-black"
                   : "text-white/60 hover:text-white"

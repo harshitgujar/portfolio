@@ -8,7 +8,7 @@ import { DesignToolItem } from "@/data/design-tools";
 interface SubmitToolModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (tool: Omit<DesignToolItem, "id">) => void;
+  onSubmit: (tool: Omit<DesignToolItem, "id">) => Promise<void> | void;
 }
 
 const CATEGORY_PRESETS = [
@@ -43,12 +43,21 @@ export function SubmitToolModal({
   const [thumbnail, setThumbnail] = useState("");
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Anti-spam bot check
+    if (honeypot.trim()) {
+      onClose();
+      return;
+    }
+
     if (!title.trim()) {
       setError("Please provide a project or tool name.");
       return;
@@ -67,25 +76,34 @@ export function SubmitToolModal({
       thumbnail.trim() ||
       DEFAULT_THUMBNAILS[Math.floor(Math.random() * DEFAULT_THUMBNAILS.length)];
 
-    onSubmit({
-      title: title.trim(),
-      url: formattedUrl,
-      category: category.trim() || "Design Tool",
-      thumbnail: fallbackThumbnail,
-      description: description.trim() || undefined,
-      author: author.trim() || "Community",
-      date: new Date().getFullYear().toString(),
-    });
+    try {
+      setIsSubmitting(true);
+      setError(null);
+      await onSubmit({
+        title: title.trim(),
+        url: formattedUrl,
+        category: category.trim() || "Design Tool",
+        thumbnail: fallbackThumbnail,
+        description: description.trim() || undefined,
+        author: author.trim() || "Community",
+        date: new Date().getFullYear().toString(),
+      });
 
-    // Reset state & close
-    setTitle("");
-    setUrl("");
-    setCategory(CATEGORY_PRESETS[0]);
-    setThumbnail("");
-    setDescription("");
-    setAuthor("");
-    setError(null);
-    onClose();
+      // Reset state & close
+      setTitle("");
+      setUrl("");
+      setCategory(CATEGORY_PRESETS[0]);
+      setThumbnail("");
+      setDescription("");
+      setAuthor("");
+      setHoneypot("");
+      setError(null);
+      onClose();
+    } catch (err: any) {
+      setError(err?.message || "Failed to submit project. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -281,26 +299,40 @@ export function SubmitToolModal({
             </div>
           </div>
 
+          {/* Honeypot anti-spam field (hidden from real users) */}
+          <div className="hidden" aria-hidden="true">
+            <input
+              type="text"
+              name="hp_website_check"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           {/* Action Buttons */}
           <div className="pt-3 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
+              disabled={isSubmitting}
               className={`px-4 py-2 rounded-lg font-[family-name:var(--font-space-grotesk)] text-xs font-medium transition-colors ${
                 isLight ? "text-neutral-600 hover:text-black" : "text-neutral-400 hover:text-white"
-              }`}
+              } disabled:opacity-50`}
             >
               Cancel
             </button>
             <button
               type="submit"
+              disabled={isSubmitting}
               className={`px-4 py-2 rounded-lg font-[family-name:var(--font-space-grotesk)] text-xs font-medium transition-all duration-150 active:scale-[0.98] ${
                 isLight
                   ? "bg-black text-white hover:bg-neutral-800"
                   : "bg-white text-black hover:bg-neutral-200"
-              }`}
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              Submit to Library &rarr;
+              {isSubmitting ? "Submitting..." : "Submit to Library →"}
             </button>
           </div>
         </form>

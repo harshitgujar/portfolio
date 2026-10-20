@@ -1,0 +1,153 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: community_tools
+// Document ID: auto-generated or slug string
+// Fields:
+//   - title: string (required, 1-100 chars) - Community tool / project name
+//   - url: string (required, 1-500 chars, starts with http:// or https://) - Destination URL
+//   - category: string (required, 1-50 chars) - Tool classification or domain tag
+//   - thumbnail: string (required, 1-1000 chars) - Preview image URL or asset path
+//   - description: string (optional, 0-500 chars) - Short summary or description
+//   - author: string (optional, 0-100 chars) - Contributor name or handle
+//   - date: string (optional, 0-20 chars) - Release year or date label (e.g. '2026')
+//   - createdAt: timestamp (optional/system, immutable on update) - Submission timestamp
+//   - status: string (optional, 'approved' | 'pending' | 'rejected' | 'archived') - Visibility status
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the user is authenticated with Firebase Auth
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the user has administrative privileges.
+    // Privileges are derived ONLY from secure auth token claims or verified roles.
+    function isAdmin() {
+      return isAuthenticated() &&
+        (
+          ('admin' in request.auth.token && request.auth.token.admin == true) ||
+          ('role' in request.auth.token && request.auth.token.role == 'admin')
+        );
+    }
+
+    // Validate URL format (bounded length and strictly starting with http:// or https://)
+    function isValidUrl(url) {
+      return url is string &&
+        url.size() >= 1 &&
+        url.size() <= 500 &&
+        (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    // Validate optional string field (if present, must be string and within length bounds)
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+        (
+          request.resource.data[field] is string &&
+          request.resource.data[field].size() >= minLen &&
+          request.resource.data[field].size() <= maxLen
+        );
+    }
+
+    // Validate that an existing immutable field is not modified or removed during an update
+    function isImmutableFieldUnchanged(field) {
+      return !(field in resource.data) ||
+        (field in request.resource.data && request.resource.data[field] == resource.data[field]);
+    }
+
+    // ===============================================================
+    // Domain Validators (Validator Function Pattern)
+    // Applied to both create and update operations
+    // ===============================================================
+
+    function isValidCommunityTool(data) {
+      let allowedFields = [
+        'title',
+        'url',
+        'category',
+        'thumbnail',
+        'description',
+        'author',
+        'date',
+        'createdAt',
+        'status'
+      ];
+
+      let requiredFields = [
+        'title',
+        'url',
+        'category',
+        'thumbnail'
+      ];
+
+      return data.keys().hasOnly(allowedFields) &&
+        data.keys().hasAll(requiredFields) &&
+        // Required fields: strict type and realistic size limits (prevents 1MB DoS)
+        data.title is string &&
+        data.title.size() >= 1 &&
+        data.title.size() <= 100 &&
+        isValidUrl(data.url) &&
+        data.category is string &&
+        data.category.size() >= 1 &&
+        data.category.size() <= 50 &&
+        data.thumbnail is string &&
+        data.thumbnail.size() >= 1 &&
+        data.thumbnail.size() <= 1000 &&
+        // Optional fields: length bounds
+        isValidOptionalString('description', 0, 500) &&
+        isValidOptionalString('author', 0, 100) &&
+        isValidOptionalString('date', 0, 20) &&
+        // Creation timestamp constraint (if provided, must be timestamp and not set in far future)
+        (!('createdAt' in data) || (data.createdAt is timestamp && data.createdAt <= request.time + duration.value(5, 'm'))) &&
+        // Status enum constraint
+        (!('status' in data) || (data.status is string && data.status in ['approved', 'pending', 'rejected', 'archived']));
+    }
+
+    // Validate safe status assignment on public submission
+    function isValidPublicSubmission(data) {
+      return !('status' in data) || data.status in ['approved', 'pending'];
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    match /community_tools/{toolId} {
+      // 1. Read: Public read allowed so unauthenticated visitors can browse tools.
+      // Compatible with client collection queries (e.g. orderBy('createdAt', 'desc')).
+      allow read: if true;
+
+      // 2. Create: Open submission permitted with strict payload validation.
+      // Enforces required schema, type safety, size bounds, and restricts public status to approved/pending.
+      allow create: if isValidCommunityTool(request.resource.data) &&
+                      (isAdmin() || isValidPublicSubmission(request.resource.data));
+
+      // 3. Update: Denied to public. Only administrators can update tools.
+      // Must satisfy the domain validator pattern and preserve immutable fields.
+      allow update: if isAdmin() &&
+                      isValidCommunityTool(request.resource.data) &&
+                      isImmutableFieldUnchanged('createdAt');
+
+      // 4. Delete: Denied to public. Only administrators can remove tools.
+      allow delete: if isAdmin();
+    }
+
+    // ===============================================================
+    // Default Deny Rule
+    // Explicitly lock down all other collections and document paths
+    // ===============================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

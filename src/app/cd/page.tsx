@@ -1,10 +1,13 @@
 "use client";
 
 import React, { Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { Sparkles } from "lucide-react";
 import { DigitalCDStudio } from "@/components/ui/DigitalCDStudio";
 
 export default function CDStudioPage() {
+  const router = useRouter();
+
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-[#06070a] flex flex-col">
       {/* Main Studio Viewport */}
@@ -17,7 +20,10 @@ export default function CDStudioPage() {
             </div>
           }
         >
-          <DigitalCDStudio className="w-full h-full" />
+          <DigitalCDStudio
+            className="w-full h-full"
+            onBack={() => router.push("/")}
+          />
         </Suspense>
       </div>
     </main>

@@ -667,36 +667,37 @@ export function DigitalCDStudio({
       {/* TOP HEADER BAR (UNIFIED, SLEEK, WITH PROMINENT EXPORT)   */}
       {/* ======================================================== */}
       <header
-        className={`w-full h-14 px-4 sm:px-6 flex items-center justify-between border-b transition-colors z-40 ${
+        className={`w-full h-14 px-6 sm:px-12 md:px-16 flex items-center justify-between border-b transition-colors z-40 ${
           isLight
-            ? "bg-white/80 border-neutral-200/80 backdrop-blur-xl text-neutral-900"
-            : "bg-[#090a0f]/80 border-white/[0.08] backdrop-blur-xl text-white"
+            ? "bg-white/80 border-neutral-200/80 backdrop-blur-md text-neutral-900"
+            : "bg-[#0c0d10]/90 border-white/[0.08] backdrop-blur-md text-white"
         }`}
       >
-        {/* Left: Minimal Back Button & Studio Breadcrumb */}
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={handleBack}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer ${
-              isLight
-                ? "bg-neutral-100 hover:bg-neutral-200 text-neutral-700"
-                : "bg-white/[0.06] hover:bg-white/[0.12] text-neutral-300 hover:text-white"
-            }`}
-            title="Back"
-            aria-label="Back"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back</span>
-          </button>
-          <div
-            className={`h-4 w-px ${
-              isLight ? "bg-neutral-200" : "bg-white/10"
-            }`}
-          />
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-xs tracking-tight">
-              CD Studio
+        {/* Left: Minimal Back Button */}
+        <button
+          type="button"
+          onClick={handleBack}
+          className={`inline-flex items-center gap-2 text-xs sm:text-sm font-[family-name:var(--font-space-grotesk)] transition-colors group px-3 py-1.5 -ml-3 rounded-lg cursor-pointer ${
+            isLight
+              ? "text-neutral-600 hover:text-neutral-950 hover:bg-black/[0.05]"
+              : "text-white/70 hover:text-white hover:bg-white/[0.05]"
+          }`}
+          title="back"
+          aria-label="back"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>back</span>
+        </button>
+
+        {/* Right: Studio Badge, Light/Dark Mode Switcher & Prominent Export Button */}
+        <div className="flex items-center gap-2 sm:gap-3 relative">
+          <div className="hidden sm:flex items-center gap-2 mr-1">
+            <span
+              className={`font-[family-name:var(--font-space-grotesk)] text-xs sm:text-sm tracking-wide lowercase ${
+                isLight ? "text-neutral-500" : "text-white/40"
+              }`}
+            >
+              cd studio
             </span>
             <span
               className={`text-[10px] font-mono px-1.5 py-0.5 rounded-sm ${
@@ -712,10 +713,7 @@ export function DigitalCDStudio({
                 : "45 RPM"}
             </span>
           </div>
-        </div>
 
-        {/* Right: Light/Dark Mode Switcher & Prominent Export Button */}
-        <div className="flex items-center gap-2 relative">
           {/* Light / Dark Mode Toggle */}
           <button
             type="button"
@@ -1451,6 +1449,23 @@ export function DigitalCDStudio({
                             }
                             isLight={isLight}
                           />
+                          <StudioSlider
+                            label="Inner Center Ring Size"
+                            value={Math.round((config.hubScale ?? 1.0) * 100)}
+                            displayValue={`${Math.round(
+                              (config.hubScale ?? 1.0) * 100
+                            )}%`}
+                            min={0}
+                            max={150}
+                            step={5}
+                            onChange={(val) =>
+                              setConfig((c) => ({
+                                ...c,
+                                hubScale: val / 100,
+                              }))
+                            }
+                            isLight={isLight}
+                          />
                           <div className="space-y-1 pt-1">
                             <span
                               className={`text-[11px] font-medium block ${
@@ -1496,7 +1511,7 @@ export function DigitalCDStudio({
                       )}
                     </div>
 
-                    {/* Layer C: Center Vinyl Label */}
+                    {/* Layer C: Center Vinyl Label & Inner Ring */}
                     <div>
                       <StudioToggle
                         checked={Boolean(
@@ -1519,39 +1534,77 @@ export function DigitalCDStudio({
                           }));
                         }}
                         label="Center Vinyl Label"
-                        description="Vintage circular sticker around the spindle"
+                        description="Inner circular hub ring & center spindle label"
                         isLight={isLight}
                       />
-                      {Boolean(
-                        config.showCenterLabel ||
-                          config.artworkStyle === "center"
-                      ) && (
-                        <div
-                          className={`p-3 space-y-2.5 border-t ${
-                            isLight
-                              ? "bg-neutral-50/50 border-neutral-100"
-                              : "bg-white/[0.01] border-white/[0.05]"
-                          }`}
-                        >
-                          <StudioSlider
-                            label="Label Zoom"
-                            value={Math.round(config.artworkScale * 100)}
-                            displayValue={`${Math.round(
-                              config.artworkScale * 100
-                            )}%`}
-                            min={50}
-                            max={140}
-                            step={5}
-                            onChange={(val) =>
-                              setConfig((c) => ({
-                                ...c,
-                                artworkScale: val / 100,
-                              }))
-                            }
-                            isLight={isLight}
-                          />
-                        </div>
-                      )}
+                      <div
+                        className={`p-3 space-y-2.5 border-t ${
+                          isLight
+                            ? "bg-neutral-50/50 border-neutral-100"
+                            : "bg-white/[0.01] border-white/[0.05]"
+                        }`}
+                      >
+                        <StudioSlider
+                          label="Inner Circular Ring Size"
+                          value={Math.round((config.hubScale ?? 1.0) * 100)}
+                          displayValue={`${Math.round(
+                            (config.hubScale ?? 1.0) * 100
+                          )}%`}
+                          min={0}
+                          max={150}
+                          step={5}
+                          onChange={(val) =>
+                            setConfig((c) => ({
+                              ...c,
+                              hubScale: val / 100,
+                            }))
+                          }
+                          isLight={isLight}
+                        />
+                        {Boolean(
+                          config.showCenterLabel ||
+                            config.artworkStyle === "center"
+                        ) && (
+                          <>
+                            <StudioSlider
+                              label="Label Circle Size"
+                              value={Math.round(
+                                (config.centerLabelSize ?? 1.0) * 100
+                              )}
+                              displayValue={`${Math.round(
+                                (config.centerLabelSize ?? 1.0) * 100
+                              )}%`}
+                              min={30}
+                              max={180}
+                              step={5}
+                              onChange={(val) =>
+                                setConfig((c) => ({
+                                  ...c,
+                                  centerLabelSize: val / 100,
+                                }))
+                              }
+                              isLight={isLight}
+                            />
+                            <StudioSlider
+                              label="Label Image Zoom"
+                              value={Math.round(config.artworkScale * 100)}
+                              displayValue={`${Math.round(
+                                config.artworkScale * 100
+                              )}%`}
+                              min={50}
+                              max={180}
+                              step={5}
+                              onChange={(val) =>
+                                setConfig((c) => ({
+                                  ...c,
+                                  artworkScale: val / 100,
+                                }))
+                              }
+                              isLight={isLight}
+                            />
+                          </>
+                        )}
+                      </div>
                     </div>
 
                     {/* Layer D: CD Disc Base Surface Color */}

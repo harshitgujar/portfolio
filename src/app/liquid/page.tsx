@@ -502,14 +502,6 @@ function ColorSwatchCard({ label, value, onChange }: ColorSwatchCardProps) {
 export default function WebGLLiquidStudioPage() {
   const router = useRouter();
 
-  const handleBack = () => {
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      router.back();
-    } else {
-      router.push("/");
-    }
-  };
-
   const [isControlsOpen, setIsControlsOpen] = useState(false);
   const [showTextOverlay, setShowTextOverlay] = useState(false);
   const [activePresetId, setActivePresetId] = useState<string>("kinetic");
@@ -670,39 +662,37 @@ export default function WebGLLiquidStudioPage() {
       {/* ======================================================== */}
       {/* 1. TOP HEADER BAR (UNIFIED, SLEEK, WITH CD STUDIO STYLE) */}
       {/* ======================================================== */}
-      <header className="relative w-full h-14 px-4 sm:px-6 md:px-8 flex items-center justify-between border-b border-white/[0.08] bg-[#08090d]/85 backdrop-blur-xl text-white z-40">
-        {/* Left: Back to Portfolio & Studio Name */}
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={handleBack}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium bg-white/[0.06] hover:bg-white/[0.12] text-neutral-300 hover:text-white transition-all cursor-pointer"
-            title="Back"
-            aria-label="Back"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back</span>
-          </button>
-          <div className="h-4 w-px bg-white/10" />
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-xs tracking-tight">
-              Fluid Motion Studio
-            </span>
-          </div>
-        </div>
-
-        {/* Center: Current Preset Indicator (Clickable to Toggle Controls) */}
+      <header className="relative w-full h-14 px-6 sm:px-12 md:px-16 flex items-center justify-between border-b border-white/[0.08] bg-[#0c0d10]/90 backdrop-blur-md text-white z-40">
+        {/* Left: Minimal Back Button */}
         <button
           type="button"
-          onClick={() => setIsControlsOpen((prev) => !prev)}
-          className="hidden md:flex items-center gap-2 text-xs text-neutral-400 font-mono hover:text-white transition-colors"
-          title="Click to toggle controls"
+          onClick={() => router.push("/")}
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-[family-name:var(--font-space-grotesk)] text-white/70 hover:text-white transition-colors group px-3 py-1.5 -ml-3 rounded-lg hover:bg-white/[0.05] cursor-pointer"
+          title="back"
+          aria-label="back"
         >
-          <span>Preset:</span>
-          <span className="px-2 py-0.5 rounded-sm bg-white/[0.06] border border-white/10 text-white font-sans font-medium text-[11px] tracking-wide uppercase hover:bg-white/[0.12] transition-colors">
-            {PRESETS.find((p) => p.id === activePresetId)?.name || "Custom"}
-          </span>
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>back</span>
         </button>
+
+        {/* Center: Studio Title & Current Preset Indicator */}
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:inline font-[family-name:var(--font-space-grotesk)] text-xs sm:text-sm text-white/40 tracking-wider">
+            fluid studio
+          </span>
+          <span className="hidden sm:inline text-white/20">•</span>
+          <button
+            type="button"
+            onClick={() => setIsControlsOpen((prev) => !prev)}
+            className="hidden md:flex items-center gap-2 text-xs text-neutral-400 font-mono hover:text-white transition-colors"
+            title="Click to toggle controls"
+          >
+            <span>Preset:</span>
+            <span className="px-2 py-0.5 rounded-sm bg-white/[0.06] border border-white/10 text-white font-sans font-medium text-[11px] tracking-wide uppercase hover:bg-white/[0.12] transition-colors">
+              {PRESETS.find((p) => p.id === activePresetId)?.name || "Custom"}
+            </span>
+          </button>
+        </div>
 
         {/* Right: Quick Actions & Prominent Controls Button */}
         <div className="flex items-center gap-2">

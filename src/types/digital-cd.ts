@@ -50,6 +50,8 @@ export interface CDConfig {
   artworkStyle: ArtworkStyle;
   showFullDisc: boolean;
   showCenterLabel: boolean;
+  hubScale?: number; // 0.0 to 1.5 (size of inner circular hub ring & spindle hole, default 1.0)
+  centerLabelSize?: number; // 0.3 to 1.8 (radius scale of the circular center vinyl label, default 1.0)
   artworkScale: number;
   artworkOpacity: number;
   artworkBlendMode: "source-over" | "screen" | "multiply" | "overlay";
@@ -172,6 +174,8 @@ export const DEFAULT_CD_CONFIG: CDConfig = {
   artworkStyle: "none",
   showFullDisc: false,
   showCenterLabel: false,
+  hubScale: 1.0,
+  centerLabelSize: 1.0,
   artworkScale: 1.0,
   artworkOpacity: 1.0,
   artworkBlendMode: "source-over",

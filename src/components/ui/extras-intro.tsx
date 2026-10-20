@@ -199,7 +199,7 @@ export function ExtrasIntro({
             style={{ backgroundColor: accentColor, color: accentColor }}
           />
           <span
-            className={`font-[family-name:var(--font-space-grotesk)] text-[10.5px] sm:text-[11.5px] uppercase tracking-[0.14em] font-medium transition-colors duration-300 ${
+            className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 ${
               isLight ? "text-neutral-500 font-medium" : "text-white/60"
             }`}
           >
@@ -212,7 +212,7 @@ export function ExtrasIntro({
           initial={{ opacity: 0, y: 22, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-[34px] lg:text-[38px] font-normal leading-[1.2] sm:leading-[1.16] tracking-tight transition-colors duration-300 ${
+          className={`font-[family-name:var(--font-instrument-serif)] text-xl sm:text-2xl md:text-[28px] lg:text-[32px] font-normal leading-[1.2] tracking-tight transition-colors duration-300 ${
             isLight
               ? "text-neutral-900"
               : "text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.9)]"
@@ -226,7 +226,7 @@ export function ExtrasIntro({
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}
-          className={`font-[family-name:var(--font-space-grotesk)] text-xs sm:text-sm font-medium tracking-normal max-w-md transition-colors duration-300 ${
+          className={`font-[family-name:var(--font-space-grotesk)] text-[11px] sm:text-xs font-medium tracking-normal max-w-md transition-colors duration-300 ${
             isLight
               ? "text-neutral-600"
               : "text-neutral-300 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]"
@@ -248,7 +248,7 @@ export function ExtrasIntro({
           aria-label="Scroll to enter"
         >
           <span
-            className={`font-[family-name:var(--font-space-grotesk)] text-[10.5px] sm:text-[11.5px] uppercase tracking-[0.16em] font-medium transition-colors duration-300 ${
+            className={`font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 ${
               isLight ? "text-neutral-500 font-medium" : "text-white/50"
             }`}
           >

@@ -45,9 +45,6 @@ export interface ProjectItem {
   caseStudy?: any;
 }
 
-const photo = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?w=1200&h=1600&q=85&auto=format&fit=crop`;
-
 export const PROJECTS: ProjectItem[] = [
   {
     id: "digital-cd",
@@ -113,12 +110,12 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     id: "webgl-liquid",
-    title: "Fluid Motion Studio",
-    category: "0→1 Creative Tool & WebGL Shader",
+    title: "Fluid Studio",
+    category: "0→1 Creative Tool & Smoke Shader Engine",
     description:
-      "A cinematic real-time WebGL liquid shader field and interactive customization studio for high-craft hero surfaces and kinetic brand presences.",
+      "A real-time WebGL smoke & fluid shader generator and interactive customization studio for high-craft hero surfaces and live JSX/TSX code export.",
     tags: ["0→1 Product", "Creative Tool", "WebGL", "GLSL Shaders", "Next.js"],
-    src: "/webgl-liquid.png",
+    src: "/fluid-studio.png",
     aspect: 3 / 4,
     link: "/liquid",
     github: "https://github.com/harshitgujar",
@@ -154,19 +151,19 @@ export const PROJECTS: ProjectItem[] = [
           title: "Real-Time GLSL Fluid Dynamics",
           tag: "Creative Coding",
           description: "Silky smooth procedural liquid flow computed directly on the client GPU with zero network latency.",
-          image: "/webgl-liquid.png",
+          image: "/fluid-studio.png",
         },
         {
           title: "Hardware-Inspired Studio Console",
           tag: "Interaction Design",
           description: "Tactile tick-mark sliders and live palette pickers providing instant visual feedback on every micro-adjustment.",
-          image: "/webgl-liquid.png",
+          image: "/fluid-studio.png",
         },
         {
           title: "One-Click Production Export",
           tag: "Developer Experience",
           description: "Instantly copy tailored JSX snippets or the entire self-contained component source into any Next.js app.",
-          image: "/webgl-liquid.png",
+          image: "/fluid-studio.png",
         },
       ],
       results:
@@ -176,64 +173,64 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: "evora",
     title: "EVORA",
-    category: "0→1 Product Design & Creative Direction",
+    category: "0→1 Product Design & Mobile Platform",
     description:
-      "A conceptual digital streetwear and lifestyle platform crafted with visceral brutalist typography, kinetic motion systems, and tactile brand identity.",
-    tags: ["0→1 Product", "Creative Direction", "Brand Identity", "Design System", "Next.js"],
+      "Simplifying the College Event Experience: A unified mobile ecosystem connecting Students, Clubs, and Authorities with seamless event discovery, in-app UPI ticketing, and digital governance.",
+    tags: ["0→1 Product", "UX Research", "Mobile App", "Design System", "Figma"],
     src: "/evora.png",
     aspect: 3 / 4,
-    link: "https://github.com/harshitgujar",
+    link: "/evora",
     figma: "https://www.figma.com/@harshitgujar",
     github: "https://github.com/harshitgujar",
     caseStudy: {
       headline:
-        "Designing an immersive digital lifestyle and streetwear platform merging raw analog aesthetics with high-performance commerce architecture.",
-      role: "Lead Product Designer & Creative Director",
-      timeline: "8 Weeks • 2026",
-      platform: "Web & Mobile (Next.js / WebGL / Tailwind)",
-      status: "Featured Project",
+        "Designing a unified college event management platform connecting 20k+ students, 40+ clubs, and faculty coordinators across VIT Bhopal.",
+      role: "Lead Experience Designer & Event Coordinator",
+      timeline: "14 Weeks • 2026",
+      platform: "Mobile iOS & Admin Console (Figma / Notion / Design System)",
+      status: "Featured Case Study",
       metrics: [
-        { label: "Brand Identity", value: "100%", detail: "Custom brutalist typography with distinct subculture visual identity" },
-        { label: "Display Cadence", value: "120 FPS", detail: "Hardware-accelerated touch physics and fluid lookbook transitions" },
-        { label: "Engagement", value: "3.8x", detail: "Longer session duration through interactive product showcases" },
-        { label: "Design Tokens", value: "54+", detail: "Modular token system translating Figma variables into CSS architecture" },
+        { label: "Missed Events Solved", value: "78%", detail: "Addressed primary reason students missed campus fests and workshops" },
+        { label: "Unified App Demand", value: "90%", detail: "Survey respondents demanding a single app over fragmented WhatsApp groups" },
+        { label: "Instant Reminders", value: "92%", detail: "Demand for instant schedule alerts, venue changes, and ticket notifications" },
+        { label: "Ecosystem Roles", value: "3 Roles", detail: "Interconnected workflows for Students, Club Organizers, and College Authorities" },
       ],
       challenge:
-        "Conventional lifestyle and streetwear storefronts rely on predictable, sterile e-commerce layouts that dilute the visceral energy, physical weight, and cultural edge of independent drops.",
+        "Managing college events involves scattered WhatsApp groups, manual Google Form registrations, offline payment verification, and zero administrative oversight, leaving students uninformed and organizers overwhelmed.",
       solution:
-        "Engineered a tactile 0→1 digital experience built around cinematic grain, bold graphic typography, interactive gesture-driven lookbooks, and sub-second page transitions.",
+        "Designed EVORA: a college-exclusive digital platform streamlining event discovery, instant UPI ticketing, dynamic QR check-ins, club analytics, and faculty approval pipelines.",
       designSystem: {
-        tokens: ["Evora Crimson Tokens", "Custom Headline Typography", "Analog Film Grain Overlays", "Fluid Spatial Grids"],
-        description: "Developed a bespoke visual system pairing intense red accents with deep noir tones, modular typographic scales, and micro-interactions tuned for tactile response."
+        tokens: ["Campus Kinetic Tokens", "High-Contrast Dark Mode", "Dynamic QR Tokens", "Role-Based Component Matrix"],
+        description: "Crafted a vibrant yet utilitarian interface tuned for rapid discovery under bright campus sunlight and sub-second door check-ins during packed events."
       },
       architecture: [
-        "Dynamic Lookbook Engine: Virtualized visual slider capable of streaming uncompressed editorial imagery without frame drops.",
-        "Kinetic Physics Pipeline: Fluid spring curves mimicking the tactile momentum of editorial magazine flipping.",
-        "Design Token Synchronization: Seamless alignment between Figma component styles and production code.",
-        "Responsive Commerce Architecture: Mobile-first layout hierarchy with sticky action bars and zero layout shifts.",
+        "Unified Discovery Feed: Real-time categorized event stream with timeline filtering (Today, This Week, This Month).",
+        "Dynamic QR Check-in: Encrypted QR passes generated instantly upon UPI payment, scanned in <0.5s by organizers.",
+        "Role-Based Access Control: Granular views tailored for student attendees, club executive committees, and faculty in-charges.",
+        "Centralized Approval Pipeline: Faculty dashboard enabling instant verification, policy adherence checks, and calendar locking.",
       ],
       features: [
         {
-          title: "Brutalist Editorial Typography",
-          tag: "Brand Identity",
-          description: "Signature oversized bubble wordmarks and raw graphic elements that anchor the collection's visual identity.",
-          image: "/evora.png",
+          title: "Student Discovery & Instant Pass",
+          tag: "Mobile Experience",
+          description: "Categorized event exploration with in-app UPI checkout and dynamic QR passes stored directly in the student wallet.",
+          image: "/evora/Users_perspective_iPhone_13_mini_-_104.png",
         },
         {
-          title: "Kinetic Interactive Showcase",
-          tag: "Interaction Design",
-          description: "Gesture-controlled fluid cards and interactive lighting effects simulating analog photography development.",
-          image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1000&q=80",
+          title: "Club Organizer Studio",
+          tag: "Event Operations",
+          description: "Centralized workspace for club leads to stage events, manage ticket tiers, track live revenue, and scan QR check-ins.",
+          image: "/evora/Organizers_Perspective_Clubs_home_page.png",
         },
         {
-          title: "Adaptive Dark Theme Architecture",
-          tag: "Design System",
-          description: "Deep obsidian backdrop with calibrated crimson luminescence optimized for OLED mobile displays.",
-          image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1000&q=80",
+          title: "Faculty Governance Console",
+          tag: "Administrative Portal",
+          description: "Single-pane dashboard for campus authorities to review club submissions, ensure policy compliance, and audit engagement.",
+          image: "/evora/Authorities_perspective_Home.png",
         },
       ],
       results:
-        "Established a distinctive, high-impact digital identity that redefines the streetwear drop experience, blending editorial fashion storytelling with precision frontend engineering.",
+        "Delivered 40+ production-ready screens, 3 end-to-end user journeys, and a cohesive design system validated through usability testing with 15+ student club leads at VIT Bhopal.",
     },
   },
   {
@@ -245,7 +242,7 @@ export const PROJECTS: ProjectItem[] = [
     tags: ["0→1 Product", "Creative Studio", "3D & Brand", "Design System", "Art Direction"],
     src: "/arken.png",
     aspect: 3 / 4,
-    link: "https://github.com/harshitgujar",
+    link: "/arken",
     figma: "https://www.figma.com/@harshitgujar",
     github: "https://github.com/harshitgujar",
     caseStudy: {
@@ -283,16 +280,16 @@ export const PROJECTS: ProjectItem[] = [
           image: "/arken.png",
         },
         {
-          title: "Atmospheric Surrealist Aesthetic",
-          tag: "Art Direction",
-          description: "Dreamlike daytime cloudscapes paired with tactile metallic textures and high-contrast digital lighting.",
-          image: "/arken.png",
+          title: "Tactile Merchandise & Audio CD Kit",
+          tag: "Physical Artifacts",
+          description: "Physical collectible release system featuring jewel-case CD audio packaging, 3D chrome star charms, and specimen sheets.",
+          image: "/arken/arken-sticker-sheet-artifacts.png",
         },
         {
-          title: "High-Fidelity Interaction Architecture",
-          tag: "Design Engineering",
-          description: "Fluid interactive web presence translating 3D spatial depth into smooth, responsive touch kinematics.",
-          image: "/arken.png",
+          title: "Optical Identity & Creative Direction",
+          tag: "Campaign Art Direction",
+          description: "Cinematic macro iris campaign key visual pairing high-detail human eye optics with an emerald neon Arken insignia.",
+          image: "/arken/arken-vision-eye-campaign.png",
         },
       ],
       results:
@@ -300,311 +297,130 @@ export const PROJECTS: ProjectItem[] = [
     },
   },
   {
-    id: "runagon",
-    title: "Runagon",
-    category: "0→1 Product Design & Social Fitness",
+    id: "spotify",
+    title: "Spotify Reimagined",
+    category: "0→1 Conceptual Product Redesign & Social Music",
     description:
-      "A community-centric running platform and social athletic ecosystem uniting urban run clubs, live telemetry tracking, and dynamic group challenges.",
-    tags: ["0→1 Product", "Mobile App", "Brand Identity", "Design System", "Product Design"],
-    src: "/runagon.png",
-    aspect: 4445 / 5556,
-    link: "https://github.com/harshitgujar",
+      "A comprehensive social & interactive redesign of Spotify — introducing in-track floating comments over album art, native music DMs with emoji reactions, and analytics-driven taste profiles.",
+    tags: ["Product Redesign", "Mobile UX", "Music Streaming", "Social UX", "Figma"],
+    src: "/spotify.png",
+    aspect: 3 / 4,
+    link: "/spotify",
     figma: "https://www.figma.com/@harshitgujar",
     github: "https://github.com/harshitgujar",
     caseStudy: {
       headline:
-        "Designing a high-energy running platform uniting urban run clubs, kinetic activity tracking, and social milestone dynamics.",
-      role: "Lead Product Designer",
-      timeline: "2025 – 2026",
-      platform: "iOS, Android & Design System",
-      status: "Featured Project",
+        "Transforming Spotify from a passive music utility into an engaging, community-driven social streaming experience.",
+      role: "Lead Product & UX Designer",
+      timeline: "2026 • Conceptual Redesign",
+      platform: "iOS Mobile (iPhone 13 Mini)",
+      status: "Behance Case Study",
       metrics: [
-        { label: "Active Runners", value: "25k+", detail: "Engaged runners participating in weekly urban club meetups" },
-        { label: "Session Retention", value: "84%", detail: "Day-30 retention powered by group streaks and pace leaderboards" },
-        { label: "Pace Precision", value: "Real-time", detail: "Sub-second cadence sync and audio coaching feedback" },
-        { label: "Design Tokens", value: "60+", detail: "Dynamic typography, electric cobalt accents, and modular HUD cards" },
+        { label: "Social Sharing", value: "Native", detail: "100% in-app music chats without external link copy-pasting" },
+        { label: "Community", value: "Real-Time", detail: "Dynamic fading shuffle comment bubbles over album cover art" },
+        { label: "Taste Analytics", value: "Verified", detail: "Automated top artists and genres with one-tap privacy control" },
+        { label: "UX Prototype", value: "9 Screens", detail: "End-to-end design system from inbox to player discussions" },
       ],
       challenge:
-        "Traditional running apps prioritize clinical solo telemetry and sterile data tables, missing the social camaraderie, kinetic momentum, and cultural energy that define modern urban run clubs.",
+        "Mainstream music streaming platforms treat listening as an isolated, solitary utility. Users discover great songs but are forced to leave Spotify to share them, with no space for spontaneous discussions or reactions.",
       solution:
-        "Engineered Runagon from 0→1 as an athletic lifestyle ecosystem merging high-contrast performance telemetry, live group run synchronization, social milestone challenges, and a bold modern athletic identity.",
+        "Designed Spotify Reimagined with three core pillars: in-track floating comments that shuffle over album art, dedicated music DMs with hold-to-react emojis, and authentic analytics profiles with full privacy controls.",
       designSystem: {
-        tokens: ["Electric Cobalt Tokens", "Kinetic Speed Scales", "High-Contrast HUD Cards", "Haptic Cadence Indicators"],
-        description: "Engineered a high-visibility outdoor design system featuring vibrant cobalt luminescence, bold typographic hierarchies, and glanceable glance-and-go widgets calibrated for daylight running."
+        tokens: ["Spotify Emerald #1ED760", "Midnight Obsidian #07090C", "Fading Shuffle Bubbles", "Seen/Unseen Weight Typography"],
+        description: "Built upon Spotify's dark-mode design language while introducing fluid micro-interactions, spring-based reaction trays, and clear typographic hierarchy for conversational music."
       },
       architecture: [
-        "Real-Time Pace Engine: Low-overhead GPS telemetry filtering and spatial cadence visualization.",
-        "Club Discovery Network: Location-based run club scheduling, live route previews, and RSVP check-in flows.",
-        "Adaptive Sunlight Interface: High-contrast typography and ultra-legible HUD cards readable at sprint pace in direct sunlight.",
-        "Milestone & Badge Rewards: Dynamic 3D badge visual systems and shareable post-run recap cards.",
+        "In-Track Comment Engine: Fading shuffle bubbles floating over album artwork synchronized with track playback.",
+        "Music DM Protocol: Dedicated chat architecture rendering rich song cards, seen/unseen font weights, and multi-track counters.",
+        "Hold-to-React Quick Strip: Frictionless emoji reaction overlay and one-tap 'Add to Playlist' shortcuts.",
+        "Privacy-First Analytics Profile: Granular visibility toggle allowing listeners to share or hide listening metrics.",
       ],
       features: [
         {
-          title: "High-Visibility Running HUD",
-          tag: "Mobile Product",
-          description: "Glanceable real-time speed, heart rate, and split tracking engineered for instant readability while in motion.",
-          image: "/runagon.png",
+          title: "In-Track Floating Comments",
+          tag: "Community Interaction",
+          description: "Comments dynamically appear over cover art with fading shuffle effects as songs play, plus an expandable discussion drawer.",
+          image: "/spotify/screens/02-now-playing-floating-comments.png",
         },
         {
-          title: "Run Club Community & Group Streaks",
-          tag: "Social Experience",
-          description: "Interactive crew meetups, synchronized live checkpoints, and collaborative weekly distance challenges.",
-          image: "/runagon.png",
+          title: "Native Music DMs & Reactions",
+          tag: "Conversational Sharing",
+          description: "Direct in-app messaging for songs with seen/unseen typography, pinned chats, and hold-to-react emoji strips.",
+          image: "/spotify/screens/05-music-chat-conversation.png",
         },
         {
-          title: "Dynamic Milestone Badges & Recaps",
-          tag: "Gamification & Identity",
-          description: "Custom 3D visual rewards celebrating personal records, streak consistency, and route conquests.",
-          image: "/runagon.png",
+          title: "Analytics-Driven Taste Profiles",
+          tag: "Identity & Privacy",
+          description: "Authentic showcase of top artists, genres, and playlists derived from listening data with instant privacy toggle.",
+          image: "/spotify/screens/01-profile-analytics.png",
         },
       ],
       results:
-        "Transformed solo workout routines into a connected community ritual, boosting weekly runner engagement and establishing a benchmark design system for modern athletic software.",
+        "Created an acclaimed conceptual redesign celebrated on Behance that proves music streaming can be deeply personal and social without compromising Spotify's core simplicity.",
     },
   },
   {
-    id: "prism-ai",
-    title: "Prism Generative Studio",
-    category: "AI Systems & Design Tooling",
+    id: "runagon",
+    title: "Runagon",
+    category: "0→1 Product Design & AI Second Brain (In Progress)",
     description:
-      "Multi-modal canvas enabling prompt-to-layout transformations with instant AST manipulation and real-time multiplayer editing.",
-    tags: ["Next.js", "Canvas API", "AI / LLM", "Tailwind CSS"],
-    src: photo("1581892805885-73bdd91beff0"),
-    aspect: 3 / 4,
-    link: "https://github.com/harshitgujar",
+      "Currently in active development — Your Second Brain that thinks with you. Designed the 0→1 brand identity, beta recruitment campaign, and interactive 3D Join Waitlist website.",
+    tags: ["In Progress", "0→1 Product", "AI Second Brain", "Brand Identity", "Waitlist Web UI"],
+    src: "/runagon.png",
+    aspect: 4445 / 5556,
+    link: "/runagon",
+    figma: "https://vorph.dpdns.org/",
     github: "https://github.com/harshitgujar",
     caseStudy: {
       headline:
-        "Pioneering a generative canvas environment combining natural language layout generation with real-time visual code AST sync.",
-      role: "Full-Stack AI Engineer",
-      timeline: "4 Months • 2025",
+        "Designing Runagon (In Progress): a local-first personal knowledge capture ecosystem, 6-blade geometric brand identity, and interactive 3D Join Waitlist website.",
+      role: "Lead Product & Brand Designer",
+      timeline: "2026 – In Progress",
+      platform: "Waitlist Web UI, Brand System & Beta Campaign",
+      status: "In Progress • Waitlist Open",
       metrics: [
-        { label: "Code Gen Speed", value: "< 1.4s", detail: "Streaming AST transformation and instant component preview" },
-        { label: "Canvas FPS", value: "60 FPS", detail: "High-performance rendering with infinite pan and multi-level zoom" },
-        { label: "Multiplayer Lag", value: "< 30ms", detail: "Peer-to-peer cursor tracking and layout reconciliation via Yjs" },
+        { label: "Architecture", value: "Local-First", detail: "Instant personal knowledge capture and search across all notes" },
+        { label: "AI Portability", value: "100%", detail: "Connected context portable across Notion, Obsidian, and AI tools" },
+        { label: "3D Web Engine", value: "60 FPS", detail: "Interactive Spline 3D cobalt sphere cluster on a 3×3 crosshair grid" },
+        { label: "Brand System", value: "360°", detail: "6-blade aperture logo, desktop UI, and cross-channel beta campaign" },
       ],
       challenge:
-        "LLM output is typically unstructured text or markdown. Converting streaming LLM tokens into interactive, visual UI components that can be immediately dragged, resized, and edited on an infinite canvas requires tight AST parsing.",
+        "Traditional note-taking apps turn into passive graveyards of saved links and forgotten folders that require constant manual organization.",
       solution:
-        "Engineered an incremental Babel AST parser that parses streaming LLM code in chunks, validates React JSX schemas in real-time Web Workers, and renders living components into an infinite HTML5 Canvas coordinate plane.",
+        "Crafted Runagon from 0→1 as an intelligent Second Brain—pairing a 6-blade optical aperture identity with an interactive 3D web flagship and a targeted beta program for Notion and Obsidian users.",
+      designSystem: {
+        tokens: ["Electric Cobalt (#2244FF)", "Periwinkle Daylight Glass", "3×3 Crosshair Grid", "6-Blade Aperture Mark"],
+        description: "Engineered a dual-theme design system uniting airy daylight glassmorphism on the web flagship with deep-void cobalt luminescence across social launch campaigns."
+      },
       architecture: [
-        "Streaming token deserializer that handles partial JSX trees without syntax crashes.",
-        "Infinite viewport coordinate mapper supporting spatial zoom, viewport culling, and mini-map previews.",
-        "Yjs CRDT integration allowing multiple designers and engineers to prompt, select, and edit components concurrently.",
-        "Sandboxed iframe execution context preventing untrusted generative scripts from breaching host environment state.",
+        "3×3 Crosshair Coordinate Grid: Precision Swiss layout framing navigation, 3D spheres, and waitlist actions.",
+        "Interactive Spline 3D Sphere Cluster: Real-time magnetic cobalt spheres visualizing interconnected memory nodes.",
+        "Adaptive Light & Dark Theme Engine: Seamless toggle between periwinkle daylight glass and deep memory void.",
+        "Frictionless Waitlist & Beta Pipeline: Integrated waitlist and Q&A flows live at vorph.dpdns.org.",
       ],
       features: [
         {
-          title: "Streaming AST Synthesis",
-          description: "Visual elements construct before your eyes as the AI streams tokens, with auto-healing syntax correction.",
+          title: "Flagship Desktop Web UI",
+          tag: "Web Experience",
+          description: "Interactive 3D neural sphere cluster and crosshair grid live at vorph.dpdns.org.",
+          image: "/runagon/macbook-web-ui.png",
         },
         {
-          title: "Bidirectional Code & Canvas Sync",
-          description: "Dragging a padding slider updates the underlying Tailwind CSS code; editing the code directly morphs the visual canvas.",
+          title: "Beta Testing Launch Campaign",
+          tag: "Product Launch",
+          description: "'Bring your Memory. Help build the app that keeps up.' beta recruitment system for Notion and Obsidian users.",
+          image: "/runagon/instagram-beta-poster.png",
         },
         {
-          title: "Design Token Extraction",
-          description: "Automatically analyzes generated components to produce coherent color palettes, typography scales, and spacing systems.",
+          title: "6-Blade Aperture Brand System",
+          tag: "Brand Identity",
+          description: "Rotational geometric logotype, radial cobalt luminescence posters, and widescreen social headers.",
+          image: "/runagon/runagon-emblem-poster.png",
         },
       ],
       results:
-        "Reduced rapid prototyping turnarounds from days to seconds, allowing product teams to experiment with tens of production-grade UI variants instantly.",
-    },
-  },
-  {
-    id: "kinesis-audio",
-    title: "Kinesis Audio Synthesizer",
-    category: "Creative Coding & Web Audio",
-    description:
-      "Interactive physical sound synthesis suite leveraging Web Audio API, custom DSP shaders, and real-time FFT spectrum visualization.",
-    tags: ["Web Audio API", "HTML5 Canvas", "DSP", "TypeScript"],
-    src: photo("1482938289607-e9573fc25ebb"),
-    aspect: 3 / 4,
-    link: "https://github.com/harshitgujar",
-    github: "https://github.com/harshitgujar",
-    caseStudy: {
-      headline:
-        "Designing a browser-based polyphonic synthesizer with custom DSP AudioWorklets and GPU-accelerated frequency visualizers.",
-      role: "Audio Technologist & Creative Coder",
-      timeline: "3 Months • 2024",
-      metrics: [
-        { label: "Audio Latency", value: "< 4.8ms", detail: "Near-zero audio buffer delay matching hardware instruments" },
-        { label: "Polyphony", value: "32 Voices", detail: "Concurrent oscillator voices with dynamic envelope stealing" },
-        { label: "FFT Resolution", value: "2048 Bins", detail: "Real-time spectrum analysis at 60Hz smooth frequency updates" },
-      ],
-      challenge:
-        "The legacy ScriptProcessorNode in Web Audio causes audio glitches whenever the browser's main thread encounters heavy GC pauses. Producing professional-grade sound in browsers requires low-latency, glitch-free audio synthesis.",
-      solution:
-        "Implemented dedicated AudioWorkletProcessor modules running on the isolated high-priority real-time audio thread, coupled with custom bilinear biquad filter implementations and a WebGL-based FFT spectrum visualizer.",
-      architecture: [
-        "AudioWorklet node executing modular envelope generators (ADSR) and band-limited oscillator algorithms.",
-        "Circular ring-buffers enabling lock-free shared array transfers between audio thread and UI canvas.",
-        "Fragment shader-driven waterfall spectrogram visualizing harmonics across logarithmic frequency bands.",
-        "MIDI 2.0 Web API interface supporting hardware controllers with velocity sensitivity and pitch-bend curves.",
-      ],
-      features: [
-        {
-          title: "AudioWorklet DSP Architecture",
-          description: "True real-time audio processing completely decoupled from the browser main thread, eliminating pops and clicks.",
-        },
-        {
-          title: "Kinetic LFO Modulation",
-          description: "Route any visual physics parameter—such as bounce velocity or spring damping—directly into synth filter cutoffs.",
-        },
-        {
-          title: "GPU Logarithmic Spectrogram",
-          description: "Visualizes pitch harmonics, resonant peaks, and stereo panning through a custom neon phosphorescent shader.",
-        },
-      ],
-      results:
-        "Delivered a studio-quality musical instrument directly in the web browser, capable of expressive performances with hardware MIDI compatibility.",
-    },
-  },
-  {
-    id: "nova-terminal",
-    title: "Nova Financial Terminal",
-    category: "Full-Stack FinTech / Performance Web",
-    description:
-      "Institutional-grade portfolio analytics dashboard processing streaming order-book tick data with zero frame drops.",
-    tags: ["React", "TypeScript", "GraphQL", "Web Workers"],
-    src: photo("1610846202780-b4d9837371ea"),
-    aspect: 3 / 4,
-    link: "https://github.com/harshitgujar",
-    github: "https://github.com/harshitgujar",
-    caseStudy: {
-      headline:
-        "Engineering an institutional-grade financial analytics terminal handling 100k+ updates per second with zero UI stutter.",
-      role: "Lead Frontend Performance Engineer",
-      timeline: "6 Months • 2024",
-      metrics: [
-        { label: "Tick Throughput", value: "100k/sec", detail: "Real-time market depth ticks parsed and aggregated without lag" },
-        { label: "UI Thread Idle", value: "92%", detail: "Main thread kept free for instantaneous keyboard commands and charting" },
-        { label: "Render Lag", value: "0 Drops", detail: "Sub-16ms frame times under extreme volatile market conditions" },
-      ],
-      challenge:
-        "High-frequency financial markets transmit tens of thousands of price updates per second. Rendering these updates directly with React component state leads to severe DOM thrashing, garbage collection pauses, and frozen interfaces.",
-      solution:
-        "Moved all binary market data parsing, order book aggregation, and calculation logic into dedicated Web Workers. Used ArrayBuffers and TypedArrays for zero-copy memory transfers, paired with canvas-based virtualized grid tables.",
-      architecture: [
-        "Web Worker pipeline handling binary WebSocket protocols (Protobuf) and rolling statistics calculation.",
-        "OffscreenCanvas and double-buffered GPU renderers for charting price action and depth matrices.",
-        "Custom ring-buffer memory pool avoiding object allocation during continuous streaming ticks.",
-        "Micro-batched RAF dispatch mechanism synchronizing state changes precisely with monitor refresh intervals.",
-      ],
-      features: [
-        {
-          title: "Worker-Driven Tick Processing",
-          description: "All tick calculations occur in background worker threads, keeping the UI silky smooth regardless of market volatility.",
-        },
-        {
-          title: "GPU-Accelerated Depth Visualizer",
-          description: "Renders real-time bid/ask order book distributions using WebGL heatmaps with sub-pixel sharpness.",
-        },
-        {
-          title: "Keyboard-First Command Palette",
-          description: "Sub-millisecond modal palette allowing traders to filter portfolios, execute simulations, and toggle overlays via shortcuts.",
-        },
-      ],
-      results:
-        "Enabled traders to visualize high-volume liquidity changes with microsecond accuracy, eliminating the lag common to standard web-based finance portals.",
-    },
-  },
-  {
-    id: "aura-design",
-    title: "Aura Spatial Design System",
-    category: "Design Systems / Component Architecture",
-    description:
-      "Production-ready component library prioritizing accessible keyboard navigation, fluid typography, and glassmorphism.",
-    tags: ["React", "Tailwind CSS", "Radix UI", "Accessibility"],
-    src: photo("1527630941-4a229fd674ab"),
-    aspect: 3 / 4,
-    link: "https://github.com/harshitgujar",
-    github: "https://github.com/harshitgujar",
-    caseStudy: {
-      headline:
-        "Constructing a WCAG AAA compliant design system uniting tactile glassmorphism aesthetics with rigorous keyboard ergonomics.",
-      role: "Design Systems Lead & Engineer",
-      timeline: "4 Months • 2024",
-      metrics: [
-        { label: "Accessibility", value: "100%", detail: "WCAG 2.2 AAA certified contrast and focus management" },
-        { label: "Components", value: "48+", detail: "Fully typed, themeable primitives with comprehensive storybook docs" },
-        { label: "Bundle Impact", value: "< 8 KB", detail: "Per-component tree-shaking with zero unused CSS residue" },
-      ],
-      challenge:
-        "Modern glassmorphism and blur aesthetics often fail accessibility requirements due to poor contrast against variable backgrounds, missing ARIA focus rings, and clunky keyboard navigation across nested menus.",
-      solution:
-        "Created an adaptive token engine that dynamically calculates WCAG contrast ratios against underlying background luminances in real time, built atop unstyled Radix UI primitives and composable Tailwind CSS variants.",
-      architecture: [
-        "Radix UI headless primitives guaranteeing full WAI-ARIA compliance, roving tabindex, and screen reader announcements.",
-        "CSS Custom Properties engine managing fluid viewport clamping (`clamp()` typography) and theme transitions.",
-        "Automated Axe-core CI audit suite verifying contrast ratios across light, dark, and vibrant theme configurations.",
-        "Token generator synchronizing Figma design variables directly into TypeScript token definitions.",
-      ],
-      features: [
-        {
-          title: "Adaptive Luminance Contrast",
-          description: "Components automatically adjust text weights and border opacities when positioned over high-contrast or noisy imagery.",
-        },
-        {
-          title: "Polished Keyboard Ergonomics",
-          description: "Full keyboard traversal with visible custom focus indicators that automatically suppress during mouse interactions.",
-        },
-        {
-          title: "Zero-Runtime Theme Engine",
-          description: "Switch between dark palettes, high-contrast monochrome, or vivid themes instantly without re-rendering component trees.",
-        },
-      ],
-      results:
-        "Adopted across multiple commercial web properties, increasing accessibility scores to 100/100 on Lighthouse while drastically improving development velocity.",
-    },
-  },
-  {
-    id: "chronos-vector",
-    title: "Chronos Local Vector Index",
-    category: "Data Engineering / Algorithmic Systems",
-    description:
-      "Embedded HNSW approximate nearest neighbor index running in WebAssembly with sub-millisecond similarity queries.",
-    tags: ["Rust", "WebAssembly", "Vector Search", "Algorithms"],
-    src: photo("1603786420263-ad59136a7409"),
-    aspect: 3 / 4,
-    link: "https://github.com/harshitgujar",
-    github: "https://github.com/harshitgujar",
-    caseStudy: {
-      headline:
-        "Compiling a high-speed Hierarchical Navigable Small World (HNSW) vector search engine to WebAssembly for local-first AI apps.",
-      role: "Systems & Algorithms Engineer",
-      timeline: "3 Months • 2025",
-      metrics: [
-        { label: "Query Time", value: "0.38 ms", detail: "Sub-millisecond similarity search over 50,000 768-dim embeddings" },
-        { label: "Memory Footprint", value: "18 MB", detail: "SIMD-vectorized graph representation with scalar quantization" },
-        { label: "Throughput", value: "2,600 QPS", detail: "Queries per second running completely inside browser tab memory" },
-      ],
-      challenge:
-        "Local-first AI applications (like private document Q&A or semantic search) cannot afford roundtrip latency to remote vector databases, but running vector similarity across thousands of high-dimensional embeddings in JS freezes the browser tab.",
-      solution:
-        "Implemented the HNSW graph algorithm in Rust, compiling to WebAssembly with 128-bit SIMD intrinsics. Embedded an 8-bit scalar quantization module that slashes memory usage by 75% while maintaining 99.2% recall accuracy.",
-      architecture: [
-        "Rust core compiled to wasm32-unknown-unknown with `-C target-feature=+simd128` optimizations.",
-        "Cosine similarity and Euclidean distance kernels unrolled and vectorized using portable WebAssembly SIMD.",
-        "SharedArrayBuffer memory mapping enabling multi-threaded queries across a pool of Web Workers.",
-        "IndexedDB persistence layer streaming serialized vector graph snapshots to local browser disk.",
-      ],
-      features: [
-        {
-          title: "WASM SIMD Vector Acceleration",
-          description: "Calculates 4 floating-point dot products in a single CPU instruction, achieving near-native desktop performance.",
-        },
-        {
-          title: "8-Bit Scalar Quantization",
-          description: "Compresses 32-bit floating point vectors into compact 8-bit integers, reducing memory footprint by 4x without accuracy loss.",
-        },
-        {
-          title: "Zero-Network Semantic Search",
-          description: "Enables 100% private, offline search over user notes, documents, and codebases directly in the client browser.",
-        },
-      ],
-      results:
-        "Demonstrated instant, privacy-preserving semantic similarity search directly in the browser with query times that rival dedicated cloud vector services.",
+        "Launched the Runagon brand universe and live interactive web flagship at vorph.dpdns.org, onboarding founding beta testers across Notion, Obsidian, and notebook workflows.",
     },
   },
 ];
+

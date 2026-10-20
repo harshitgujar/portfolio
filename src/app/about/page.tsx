@@ -69,7 +69,7 @@ export default function AboutPage() {
       {/* Main Scrollable Content Container */}
       <div
         id="about-content"
-        className="-mt-16 sm:mt-0 pt-4 sm:pt-20 pb-36 px-[clamp(20px,5vw,72px)] max-w-5xl mx-auto space-y-16 sm:space-y-28 relative z-30 scroll-mt-6"
+        className="pt-12 sm:pt-20 pb-36 px-[clamp(20px,5vw,72px)] max-w-5xl mx-auto space-y-20 sm:space-y-28"
       >
         {/* 1. Category Tag & Display Headline */}
         <section className="space-y-6 max-w-4xl">
@@ -79,7 +79,7 @@ export default function AboutPage() {
               style={{ backgroundColor: currentTheme.previewColor }}
             />
             <span
-              className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium ${
+              className={`font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.22em] ${
                 isLight ? "text-neutral-500" : "text-white/50"
               }`}
             >
@@ -88,7 +88,7 @@ export default function AboutPage() {
           </div>
 
           <h1
-            className={`font-[family-name:var(--font-instrument-serif)] text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.08] tracking-tight ${
+            className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.12] tracking-tight ${
               isLight ? "text-neutral-900" : "text-white"
             }`}
           >
@@ -96,7 +96,7 @@ export default function AboutPage() {
           </h1>
 
           <p
-            className={`text-base sm:text-lg md:text-xl leading-relaxed font-normal max-w-3xl ${
+            className={`text-sm sm:text-base leading-relaxed font-normal max-w-2xl ${
               isLight ? "text-neutral-600" : "text-white/60"
             }`}
           >
@@ -110,7 +110,7 @@ export default function AboutPage() {
             }`}
           >
             <p
-              className={`text-sm sm:text-base leading-relaxed font-normal ${
+              className={`text-xs sm:text-sm leading-relaxed font-normal ${
                 isLight ? "text-neutral-700" : "text-white/75"
               }`}
             >
@@ -118,7 +118,7 @@ export default function AboutPage() {
             </p>
 
             <p
-              className={`text-sm sm:text-base leading-relaxed font-normal ${
+              className={`text-xs sm:text-sm leading-relaxed font-normal ${
                 isLight ? "text-neutral-700" : "text-white/75"
               }`}
             >
@@ -195,7 +195,7 @@ export default function AboutPage() {
         >
           <div className="flex items-center gap-2.5">
             <span
-              className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium flex items-center gap-2 ${
+              className={`font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.22em] flex items-center gap-2 ${
                 isLight ? "text-neutral-500" : "text-white/50"
               }`}
             >
@@ -209,7 +209,7 @@ export default function AboutPage() {
           </div>
 
           <h2
-            className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight ${
+            className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight ${
               isLight ? "text-neutral-900" : "text-white"
             }`}
           >
@@ -220,7 +220,7 @@ export default function AboutPage() {
             {/* Column 1: 01, 03, 05 */}
             <div>
               <div
-                className={`flex items-baseline gap-4 py-4 border-b ${
+                className={`flex items-baseline gap-4 py-3.5 border-b ${
                   isLight ? "border-black/10" : "border-white/10"
                 }`}
               >
@@ -232,7 +232,7 @@ export default function AboutPage() {
                   01
                 </span>
                 <span
-                  className={`text-base sm:text-lg font-medium ${
+                  className={`text-sm sm:text-base font-medium ${
                     isLight ? "text-neutral-900" : "text-white/90"
                   }`}
                 >
@@ -240,7 +240,7 @@ export default function AboutPage() {
                 </span>
               </div>
               <div
-                className={`flex items-baseline gap-4 py-4 border-b ${
+                className={`flex items-baseline gap-4 py-3.5 border-b ${
                   isLight ? "border-black/10" : "border-white/10"
                 }`}
               >
@@ -252,7 +252,7 @@ export default function AboutPage() {
                   03
                 </span>
                 <span
-                  className={`text-base sm:text-lg font-medium ${
+                  className={`text-sm sm:text-base font-medium ${
                     isLight ? "text-neutral-900" : "text-white/90"
                   }`}
                 >
@@ -260,7 +260,7 @@ export default function AboutPage() {
                 </span>
               </div>
               <div
-                className={`flex items-baseline gap-4 py-4 border-b ${
+                className={`flex items-baseline gap-4 py-3.5 border-b ${
                   isLight ? "border-black/10" : "border-white/10"
                 }`}
               >
@@ -272,7 +272,7 @@ export default function AboutPage() {
                   05
                 </span>
                 <span
-                  className={`text-base sm:text-lg font-medium ${
+                  className={`text-sm sm:text-base font-medium ${
                     isLight ? "text-neutral-900" : "text-white/90"
                   }`}
                 >
@@ -284,7 +284,7 @@ export default function AboutPage() {
             {/* Column 2: 02, 04, 06 */}
             <div>
               <div
-                className={`flex items-baseline gap-4 py-4 border-b ${
+                className={`flex items-baseline gap-4 py-3.5 border-b ${
                   isLight ? "border-black/10" : "border-white/10"
                 }`}
               >
@@ -296,7 +296,7 @@ export default function AboutPage() {
                   02
                 </span>
                 <span
-                  className={`text-base sm:text-lg font-medium ${
+                  className={`text-sm sm:text-base font-medium ${
                     isLight ? "text-neutral-900" : "text-white/90"
                   }`}
                 >
@@ -304,7 +304,7 @@ export default function AboutPage() {
                 </span>
               </div>
               <div
-                className={`flex items-baseline gap-4 py-4 border-b ${
+                className={`flex items-baseline gap-4 py-3.5 border-b ${
                   isLight ? "border-black/10" : "border-white/10"
                 }`}
               >
@@ -316,7 +316,7 @@ export default function AboutPage() {
                   04
                 </span>
                 <span
-                  className={`text-base sm:text-lg font-medium ${
+                  className={`text-sm sm:text-base font-medium ${
                     isLight ? "text-neutral-900" : "text-white/90"
                   }`}
                 >
@@ -324,7 +324,7 @@ export default function AboutPage() {
                 </span>
               </div>
               <div
-                className={`flex items-baseline gap-4 py-4 border-b ${
+                className={`flex items-baseline gap-4 py-3.5 border-b ${
                   isLight ? "border-black/10" : "border-white/10"
                 }`}
               >
@@ -336,7 +336,7 @@ export default function AboutPage() {
                   06
                 </span>
                 <span
-                  className={`text-base sm:text-lg font-medium ${
+                  className={`text-sm sm:text-base font-medium ${
                     isLight ? "text-neutral-900" : "text-white/90"
                   }`}
                 >
@@ -354,7 +354,7 @@ export default function AboutPage() {
           }`}
         >
           <span
-            className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium block ${
+            className={`font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.22em] block ${
               isLight ? "text-neutral-500" : "text-white/50"
             }`}
           >
@@ -362,7 +362,7 @@ export default function AboutPage() {
           </span>
 
           <h2
-            className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight ${
+            className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight ${
               isLight ? "text-neutral-900" : "text-white"
             }`}
           >
@@ -607,7 +607,7 @@ export default function AboutPage() {
           }`}
         >
           <span
-            className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium block ${
+            className={`font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.22em] block ${
               isLight ? "text-neutral-500" : "text-white/50"
             }`}
           >
@@ -615,7 +615,7 @@ export default function AboutPage() {
           </span>
 
           <h2
-            className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight ${
+            className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight ${
               isLight ? "text-neutral-900" : "text-white"
             }`}
           >
@@ -709,7 +709,7 @@ export default function AboutPage() {
           }`}
         >
           <span
-            className={`font-[family-name:var(--font-space-grotesk)] text-xs uppercase tracking-[0.16em] font-medium block ${
+            className={`font-mono text-[9.5px] sm:text-[10px] uppercase tracking-[0.22em] block ${
               isLight ? "text-neutral-500" : "text-white/50"
             }`}
           >
@@ -717,7 +717,7 @@ export default function AboutPage() {
           </span>
 
           <h2
-            className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight ${
+            className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight ${
               isLight ? "text-neutral-900" : "text-white"
             }`}
           >
@@ -726,7 +726,7 @@ export default function AboutPage() {
 
           <a
             href="mailto:harshitgujar1604@gmail.com"
-            className={`font-[family-name:var(--font-instrument-serif)] text-2xl sm:text-4xl md:text-5xl transition-colors block pt-1 underline underline-offset-8 ${
+            className={`font-[family-name:var(--font-instrument-serif)] text-xl sm:text-2xl md:text-3xl transition-colors block pt-1 underline underline-offset-8 ${
               isLight
                 ? "text-neutral-900 hover:text-black decoration-black/20 hover:decoration-black"
                 : "text-white/90 hover:text-white decoration-white/20 hover:decoration-white"

@@ -15,6 +15,8 @@ interface ThemeContextType {
   isLight: boolean;
   extrasExperiment: string | null;
   setExtrasExperiment: (id: string | null) => void;
+  activeCaseStudy: string | null;
+  setActiveCaseStudy: (id: string | null) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -23,6 +25,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [selectedThemeId, setSelectedThemeIdState] = useState<string>("terracotta");
   const [colorMode, setColorModeState] = useState<ColorMode>("dark");
   const [extrasExperiment, setExtrasExperiment] = useState<string | null>(null);
+  const [activeCaseStudy, setActiveCaseStudy] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -128,6 +131,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         isLight,
         extrasExperiment,
         setExtrasExperiment,
+        activeCaseStudy,
+        setActiveCaseStudy,
       }}
     >
       {children}

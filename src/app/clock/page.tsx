@@ -34,13 +34,13 @@ export default function ClockPage() {
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-[#0c0d12]">
       {/* Navigation Return Button */}
-      <div className="absolute bottom-5 right-6 z-30">
+      <div className="absolute top-4 left-6 sm:left-12 md:left-16 z-30">
         <Link
           href="/extras"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black/70 hover:bg-black/90 text-white/90 hover:text-white border border-white/15 backdrop-blur-xl text-xs font-medium shadow-2xl transition-all"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-[family-name:var(--font-space-grotesk)] text-white/70 hover:text-white transition-colors group px-3 py-1.5 -ml-3 rounded-lg hover:bg-white/[0.05]"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Extras</span>
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>back</span>
         </Link>
       </div>
 
