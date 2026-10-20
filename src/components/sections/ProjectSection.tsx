@@ -15,6 +15,7 @@ import { EvoraCaseStudy } from "@/components/evora/EvoraCaseStudy";
 import { ArkenCaseStudy } from "@/components/arken/ArkenCaseStudy";
 import { RunagonCaseStudy } from "@/components/runagon/RunagonCaseStudy";
 import { SpotifyCaseStudy } from "@/components/spotify/SpotifyCaseStudy";
+import { StronCaseStudy } from "@/components/stron/StronCaseStudy";
 
 export interface ProjectSectionProps {
   onClose?: () => void;
@@ -44,7 +45,8 @@ export function ProjectSection({
   const [arkenActive, setArkenActive] = useState(false);
   const [runagonActive, setRunagonActive] = useState(false);
   const [spotifyActive, setSpotifyActive] = useState(false);
-  const caseStudyActive = evoraActive || arkenActive || runagonActive || spotifyActive;
+  const [stronActive, setStronActive] = useState(false);
+  const caseStudyActive = evoraActive || arkenActive || runagonActive || spotifyActive || stronActive;
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<LiquidGlassCarouselHandle>(null);
 
@@ -112,6 +114,20 @@ export function ProjectSection({
       return;
     }
 
+    // Strict check: stron triggers seamless case study expansion
+    if (project.id === "stron" || project.title.toLowerCase().includes("stron")) {
+      if (typeof window !== "undefined" && window.history) {
+        window.history.pushState({ stron: true }, "", "/stron");
+      }
+      setEvoraActive(false);
+      setArkenActive(false);
+      setRunagonActive(false);
+      setSpotifyActive(false);
+      setStronActive(true);
+      setActiveCaseStudy("stron");
+      return;
+    }
+
     const targetLink = project.link;
     if (targetLink && targetLink.startsWith("/")) {
       router.push(targetLink);
@@ -126,6 +142,7 @@ export function ProjectSection({
     setArkenActive(false);
     setRunagonActive(false);
     setSpotifyActive(false);
+    setStronActive(false);
     setActiveCaseStudy(null);
   };
 
@@ -168,14 +185,17 @@ export function ProjectSection({
         const isArken = window.location.pathname === "/arken";
         const isSpotify = window.location.pathname === "/spotify";
         const isRunagon = window.location.pathname === "/runagon";
+        const isStron = window.location.pathname === "/stron";
         setEvoraActive(isEvora);
         setArkenActive(isArken);
         setSpotifyActive(isSpotify);
         setRunagonActive(isRunagon);
+        setStronActive(isStron);
         if (isEvora) setActiveCaseStudy("evora");
         else if (isArken) setActiveCaseStudy("arken");
         else if (isSpotify) setActiveCaseStudy("spotify");
         else if (isRunagon) setActiveCaseStudy("runagon");
+        else if (isStron) setActiveCaseStudy("stron");
         else setActiveCaseStudy(null);
       }
     };
@@ -500,7 +520,22 @@ export function ProjectSection({
           >
             <RunagonCaseStudy
               onBack={handleCloseCaseStudy}
-              nextProjectHref="/cd"
+              nextProjectHref="/stron"
+            />
+          </motion.div>
+        )}
+        {stronActive && (
+          <motion.div
+            key="stron-case-study"
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 24 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[120] overflow-y-auto overflow-x-hidden bg-[#050608] text-[#f0f1f3] select-text"
+          >
+            <StronCaseStudy
+              onBack={handleCloseCaseStudy}
+              nextProjectHref="/digital-cd"
             />
           </motion.div>
         )}

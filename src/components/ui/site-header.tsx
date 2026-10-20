@@ -17,6 +17,7 @@ export function SiteHeader() {
   const isArkenPage = pathname === "/arken" || pathname.startsWith("/arken/");
   const isRunagonPage = pathname === "/runagon" || pathname.startsWith("/runagon/");
   const isSpotifyPage = pathname === "/spotify" || pathname.startsWith("/spotify/");
+  const isStronPage = pathname === "/stron" || pathname.startsWith("/stron/");
   const isClockPage = pathname === "/clock" || pathname.startsWith("/clock/");
   const isExtrasSubpage =
     (pathname === "/extras" || pathname === "/gallery" || pathname.startsWith("/extras/")) &&
@@ -37,6 +38,7 @@ export function SiteHeader() {
     isArkenPage ||
     isRunagonPage ||
     isSpotifyPage ||
+    isStronPage ||
     isClockPage ||
     Boolean(activeCaseStudy) ||
     extrasExperiment === "cd"

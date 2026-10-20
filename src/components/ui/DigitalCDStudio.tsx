@@ -1239,6 +1239,7 @@ export function DigitalCDStudio({
                       },
                       { name: "Evora Art", url: "/evora.png" },
                       { name: "Arken Art", url: "/arken.png" },
+                      { name: "STRON Art", url: "/stron.png" },
                     ].map((p) => (
                       <button
                         key={p.name}

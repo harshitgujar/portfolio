@@ -422,5 +422,73 @@ export const PROJECTS: ProjectItem[] = [
         "Launched the Runagon brand universe and live interactive web flagship at vorph.dpdns.org, onboarding founding beta testers across Notion, Obsidian, and notebook workflows.",
     },
   },
+  {
+    id: "stron",
+    title: "STRON",
+    category: "Athletic Racing & Gym OS",
+    description:
+      "End-to-end fitness ecosystem: complete React Native mobile app UI/UX, brand logo identity, App Store & Google Play Store presentation graphics, verified achievement certificates, admin console, and web platform.",
+    tags: ["Mobile App UI/UX", "Brand & Logo", "Store Screenshots", "Certificates", "Admin Console", "Web Platform"],
+    src: "/stron.png",
+    aspect: 3 / 4,
+    link: "/stron",
+    caseStudy: {
+      headline:
+        "Designing and engineering STRON from 0→1: an athletic fitness racing mobile app, gym OS, verified digital certificates, owner admin console, and marketing platform.",
+      role: "Founding Designer & Full-Stack Developer",
+      timeline: "2026",
+      platform: "React Native (iOS & Android) • Web Admin Console (Vite / React) • Marketing Web",
+      status: "Production Ecosystem",
+      metrics: [
+        { label: "Platforms", value: "3 Platforms", detail: "React Native Mobile App, Owner Admin Console, and Marketing Web" },
+        { label: "Design System", value: "100+ Tokens", detail: "Tactile dark athletic surfaces with strict functional color semantics" },
+        { label: "Store Presence", value: "Dual Store", detail: "End-to-end App Store & Google Play Store presentation graphics" },
+        { label: "Verification", value: "Instant Export", detail: "Shareable digital certificates of achievement with cryptographic validation" },
+      ],
+      challenge:
+        "Fitness apps either feel like dry workout spreadsheets or fragmented booking tools without athletic excitement, club cohesion, or verified race accomplishments.",
+      solution:
+        "Architected STRON as a high-octane competitive fitness racing platform and complete gym operating system, unifying athletes, gym owners, coaches, and race organizers through a unified dark athletic design system.",
+      designSystem: {
+        tokens: ["Electric Sapphire Gradient", "Tactile Dark Canvas (#050506)", "STRON Gold PRO Tier (#F0B83C)", "Status Dot Semantics"],
+        description: "Built around a clear visual philosophy: flat dark surfaces carry the UI, an electric blue gradient carries the brand, and color is never decorative — it always encodes status or meaning."
+      },
+      architecture: [
+        "Competitive Fitness Racing Engine: Real-time step racing, King of the Hill challenges, face-offs, and virtual marathons with live telemetry.",
+        "Multi-City Gym Discovery & QR OS: Location-indexed gym pass across Bangalore, Delhi, Mumbai, Hyderabad, and Pune with instant QR check-in.",
+        "Verified E-Certificates Engine: Pixel-perfect digital achievement certificates with custom corner ornaments, finishing time, and social share cards.",
+        "Owner & Staff Admin Console: Single-pane dashboard for gym managers to track revenue, manage memberships, stage events, and audit attendance.",
+        "Marketing & Discovery Web Platform: High-conversion responsive website with interactive device mockups, pricing tiers, and city filter engines.",
+      ],
+      features: [
+        {
+          title: "Competitive Racing & Social Feed",
+          tag: "Mobile App Experience",
+          description: "Real-time athletic race lobbies, step face-offs, and live countdown timers designed with high-contrast tactical dark surfaces.",
+          image: "/stron/engage-mockup-new.webp",
+        },
+        {
+          title: "Gym Business & Membership OS",
+          tag: "Gym Operations",
+          description: "Multi-gym discovery, dynamic QR pass scanning, and club membership management for athletes and crossfit boxes.",
+          image: "/stron/grow-mockup-new.webp",
+        },
+        {
+          title: "Verified E-Certificate System",
+          tag: "Achievement & Proof",
+          description: "Cryptographically verified digital achievement certificates generated upon race completion with gold/sapphire badges and social share export.",
+          image: "/stron/stron-logo.png",
+        },
+        {
+          title: "Owner Admin Console & Web Suite",
+          tag: "Full-Stack Web Console",
+          description: "Dedicated web application for gym owners, event directors, and coaches to manage daily operations, attendance, and member tiers.",
+          image: "/stron/hero-macbook-mockup.webp",
+        },
+      ],
+      results:
+        "Engineered the full STRON ecosystem from zero to production launch, including brand identity, App Store assets, mobile app screens, web console, and marketing platform.",
+    },
+  },
 ];
 
