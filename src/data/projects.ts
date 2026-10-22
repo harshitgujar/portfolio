@@ -42,6 +42,9 @@ export interface ProjectItem {
   link?: string;
   figma?: string;
   github?: string;
+  website?: string;
+  appStore?: string;
+  playStore?: string;
   caseStudy?: any;
 }
 
@@ -432,6 +435,9 @@ export const PROJECTS: ProjectItem[] = [
     src: "/stron.png",
     aspect: 3 / 4,
     link: "/stron",
+    website: "https://stron.in",
+    appStore: "https://apps.apple.com/us/app/stron-gyms-events-more/id6776768421",
+    playStore: "https://play.google.com/store/apps/details?id=com.stepwars.stepwarsnew_app&hl=en_IN",
     caseStudy: {
       headline:
         "Designing and engineering STRON from 0→1: an athletic fitness racing mobile app, gym OS, verified digital certificates, owner admin console, and marketing platform.",

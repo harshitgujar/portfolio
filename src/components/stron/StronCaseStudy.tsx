@@ -50,6 +50,28 @@ interface LightboxState {
   currentIndex: number;
 }
 
+export const STRON_LINKS = {
+  website: "https://stron.in",
+  appStore: "https://apps.apple.com/us/app/stron-gyms-events-more/id6776768421",
+  playStore: "https://play.google.com/store/apps/details?id=com.stepwars.stepwarsnew_app&hl=en_IN",
+};
+
+function AppleStoreIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.76 1.05-1.81.93-2.87-1 .04-2.16.67-2.73 1.35-.52.59-.97 1.55-.85 2.59 1.12.09 2.05-.37 2.65-1.07z" />
+    </svg>
+  );
+}
+
+function GooglePlayIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3.609 1.814L13.792 12 3.61 22.186a2.27 2.27 0 0 1-.22-.988V2.802c0-.36.08-.7.22-.988zm11.247 11.25L17.5 15.71l-11.89 6.845 9.246-9.49zm0-2.128L5.61 1.445 17.5 8.29l-2.644 2.646zm1.488 1.488l2.977-1.714a1.854 1.854 0 0 1 0 3.428l-2.977-1.714z" />
+    </svg>
+  );
+}
+
 export interface StronCaseStudyProps {
   onBack?: () => void;
   nextProjectHref?: string;
@@ -261,14 +283,48 @@ export function StronCaseStudy({
           </Link>
         )}
 
-        <div className="flex items-center gap-3 sm:gap-4">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[11px] font-mono text-emerald-400 tracking-wide">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <span className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[11px] font-mono text-emerald-400 tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span>Live in Production</span>
           </span>
-          <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/25 text-[11px] font-mono text-blue-300">
-            <span>React Native • Expo • Vite</span>
-          </span>
+
+          <a
+            href={STRON_LINKS.appStore}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-[11px] font-mono text-white transition-colors"
+            title="Download on Apple App Store"
+          >
+            <AppleStoreIcon className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">App Store</span>
+            <ArrowUpRight className="w-3 h-3 text-white/40" />
+          </a>
+
+          <a
+            href={STRON_LINKS.playStore}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-[11px] font-mono text-white transition-colors"
+            title="Get it on Google Play"
+          >
+            <GooglePlayIcon className="w-3.5 h-3.5 text-[#4CD964]" />
+            <span className="hidden sm:inline">Google Play</span>
+            <ArrowUpRight className="w-3 h-3 text-white/40" />
+          </a>
+
+          <a
+            href={STRON_LINKS.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ backgroundColor: accent }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium text-white transition-transform hover:scale-[1.03] active:scale-[0.98]"
+            title="Visit stron.in"
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>stron.in</span>
+            <ArrowUpRight className="w-3 h-3 opacity-70" />
+          </a>
         </div>
       </header>
 
@@ -290,6 +346,43 @@ export function StronCaseStudy({
               <p className="text-white/45">
                 mobile app ui/ux • brand logo • store screenshots • e-certificates • admin console • marketing website
               </p>
+            </div>
+
+            {/* Live Ecosystem Direct Links */}
+            <div className="mt-6 flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href={STRON_LINKS.appStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 text-xs sm:text-sm font-medium text-white transition-all hover:scale-[1.02] active:scale-[0.98] group"
+              >
+                <AppleStoreIcon className="w-4 h-4 text-white" />
+                <span>Download on App Store</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
+              <a
+                href={STRON_LINKS.playStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 text-xs sm:text-sm font-medium text-white transition-all hover:scale-[1.02] active:scale-[0.98] group"
+              >
+                <GooglePlayIcon className="w-4 h-4 text-[#4CD964]" />
+                <span>Get it on Google Play</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
+              <a
+                href={STRON_LINKS.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: accent }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium text-white transition-all hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] group shadow-lg shadow-blue-500/20"
+              >
+                <Globe className="w-4 h-4" />
+                <span>stron.in (Live Website)</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-white/70 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
             </div>
           </div>
 
@@ -876,6 +969,69 @@ export function StronCaseStudy({
                 </p>
               </div>
             </div>
+
+            {/* Direct Store Download Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+              <a
+                href={STRON_LINKS.appStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-3xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.1] hover:border-blue-500/40 transition-all duration-300 group flex items-start justify-between gap-4"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="p-2 rounded-xl bg-white/10 text-white">
+                      <AppleStoreIcon className="w-5 h-5" />
+                    </span>
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-white/50 block">
+                        available on ios
+                      </span>
+                      <h4 className="text-base font-bold text-white font-[family-name:var(--font-space-grotesk)]">
+                        Apple App Store
+                      </h4>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed font-[family-name:var(--font-space-grotesk)]">
+                    &ldquo;STRON: Gyms, Events &amp; More&rdquo; • Built for iPhone, iPad &amp; Apple Health step tracking.
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 group-hover:text-blue-300 transition-colors">
+                    <span>View on App Store</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                </div>
+              </a>
+
+              <a
+                href={STRON_LINKS.playStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-3xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.1] hover:border-emerald-500/40 transition-all duration-300 group flex items-start justify-between gap-4"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="p-2 rounded-xl bg-emerald-500/10 text-[#4CD964]">
+                      <GooglePlayIcon className="w-5 h-5" />
+                    </span>
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-white/50 block">
+                        available on android
+                      </span>
+                      <h4 className="text-base font-bold text-white font-[family-name:var(--font-space-grotesk)]">
+                        Google Play Store
+                      </h4>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed font-[family-name:var(--font-space-grotesk)]">
+                    &ldquo;STRON&rdquo; • Official Play Store release for Android devices and pedometer sync.
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 group-hover:text-emerald-300 transition-colors">
+                    <span>View on Google Play</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                </div>
+              </a>
+            </div>
           </div>
         </section>
 
@@ -1020,9 +1176,95 @@ export function StronCaseStudy({
                 </p>
               </div>
             </div>
+
+            {/* Live Website Interactive Browser Bar */}
+            <div className="p-6 rounded-3xl bg-gradient-to-r from-blue-500/[0.08] via-white/[0.03] to-blue-500/[0.04] border border-blue-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-white/10 font-mono text-xs text-white/80">
+                  <Globe className="w-3.5 h-3.5 text-blue-400" />
+                  <span>https://stron.in</span>
+                </div>
+              </div>
+
+              <a
+                href={STRON_LINKS.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: accent }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium text-white transition-all hover:scale-[1.02] active:scale-[0.98] group flex-shrink-0"
+              >
+                <span>Visit Live Website • stron.in</span>
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            </div>
           </div>
         </section>
       </div>
+
+      {/* ========================================================================= */}
+      {/* LIVE DEPLOYMENT & ECOSYSTEM DOWNLOAD BANNER */}
+      {/* ========================================================================= */}
+      <section className="px-6 sm:px-12 md:px-16 pb-20 sm:pb-28 max-w-[1440px] mx-auto">
+        <div className="p-8 sm:p-12 md:p-16 rounded-3xl sm:rounded-[40px] bg-gradient-to-b from-white/[0.04] via-blue-950/20 to-white/[0.02] border border-white/[0.1] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 blur-[100px] pointer-events-none rounded-full" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            <div className="space-y-3 max-w-2xl">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-xs font-mono text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Live in Production</span>
+              </span>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white font-[family-name:var(--font-space-grotesk)]">
+                Experience STRON across iOS, Android &amp; Web
+              </h3>
+              <p className="text-sm sm:text-base text-white/70 leading-relaxed font-[family-name:var(--font-space-grotesk)]">
+                Download the mobile app on the App Store or Google Play Store to explore real-time fitness racing, or visit stron.in to discover partner gyms and club memberships.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
+              <a
+                href={STRON_LINKS.appStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] border border-white/15 text-sm font-medium text-white transition-all hover:scale-[1.02] active:scale-[0.98] group"
+              >
+                <AppleStoreIcon className="w-4 h-4 text-white" />
+                <span>App Store</span>
+                <ArrowUpRight className="w-4 h-4 text-white/50 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
+              <a
+                href={STRON_LINKS.playStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] border border-white/15 text-sm font-medium text-white transition-all hover:scale-[1.02] active:scale-[0.98] group"
+              >
+                <GooglePlayIcon className="w-4 h-4 text-[#4CD964]" />
+                <span>Google Play</span>
+                <ArrowUpRight className="w-4 h-4 text-white/50 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
+              <a
+                href={STRON_LINKS.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: accent }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full text-sm font-medium text-white transition-all hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] group shadow-lg shadow-blue-500/25"
+              >
+                <Globe className="w-4 h-4" />
+                <span>stron.in</span>
+                <ArrowUpRight className="w-4 h-4 text-white/70 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ========================================================================= */}
       {/* NEXT PROJECT FOOTER BANNER */}
