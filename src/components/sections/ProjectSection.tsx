@@ -257,7 +257,7 @@ export function ProjectSection({
 
       {/* Bottom Project Details Bar */}
       <footer
-        className={`absolute bottom-0 inset-x-0 z-30 px-[clamp(20px,4vw,54px)] py-4 sm:py-5 border-t backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute bottom-0 inset-x-0 z-30 px-[clamp(16px,4vw,54px)] py-2.5 sm:py-3.5 md:py-4 border-t backdrop-blur-xl transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isLight
             ? "border-black/10 bg-white/80 text-neutral-900"
             : "border-white/10 bg-black/50 text-white"
@@ -269,12 +269,12 @@ export function ProjectSection({
       >
         {/* Top Details Row: Project Category/Description on Left, Tags on Right */}
         <div
-          className={`w-full flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-700 delay-100 ${
+          className={`w-full flex flex-col md:flex-row md:items-center justify-between gap-1.5 md:gap-4 transition-all duration-700 delay-100 ${
             isRevealed ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
         >
           {/* Active Project Info */}
-          <div className="flex-1 space-y-1 select-none" key={currentProject.id}>
+          <div className="flex-1 space-y-0.5 sm:space-y-1 select-none" key={currentProject.id}>
             <div className="flex items-center gap-2">
               <h3
                 className={`text-xs sm:text-[13px] font-medium tracking-tight ${
@@ -301,8 +301,8 @@ export function ProjectSection({
             </p>
           </div>
 
-          {/* Tech Stack Tags */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          {/* Tech Stack Tags - hidden on mobile view to keep bottom glass container vertically compact */}
+          <div className="hidden md:flex flex-wrap items-center gap-1.5">
             {currentProject.tags.map((tag) => (
               <span
                 key={tag}
@@ -320,7 +320,7 @@ export function ProjectSection({
 
         {/* Bottom Corners Row: Theme Changer & Mode Switcher on Left, User's Email on Right */}
         <div
-          className={`w-full mt-3.5 pt-3 border-t flex flex-wrap items-center justify-between gap-3 text-xs tracking-normal transition-all duration-700 delay-200 ${
+          className={`w-full mt-2 sm:mt-3 pt-2 sm:pt-2.5 border-t flex flex-wrap items-center justify-between gap-2 sm:gap-3 text-xs tracking-normal transition-all duration-700 delay-200 ${
             isLight ? "border-black/10" : "border-white/10"
           } ${
             isRevealed ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
