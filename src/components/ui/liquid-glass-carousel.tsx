@@ -445,35 +445,69 @@ function createCarousel(
   );
   camera.position.z = 10;
 
+  // Lightweight 2x2 placeholder texture so panels render smoothly without black voids
+  const placeholderCanvas = document.createElement("canvas");
+  placeholderCanvas.width = 2;
+  placeholderCanvas.height = 2;
+  const pctx = placeholderCanvas.getContext("2d");
+  if (pctx) {
+    pctx.fillStyle = "#121318";
+    pctx.fillRect(0, 0, 2, 2);
+  }
+  const placeholderTex = new THREE.CanvasTexture(placeholderCanvas);
+  placeholderTex.colorSpace = THREE.LinearSRGBColorSpace;
+
   const loader = new THREE.TextureLoader();
   loader.setCrossOrigin("anonymous");
   const sources: Source[] = items.map((img) => {
     const s: Source = {
-      tex: null,
+      tex: placeholderTex,
       aspect: img.aspect || PORTRAIT_ASPECT,
       locked: img.aspect != null,
     };
+
+    const configureTexture = (tex: THREE.Texture) => {
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = true;
+      tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+      tex.colorSpace = THREE.LinearSRGBColorSpace;
+      const imgObj = tex.image as { width?: number; height?: number } | undefined;
+      if (!s.locked && imgObj?.width && imgObj?.height) {
+        s.aspect = imgObj.width / imgObj.height;
+      }
+      s.tex = tex;
+      recomputeTotal();
+      if (!userInteracted) {
+        scroll = centerForIndex(0);
+        target = scroll;
+      }
+    };
+
     loader.load(
       img.src,
-      (tex) => {
-        tex.minFilter = THREE.LinearMipmapLinearFilter;
-        tex.magFilter = THREE.LinearFilter;
-        tex.generateMipmaps = true;
-        tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-        tex.colorSpace = THREE.LinearSRGBColorSpace;
-        if (!s.locked && tex.image) {
-          s.aspect = tex.image.width / tex.image.height;
-        }
-        s.tex = tex;
-        recomputeTotal();
-        if (!userInteracted) {
-          scroll = centerForIndex(0);
-          target = scroll;
-        }
-      },
+      (tex) => configureTexture(tex),
       undefined,
       () => {
-        s.aspect = s.aspect || PORTRAIT_ASPECT;
+        // Fallback: If .webp fails, retry with .png, or vice versa
+        const fallbackSrc = img.src.endsWith(".webp")
+          ? img.src.replace(".webp", ".png")
+          : img.src.endsWith(".png")
+          ? img.src.replace(".png", ".webp")
+          : null;
+
+        if (fallbackSrc) {
+          loader.load(
+            fallbackSrc,
+            (fallbackTex) => configureTexture(fallbackTex),
+            undefined,
+            () => {
+              s.aspect = s.aspect || PORTRAIT_ASPECT;
+            }
+          );
+        } else {
+          s.aspect = s.aspect || PORTRAIT_ASPECT;
+        }
       },
     );
     return s;
@@ -675,7 +709,7 @@ function createCarousel(
       const h = PANEL_H * shrink;
       const wPx = src.aspect * PANEL_H * shrink;
 
-      if (src.tex && !p.bound) {
+      if (src.tex && p.mat.map !== src.tex) {
         p.mat.map = src.tex;
         p.mat.color.set(0xffffff);
         p.mat.needsUpdate = true;

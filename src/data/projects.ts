@@ -56,7 +56,7 @@ export const PROJECTS: ProjectItem[] = [
     description:
       "A tactile digital CD & vinyl packaging workstation featuring physical light refraction, anisotropic reflection physics, real-time audio playback, and high-res export.",
     tags: ["0→1 Product", "Creative Tool", "Interactive Audio", "Canvas 2D", "Next.js"],
-    src: "/digital-cd.png",
+    src: "/digital-cd.webp",
     aspect: 3 / 4,
     link: "/cd",
     github: "https://github.com/harshitgujar",
@@ -118,7 +118,7 @@ export const PROJECTS: ProjectItem[] = [
     description:
       "A real-time WebGL smoke & fluid shader generator and interactive customization studio for high-craft hero surfaces and live JSX/TSX code export.",
     tags: ["0→1 Product", "Creative Tool", "WebGL", "GLSL Shaders", "Next.js"],
-    src: "/fluid-studio.png",
+    src: "/fluid-studio.webp",
     aspect: 3 / 4,
     link: "/liquid",
     github: "https://github.com/harshitgujar",
@@ -180,7 +180,7 @@ export const PROJECTS: ProjectItem[] = [
     description:
       "Simplifying the College Event Experience: A unified mobile ecosystem connecting Students, Clubs, and Authorities with seamless event discovery, in-app UPI ticketing, and digital governance.",
     tags: ["0→1 Product", "UX Research", "Mobile App", "Design System", "Figma"],
-    src: "/evora.png",
+    src: "/evora.webp",
     aspect: 3 / 4,
     link: "/evora",
     figma: "https://www.figma.com/@harshitgujar",
@@ -243,7 +243,7 @@ export const PROJECTS: ProjectItem[] = [
     description:
       "An independent design and engineering studio crafting iconic 3D character universes, visceral visual identities, and interactive web experiences.",
     tags: ["0→1 Product", "Creative Studio", "3D & Brand", "Design System", "Art Direction"],
-    src: "/arken.png",
+    src: "/arken.webp",
     aspect: 3 / 4,
     link: "/arken",
     figma: "https://www.figma.com/@harshitgujar",
@@ -306,7 +306,7 @@ export const PROJECTS: ProjectItem[] = [
     description:
       "A comprehensive social & interactive redesign of Spotify — introducing in-track floating comments over album art, native music DMs with emoji reactions, and analytics-driven taste profiles.",
     tags: ["Product Redesign", "Mobile UX", "Music Streaming", "Social UX", "Figma"],
-    src: "/spotify.png",
+    src: "/spotify.webp",
     aspect: 3 / 4,
     link: "/spotify",
     figma: "https://www.figma.com/@harshitgujar",
@@ -369,8 +369,8 @@ export const PROJECTS: ProjectItem[] = [
     description:
       "Currently in active development — Your Second Brain that thinks with you. Designed the 0→1 brand identity, beta recruitment campaign, and interactive 3D Join Waitlist website.",
     tags: ["In Progress", "0→1 Product", "AI Second Brain", "Brand Identity", "Waitlist Web UI"],
-    src: "/runagon.png",
-    aspect: 4445 / 5556,
+    src: "/runagon.webp",
+    aspect: 3 / 4,
     link: "/runagon",
     figma: "https://vorph.dpdns.org/",
     github: "https://github.com/harshitgujar",
@@ -432,7 +432,7 @@ export const PROJECTS: ProjectItem[] = [
     description:
       "End-to-end fitness ecosystem: complete React Native mobile app UI/UX, brand logo identity, App Store & Google Play Store presentation graphics, verified achievement certificates, admin console, and web platform.",
     tags: ["Mobile App UI/UX", "Brand & Logo", "Store Screenshots", "Certificates", "Admin Console", "Web Platform"],
-    src: "/stron.png",
+    src: "/stron.webp",
     aspect: 3 / 4,
     link: "/stron",
     website: "https://stron.in",

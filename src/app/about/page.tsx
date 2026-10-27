@@ -87,21 +87,46 @@ export default function AboutPage() {
             </span>
           </div>
 
-          <h1
-            className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.12] tracking-tight ${
-              isLight ? "text-neutral-900" : "text-white"
-            }`}
-          >
-            I design and build 0&rarr;1 products, end to end.
-          </h1>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div className="space-y-4 max-w-2xl">
+              <h1
+                className={`font-[family-name:var(--font-instrument-serif)] text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.12] tracking-tight ${
+                  isLight ? "text-neutral-900" : "text-white"
+                }`}
+              >
+                I design and build 0&rarr;1 products, end to end.
+              </h1>
 
-          <p
-            className={`text-sm sm:text-base leading-relaxed font-normal max-w-2xl ${
-              isLight ? "text-neutral-600" : "text-white/60"
-            }`}
-          >
-            Founder’s Office @ STRON &bull; Founding Designer &bull; Product Designer &amp; UI/UX based in Bhopal, India &mdash; designing at the intersection of design thinking and data-driven execution.
-          </p>
+              <p
+                className={`text-sm sm:text-base leading-relaxed font-normal ${
+                  isLight ? "text-neutral-600" : "text-white/60"
+                }`}
+              >
+                Founder’s Office @ STRON &bull; Founding Designer &bull; Product Designer &amp; UI/UX based in Bhopal, India &mdash; designing at the intersection of design thinking and data-driven execution.
+              </p>
+            </div>
+
+            {/* Profile Avatar Badge (Loaded Instantly via WebP) */}
+            <div className="relative flex-shrink-0 self-start sm:self-center">
+              <div
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border border-white/15 shadow-xl relative bg-black/40 group"
+                style={{
+                  boxShadow: `0 8px 30px -8px ${currentTheme.previewColor}40`,
+                }}
+              >
+                <picture>
+                  <source srcSet="/harshit-portrait.webp" type="image/webp" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/harshit-portrait.png"
+                    alt="Harshit Gujar"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    loading="eager"
+                  />
+                </picture>
+              </div>
+            </div>
+          </div>
 
           {/* Minimal Structured Narrative Grid */}
           <div

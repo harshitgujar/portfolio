@@ -94,6 +94,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Permanent+Marker&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
           rel="stylesheet"
         />
+
+        {/* High-priority asset preloading for instant carousel textures & portrait */}
+        <link rel="preload" as="image" type="image/webp" href="/digital-cd.webp" />
+        <link rel="preload" as="image" type="image/webp" href="/fluid-studio.webp" />
+        <link rel="preload" as="image" type="image/webp" href="/evora.webp" />
+        <link rel="preload" as="image" type="image/webp" href="/arken.webp" />
+        <link rel="preload" as="image" type="image/webp" href="/harshit-portrait.webp" />
       </head>
       <body className="min-h-screen bg-[var(--ground)] text-[var(--ink)] selection:bg-[var(--accent)] selection:text-white transition-colors duration-500">
         <ThemeProvider>
