@@ -14,7 +14,6 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
   const [progress, setProgress] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
   const [isRevealing, setIsRevealing] = useState(true);
-  const [isPhotoToggled, setIsPhotoToggled] = useState(false);
 
   // Auto-reveal the first card with bottom-up unmasking animation on page open
   useEffect(() => {
@@ -100,11 +99,6 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
   const cropTop = Math.max((1 - stage2Progress) * 100, 0); // 100% -> 0%
   const portraitOpacity = stage2Progress > 0.005 ? 1 : 0;
 
-  // Effective values considering direct toggle or scroll
-  const effectiveScale = isPhotoToggled ? 1.18 : portraitScale;
-  const effectiveCropTop = isPhotoToggled ? 0 : cropTop;
-  const effectiveOpacity = isPhotoToggled ? 1 : portraitOpacity;
-
   return (
     <section
       ref={trackRef}
@@ -153,31 +147,19 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
                   : "none",
               }}
             >
-              <AboutPosterCard
-                className="w-full h-full"
-                hideAmbientGlow
-                onTap={() => setIsPhotoToggled(!isPhotoToggled)}
-              />
+              <AboutPosterCard className="w-full h-full" hideAmbientGlow />
             </div>
           </div>
 
           {/* Top Image: Full Portrait in BIGGER size that reveals in the middle of shrinking from bottom,
               then covers the whole below card as you continue scrolling (zero roundness, driven by physical inertia) */}
           <div
-            className={`absolute inset-0 z-20 will-change-transform rounded-none ${
-              isPhotoToggled ? "pointer-events-auto cursor-pointer" : "pointer-events-none"
-            }`}
-            onClick={() => {
-              if (isPhotoToggled) setIsPhotoToggled(false);
-            }}
+            className="absolute inset-0 z-20 will-change-transform pointer-events-none rounded-none"
             style={{
-              transform: `scale(${effectiveScale})`,
-              opacity: effectiveOpacity,
-              clipPath: `inset(${effectiveCropTop}% 0% 0% 0%)`,
+              transform: `scale(${portraitScale})`,
+              opacity: portraitOpacity,
+              clipPath: `inset(${cropTop}% 0% 0% 0%)`,
               filter: "drop-shadow(0 25px 60px rgba(0,0,0,0.95))",
-              transition: isPhotoToggled
-                ? "clip-path 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms ease-out, transform 500ms cubic-bezier(0.16, 1, 0.3, 1)"
-                : undefined,
             }}
           >
             <div className="w-full h-full rounded-none overflow-hidden border border-white/10 relative bg-black shadow-[0_30px_90px_-20px_rgba(0,0,0,0.95)]">
@@ -231,28 +213,17 @@ export function AboutHeroStack({ onScrollDown }: AboutHeroStackProps) {
         >
           {progress < 0.08 ? (
             <div
-              className={`flex items-center justify-center gap-2.5 sm:gap-3 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] select-none transition-opacity duration-300 ${
+              className={`flex items-center justify-center gap-2.5 sm:gap-3 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] pointer-events-none select-none transition-opacity duration-300 ${
                 isLight ? "text-neutral-500" : "text-white/50"
               }`}
             >
-              <button
-                type="button"
-                onClick={() => setIsPhotoToggled(!isPhotoToggled)}
-                className={`cursor-pointer transition-all flex items-center gap-1.5 px-3 py-1 rounded-full border ${
-                  isPhotoToggled
-                    ? "bg-white/15 text-white border-white/25 shadow-sm"
-                    : isLight
-                    ? "bg-black/5 hover:bg-black/10 text-neutral-700 border-black/10"
-                    : "bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border-white/10"
-                }`}
-                title="Toggle Portrait / Quote"
-              >
+              <span className="flex items-center gap-1.5">
                 <span
                   className="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0"
                   style={{ backgroundColor: currentTheme.previewColor }}
                 />
-                <span>{isPhotoToggled ? "Show Quote" : "View Photo"}</span>
-              </button>
+                <span>Tap card to change quote</span>
+              </span>
               <span className="opacity-40">&bull;</span>
               <span className="flex items-center gap-1">
                 <span>Scroll to explore</span>
