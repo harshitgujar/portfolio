@@ -268,6 +268,9 @@ export function DigitalCDStudio({
   // Export popup state
   const [isExportMenuOpen, setIsExportMenuOpen] = useState(false);
 
+  // Mobile stage view toggle (expand disc turntable on mobile)
+  const [isMobileStageExpanded, setIsMobileStageExpanded] = useState(false);
+
   // Canvas & interactive state
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -630,7 +633,7 @@ export function DigitalCDStudio({
 
   return (
     <div
-      className={`relative w-full h-full min-h-[92vh] flex flex-col overflow-hidden select-none transition-colors duration-200 ${
+      className={`relative w-full h-full flex flex-col overflow-hidden select-none transition-colors duration-200 ${
         isLight ? "bg-[#f5f5f7] text-neutral-900" : "bg-[#07080b] text-white"
       } ${className}`}
     >
@@ -909,10 +912,14 @@ export function DigitalCDStudio({
       {/* ======================================================== */}
       {/* BODY CONTENT: STAGE VIEWPORT (LEFT) + CONTROL PANEL (RIGHT) */}
       {/* ======================================================== */}
-      <div className="flex-1 w-full flex flex-col lg:flex-row overflow-hidden relative">
+      <div className="flex-1 min-h-0 w-full flex flex-col lg:flex-row overflow-hidden relative">
         {/* LEFT / CENTER: THE DIGITAL CD STAGE & INTERACTIVE CANVAS */}
         <div
-          className="relative flex-1 flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden transition-colors duration-300"
+          className={`relative w-full transition-all duration-300 flex flex-col items-center justify-center p-2.5 sm:p-6 overflow-hidden ${
+            isMobileStageExpanded
+              ? "flex-1 h-full z-20"
+              : "h-[33dvh] sm:h-[38dvh] lg:h-full flex-shrink-0 lg:flex-1"
+          }`}
           style={{
             backgroundColor: config.bgColor || undefined,
           }}
@@ -929,17 +936,45 @@ export function DigitalCDStudio({
             }}
           />
 
+          {/* Mobile Disc View Toggle Pill */}
+          <button
+            type="button"
+            onClick={() => setIsMobileStageExpanded((prev) => !prev)}
+            className={`lg:hidden absolute top-2 right-3 z-30 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10.5px] font-mono tracking-wider border shadow-md backdrop-blur-md transition-all active:scale-95 cursor-pointer ${
+              isLight
+                ? "bg-white/90 border-black/10 text-neutral-800 hover:bg-white"
+                : "bg-neutral-900/90 border-white/15 text-white/90 hover:bg-neutral-900 hover:text-white"
+            }`}
+            title={isMobileStageExpanded ? "Show Options" : "Focus Disc"}
+          >
+            {isMobileStageExpanded ? (
+              <>
+                <Sliders className="w-3 h-3 text-blue-400" />
+                <span>Show Options</span>
+              </>
+            ) : (
+              <>
+                <Disc3 className="w-3 h-3 text-blue-400 animate-spin" style={{ animationDuration: "6s" }} />
+                <span>Focus Disc</span>
+              </>
+            )}
+          </button>
+
           {/* 3D Parallax Canvas Wrapper */}
           <div
             ref={wrapperRef}
-            className="relative w-full max-w-[560px] aspect-square flex items-center justify-center transition-transform duration-75 ease-out will-change-transform"
+            className={`relative aspect-square flex items-center justify-center transition-transform duration-75 ease-out will-change-transform ${
+              isMobileStageExpanded
+                ? "h-[min(100%,320px)] sm:h-[min(100%,440px)] w-auto max-w-[90vw]"
+                : "h-[min(100%,190px)] sm:h-[min(100%,280px)] lg:h-auto lg:w-full lg:max-w-[560px]"
+            }`}
             style={{
               perspective: "1200px",
             }}
           >
             <canvas
               ref={canvasRef}
-              className={`w-full h-full object-contain rounded-lg ${
+              className={`w-full h-full object-contain rounded-lg touch-none ${
                 config.isPlaying
                   ? "cursor-default select-none"
                   : "cursor-grab active:cursor-grabbing"
@@ -952,7 +987,7 @@ export function DigitalCDStudio({
 
           {/* Floating Minimalist Playback Dock */}
           <div
-            className={`relative mt-4 sm:mt-6 z-20 flex flex-wrap items-center justify-center gap-2 px-2.5 py-1.5 rounded-md border backdrop-blur-xl transition-all shadow-xl ${
+            className={`relative mt-2 sm:mt-6 z-20 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md border backdrop-blur-xl transition-all shadow-xl ${
               isLight
                 ? "bg-white/90 border-neutral-200/90 text-neutral-900"
                 : "bg-neutral-950/90 border-white/10 text-white"
@@ -962,7 +997,7 @@ export function DigitalCDStudio({
             <button
               type="button"
               onClick={togglePlay}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md font-medium text-xs transition-transform active:scale-95 ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-md font-medium text-[11px] sm:text-xs transition-transform active:scale-95 ${
                 isLight
                   ? "bg-neutral-900 text-white hover:bg-neutral-800"
                   : "bg-white text-black hover:bg-neutral-200"
@@ -971,7 +1006,7 @@ export function DigitalCDStudio({
               {config.isPlaying ? (
                 <>
                   <Pause
-                    className={`w-3.5 h-3.5 ${
+                    className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${
                       isLight ? "fill-white" : "fill-black"
                     }`}
                   />
@@ -980,7 +1015,7 @@ export function DigitalCDStudio({
               ) : (
                 <>
                   <Play
-                    className={`w-3.5 h-3.5 ml-0.5 ${
+                    className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ml-0.5 ${
                       isLight ? "fill-white" : "fill-black"
                     }`}
                   />
@@ -1003,13 +1038,13 @@ export function DigitalCDStudio({
                       : "in-sleeve",
                 }));
               }}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium border transition-colors ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md text-[11px] sm:text-xs font-medium border transition-colors ${
                 isLight
                   ? "bg-neutral-100 hover:bg-neutral-200 border-neutral-200 text-neutral-700"
                   : "bg-white/5 hover:bg-white/10 border-white/10 text-white/90"
               }`}
             >
-              <Layers className="w-3.5 h-3.5 text-blue-400" />
+              <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-400" />
               <span className="capitalize">
                 {config.sleeveMode.replace("-", " ")}
               </span>
@@ -1017,7 +1052,7 @@ export function DigitalCDStudio({
 
             {/* RPM Selector */}
             <div
-              className={`flex items-center gap-0.5 px-1 py-0.5 rounded-md border text-[11px] font-mono ${
+              className={`flex items-center gap-0.5 px-1 py-0.5 rounded-md border text-[10px] sm:text-[11px] font-mono ${
                 isLight
                   ? "bg-neutral-100 border-neutral-200"
                   : "bg-black/40 border-white/5"
@@ -1034,7 +1069,7 @@ export function DigitalCDStudio({
                   onClick={() =>
                     setConfig((c) => ({ ...c, spinSpeed: rpm.speed }))
                   }
-                  className={`px-2 py-0.5 rounded-sm transition-colors ${
+                  className={`px-1.5 sm:px-2 py-0.5 rounded-sm transition-colors ${
                     config.spinSpeed === rpm.speed
                       ? isLight
                         ? "bg-white text-neutral-900 font-bold shadow-sm"
@@ -1075,15 +1110,19 @@ export function DigitalCDStudio({
         {/* RIGHT: MODERN, MINIMAL, AESTHETIC STUDIO WORKSTATION     */}
         {/* ======================================================== */}
         <div
-          className={`w-full lg:w-[420px] xl:w-[460px] flex-shrink-0 flex flex-col border-t lg:border-t-0 lg:border-l transition-colors z-30 ${
+          className={`w-full lg:w-[420px] xl:w-[460px] lg:h-full flex-col border-t lg:border-t-0 lg:border-l transition-all duration-300 z-30 ${
+            isMobileStageExpanded
+              ? "hidden lg:flex"
+              : "flex-1 min-h-0 flex"
+          } ${
             isLight
-              ? "bg-white/90 border-neutral-200/80 backdrop-blur-2xl text-neutral-900"
-              : "bg-[#0b0c10]/95 border-white/[0.08] backdrop-blur-2xl text-white"
+              ? "bg-white/95 border-neutral-200/80 backdrop-blur-2xl text-neutral-900"
+              : "bg-[#0b0c10]/98 border-white/[0.08] backdrop-blur-2xl text-white"
           }`}
         >
           {/* Minimalist Segmented Tabs */}
           <div
-            className={`p-2.5 border-b ${
+            className={`p-2 sm:p-2.5 border-b flex-shrink-0 ${
               isLight ? "border-neutral-200/80" : "border-white/[0.08]"
             }`}
           >
@@ -1107,7 +1146,7 @@ export function DigitalCDStudio({
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                    className={`flex-1 py-1 rounded-sm text-xs font-medium transition-all ${
+                    className={`flex-1 py-1 px-1 sm:px-2 rounded-sm text-[11px] sm:text-xs font-medium transition-all truncate text-center ${
                       isActive
                         ? isLight
                           ? "bg-white text-neutral-900 font-semibold shadow-sm"
@@ -1125,7 +1164,7 @@ export function DigitalCDStudio({
           </div>
 
           {/* Tab Body Scrollable View */}
-          <div className="flex-1 overflow-y-auto p-5 space-y-6 no-scrollbar text-xs">
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-5 pb-24 sm:pb-8 space-y-5 sm:space-y-6 text-xs touch-pan-y custom-studio-scrollbar">
             {/* =================================================== */}
             {/* TAB 1: LAYERS & ARTWORK                             */}
             {/* =================================================== */}
@@ -2283,7 +2322,7 @@ export function DigitalCDStudio({
 
           {/* Minimalist Studio Footer */}
           <div
-            className={`p-3.5 border-t flex items-center justify-between text-[11px] ${
+            className={`p-2 sm:p-3.5 border-t flex-shrink-0 flex items-center justify-between text-[11px] ${
               isLight
                 ? "border-neutral-200/80 bg-neutral-50/50 text-neutral-500"
                 : "border-white/[0.08] bg-black/20 text-neutral-400"

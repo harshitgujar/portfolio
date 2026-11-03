@@ -9,9 +9,9 @@ export default function CDStudioPage() {
   const router = useRouter();
 
   return (
-    <main className="relative w-screen h-screen overflow-hidden bg-[#06070a] flex flex-col">
+    <main className="relative w-screen h-screen h-[100dvh] overflow-hidden bg-[#06070a] flex flex-col">
       {/* Main Studio Viewport */}
-      <div className="flex-1 w-full h-full overflow-hidden">
+      <div className="flex-1 min-h-0 w-full h-full overflow-hidden">
         <Suspense
           fallback={
             <div className="w-full h-full flex items-center justify-center bg-[#06070a] text-white/50 text-xs">

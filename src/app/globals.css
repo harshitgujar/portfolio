@@ -456,4 +456,29 @@ body {
   color: #f04e23;
 }
 
+/* Studio & Scrollbar Utilities */
+.custom-studio-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.custom-studio-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-studio-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-studio-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 
